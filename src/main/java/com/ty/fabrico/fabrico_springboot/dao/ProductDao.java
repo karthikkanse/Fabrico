@@ -10,16 +10,16 @@ import com.ty.fabrico.fabrico_springboot.repository.ProductRepository;
 public class ProductDao {
 
 	@Autowired
-	ProductRepository productrepository;
+	ProductRepository productRepository;
 	
 	public Product saveProduct(Product product)
 	{
-		return productrepository.save(product);
+		return productRepository.save(product);
 	}
 	
 	public Product getProductById(int productId)
 	{
-		Optional<Product> optional=productrepository.findById(productId);
+		Optional<Product> optional=productRepository.findById(productId);
 		
 		if(optional.isPresent())
 		{
@@ -31,12 +31,12 @@ public class ProductDao {
 	
 	public Product updateProduct(Product product)
 	{
-		return productrepository.save(product);
+		return productRepository.save(product);
 	}
 	
 	public String deleteProduct(int productId)
 	{
-		productrepository.deleteById(productId);
+		productRepository.deleteById(productId);
 		return "Deleted";
 	}
 }
