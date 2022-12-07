@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 
@@ -14,7 +15,9 @@ public class ProductDto {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	int productId;
+	@NotNull
 	String productName;
+	@NotNull
 	double productPrice;
 	
 	
