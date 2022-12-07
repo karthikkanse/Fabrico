@@ -6,5 +6,5 @@ import com.ty.fabrico.fabrico_springboot.dto.Customer;
 
 public interface CustomerRepository extends JpaRepository<Customer, Integer>{
 
-	public Customer getCustomerByName(String email);
+	public Customer getCustomerByEmail(String email);
 }
