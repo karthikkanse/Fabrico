@@ -1,16 +1,20 @@
 package com.ty.fabrico.fabrico_springboot.dto;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 
 @Entity
 @Data
-public class WeaverDto {
+public class Weaver {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,5 +29,9 @@ public class WeaverDto {
 	private long phone;
 	@NotNull
 	private String address;
+	
+	@OneToMany
+	@JoinColumn
+	List<Product> product;
 	
 }
