@@ -14,7 +14,7 @@ public class Product {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	int productId;
+	int pId;
 	@NotNull
 	String productName;
 	@NotNull
