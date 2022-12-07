@@ -1,32 +1,29 @@
 package com.ty.fabrico.fabrico_springboot.dto;
 
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
-
 import lombok.Data;
 
 @Entity
 @Data
-public class CartDto {
+public class Customer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private int customerId;
 	@NotNull
-	private String name;
+	private String customerName;
 	@NotNull
-	private int quantity;
+	private String email;
 	@NotNull
-	private long phone;
+	private String password;
 	@NotNull
-	private double totalcost;
-	
-	@OneToMany
-	List<ProductDto>product;
+	private String address;
+	private String premium;
 
+	@OneToOne
+	Cart cart;
 }
