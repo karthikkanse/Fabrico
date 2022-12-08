@@ -17,11 +17,11 @@ import lombok.Data;
 public class Cart {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private int cartId;
 	@NotNull
-	private String name;
+	private String cartName;
 	@NotNull
-	private int quantity;
+	private int cartQuantity;
 	@NotNull
 	private long phone;
 	@NotNull
