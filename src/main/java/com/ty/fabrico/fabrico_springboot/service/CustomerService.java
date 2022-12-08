@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import com.ty.fabrico.fabrico_springboot.dao.CustomerDao;
 import com.ty.fabrico.fabrico_springboot.dto.Customer;
 import com.ty.fabrico.fabrico_springboot.exception.NoSuchIdFoundException;
+import com.ty.fabrico.fabrico_springboot.exception.NoSuchUsernameFoundException;
+import com.ty.fabrico.fabrico_springboot.exception.PasswordIncorrectException;
 import com.ty.fabrico.fabrico_springboot.util.ResponseStructure;
 
 @Service
@@ -39,7 +41,7 @@ public class CustomerService {
 			return responseEntity=new ResponseEntity<ResponseStructure<Customer>>(responseStructure, HttpStatus.OK);
 		}
 		else
-			throw new NoSuchIdFoundException("No such Id is Present");
+			throw new NoSuchIdFoundException("No Id Found to Update");
 	}
 	
 	public ResponseEntity<ResponseStructure<Customer>> getCustomerById(int customerId){
@@ -54,17 +56,28 @@ public class CustomerService {
 			return responseEntity=new ResponseEntity<ResponseStructure<Customer>>(responseStructure, HttpStatus.OK);
 			}
 		else
-			throw new NoSuchIdFoundException("No such Id is Present");
+			throw new NoSuchIdFoundException("No such Id is Found");
 		}
 	
-	public ResponseEntity<ResponseStructure<Customer>> getCustomerByEmail(String email){
+	public ResponseEntity<ResponseStructure<Customer>> getCustomerByEmail(Customer customer){
 		ResponseStructure<Customer> responseStructure = new ResponseStructure<Customer>();
 		ResponseEntity<ResponseStructure<Customer>> responseEntity;
-		Customer customer=customerDao.getCustomerByEmail(email);
-		if(customer!=null)
+		Customer customer1=customerDao.getCustomerByEmail(customer.getEmail());
+		if(customer1!=null)
 		{
-			customer.setPassword(email);
+			if(customer1.getPassword().equals(customer.getPassword()))
+			{
+				responseStructure.setStatus(HttpStatus.OK.value());
+				responseStructure.setMessage("Login Successful as Customer");
+				responseStructure.setData(customer1);
+				return responseEntity=new ResponseEntity<ResponseStructure<Customer>>(responseStructure,HttpStatus.OK);
+			}
+			else
+				throw new PasswordIncorrectException("Invalid Password");
 		}
+		else
+			throw new NoSuchUsernameFoundException("Email Not Found");
+		
 		
 	}
 	
@@ -80,5 +93,7 @@ public class CustomerService {
 		responseStructure.setData(optional.get());
 		return responseEntity=new ResponseEntity<ResponseStructure<Customer>>(responseStructure, HttpStatus.OK);
 	}
+		else
+			throw new NoSuchIdFoundException("No Id found to Delete");
 }
 }
