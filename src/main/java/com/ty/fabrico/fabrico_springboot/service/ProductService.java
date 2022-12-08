@@ -30,12 +30,12 @@ public class ProductService {
 	{
 		ResponseStructure<Product> responseStructure=new ResponseStructure<Product>();
 		ResponseEntity<ResponseStructure<Product>> responseEntity;
-		Optional<Product> product2=productDao.getProductById(productId);
-		if(product2.isPresent())
+		Optional<Product> optional=productDao.getProductById(productId);
+		if(optional.isPresent())
 		{
 		responseStructure.setStatus(HttpStatus.OK.value());
 		responseStructure.setMessage("Product Found");
-		responseStructure.setData(product2.get());
+		responseStructure.setData(optional.get());
 		return responseEntity =new ResponseEntity<ResponseStructure<Product>>(responseStructure,HttpStatus.OK);
 		}
 		else throw new NoSuchIdFoundException("Product Id Not Found");
