@@ -14,11 +14,11 @@ import com.ty.fabrico.fabrico_springboot.util.ResponseStructure;
 
 @Service
 public class CartService {
-	
+
 	@Autowired
 	private CartDao cartDao;
-	
-	public ResponseEntity<ResponseStructure<Cart>> saveCart(Cart cart){
+
+	public ResponseEntity<ResponseStructure<Cart>> saveCart(Cart cart) {
 		ResponseEntity<ResponseStructure<Cart>> responseEntity;
 
 		ResponseStructure<Cart> responseStructure = new ResponseStructure<Cart>();
@@ -26,12 +26,11 @@ public class CartService {
 		responseStructure.setMessage("saved");
 		responseStructure.setData(cartDao.saveCart(cart));
 		return new ResponseEntity<ResponseStructure<Cart>>(responseStructure, HttpStatus.CREATED);
-		
-	}
-	
-	public ResponseEntity<ResponseStructure<Cart>> updateCart(Cart cart,int cartId){
-		ResponseEntity<ResponseStructure<Cart>> responseEntity;
 
+	}
+
+	public ResponseEntity<ResponseStructure<Cart>> updateCart(Cart cart, int cartId) {
+		ResponseEntity<ResponseStructure<Cart>> responseEntity;
 		ResponseStructure<Cart> responseStructure = new ResponseStructure<Cart>();
 		Optional<Cart> cart2 = cartDao.getCartById(cartId);
 		if (cart2 != null) {
@@ -45,21 +44,19 @@ public class CartService {
 			throw new NoSuchIdFoundException();
 
 		}
-		return new ResponseEntity<ResponseStructure<Cart>>(responseStructure, HttpStatus.OK);
+		return responseEntity=new ResponseEntity<ResponseStructure<Cart>>(responseStructure, HttpStatus.OK);
 
 	}
-	
+
 	public ResponseEntity<ResponseStructure<Cart>> getCartById(int cartId) {
 		ResponseEntity<ResponseStructure<Cart>> responseEntity;
-
 		ResponseStructure<Cart> responseStructure = new ResponseStructure<Cart>();
-		Optional<Cart> cart2 = cartDao.getCartById(cartId);
-		if (cart2 != null) {
-
+		Optional<Cart> optional = cartDao.getCartById(cartId);
+		if (optional.isPresent()) {
 			responseStructure.setStatus(HttpStatus.OK.value());
 			responseStructure.setMessage("Found");
-			responseStructure.setData(cart2.get());
-			return new ResponseEntity<ResponseStructure<Cart>>(responseStructure, HttpStatus.OK);
+			responseStructure.setData(optional.get());
+			return responseEntity = new ResponseEntity<ResponseStructure<Cart>>(responseStructure, HttpStatus.OK);
 		} else {
 
 			throw new NoSuchIdFoundException();
@@ -67,10 +64,10 @@ public class CartService {
 		}
 
 	}
-	
+
 	public ResponseEntity<ResponseStructure<Cart>> deleteCart(int cartId) {
 		ResponseEntity<ResponseStructure<Cart>> responseEntity;
-		ResponseStructure<Cart> responseStructure=new ResponseStructure<Cart>();
+		ResponseStructure<Cart> responseStructure = new ResponseStructure<Cart>();
 		Optional<Cart> optional = cartDao.getCartById(cartId);
 
 		if (optional.isPresent()) {
@@ -78,7 +75,7 @@ public class CartService {
 			responseStructure.setStatus(HttpStatus.OK.value());
 			responseStructure.setMessage("Deleted");
 			responseStructure.setData(optional.get());
-			return new ResponseEntity<ResponseStructure<Cart>>(responseStructure, HttpStatus.OK);
+			return responseEntity=new ResponseEntity<ResponseStructure<Cart>>(responseStructure, HttpStatus.OK);
 
 		} else {
 			throw new NoSuchIdFoundException();
