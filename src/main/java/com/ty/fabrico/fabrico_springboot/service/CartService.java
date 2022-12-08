@@ -1,5 +1,6 @@
 package com.ty.fabrico.fabrico_springboot.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.ty.fabrico.fabrico_springboot.dao.CartDao;
 import com.ty.fabrico.fabrico_springboot.dto.Cart;
+import com.ty.fabrico.fabrico_springboot.dto.Product;
 import com.ty.fabrico.fabrico_springboot.exception.NoSuchIdFoundException;
 import com.ty.fabrico.fabrico_springboot.util.ResponseStructure;
 
@@ -20,12 +22,18 @@ public class CartService {
 
 	public ResponseEntity<ResponseStructure<Cart>> saveCart(Cart cart) {
 		ResponseEntity<ResponseStructure<Cart>> responseEntity;
-
 		ResponseStructure<Cart> responseStructure = new ResponseStructure<Cart>();
+		List<Product> product = cart.getProduct();
+		double totalcost = 0;
+		for (Product products2 : product) {
+			totalcost = totalcost + (products2.getProductPrice() * cart.getCartQuantity());
+		}
+		totalcost = (totalcost * 0.18) + totalcost;
+		cart.setTotalcost(totalcost);
 		responseStructure.setStatus(HttpStatus.CREATED.value());
 		responseStructure.setMessage("saved");
 		responseStructure.setData(cartDao.saveCart(cart));
-		return new ResponseEntity<ResponseStructure<Cart>>(responseStructure, HttpStatus.CREATED);
+		return responseEntity=new ResponseEntity<ResponseStructure<Cart>>(responseStructure, HttpStatus.CREATED);
 
 	}
 
@@ -35,6 +43,13 @@ public class CartService {
 		Optional<Cart> cart2 = cartDao.getCartById(cartId);
 		if (cart2 != null) {
 			cart.setCartId(cartId);
+			List<Product> products = cart.getProduct();
+			double totalcost = 0;
+			for (Product products2 : products) {
+				totalcost = totalcost + (products2.getProductPrice() * cart.getCartQuantity());
+			}
+			totalcost = (totalcost * 0.18) + totalcost;
+			cart.setTotalcost(totalcost);
 			responseStructure.setStatus(HttpStatus.OK.value());
 			responseStructure.setMessage("updated");
 			responseStructure.setData(cartDao.updateCart(cart));
