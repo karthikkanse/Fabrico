@@ -40,8 +40,8 @@ public class CartService {
 	public ResponseEntity<ResponseStructure<Cart>> updateCart(Cart cart, int cartId) {
 		ResponseEntity<ResponseStructure<Cart>> responseEntity;
 		ResponseStructure<Cart> responseStructure = new ResponseStructure<Cart>();
-		Optional<Cart> cart2 = cartDao.getCartById(cartId);
-		if (cart2 != null) {
+		Optional<Cart> optional = cartDao.getCartById(cartId);
+		if (optional.isPresent()) {
 			cart.setCartId(cartId);
 			List<Product> products = cart.getProduct();
 			double totalcost = 0;
