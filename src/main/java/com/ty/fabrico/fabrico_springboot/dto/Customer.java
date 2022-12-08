@@ -1,5 +1,6 @@
 package com.ty.fabrico.fabrico_springboot.dto;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,6 +25,6 @@ public class Customer {
 	private String address;
 	private String premium;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	Cart cart;
 }

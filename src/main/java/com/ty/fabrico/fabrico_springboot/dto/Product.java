@@ -19,6 +19,8 @@ public class Product {
 	String productName;
 	@NotNull
 	double productPrice;
+	@NotNull
+	private int quantity;
 	
 	
 }
