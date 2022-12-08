@@ -32,8 +32,8 @@ public class CustomerService {
 	public ResponseEntity<ResponseStructure<Customer>> updateCustomer(Customer customer,int customerId){
 		ResponseStructure<Customer> responseStructure = new ResponseStructure<Customer>();
 		ResponseEntity<ResponseStructure<Customer>> responseEntity;
-		Customer customer1=customerDao.getCustomerById(customerId).get();
-		if(customer1!=null) {
+		Optional <Customer> optional=customerDao.getCustomerById(customerId);
+		if(optional.isPresent()) {
 			customer.setCustomerId(customerId);
 			responseStructure.setStatus(HttpStatus.OK.value());
 			responseStructure.setMessage("Updated");
