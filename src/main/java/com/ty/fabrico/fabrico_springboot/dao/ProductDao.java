@@ -1,6 +1,7 @@
 package com.ty.fabrico.fabrico_springboot.dao;
 
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import com.ty.fabrico.fabrico_springboot.dto.Product;
@@ -17,16 +18,9 @@ public class ProductDao {
 		return productRepository.save(product);
 	}
 	
-	public Product getProductById(int productId)
+	public Optional<Product> getProductById(int productId)
 	{
-		Optional<Product> optional=productRepository.findById(productId);
-		
-		if(optional.isPresent())
-		{
-			return optional.get();
-		}
-		else 
-			return null;
+		return productRepository.findById(productId);
 	}
 	
 	public Product updateProduct(Product product)
@@ -34,9 +28,9 @@ public class ProductDao {
 		return productRepository.save(product);
 	}
 	
-	public String deleteProduct(int productId)
+	public void deleteProduct(Product product)
 	{
-		productRepository.deleteById(productId);
-		return "Deleted";
+		
+		 productRepository.delete(product);
 	}
 }
