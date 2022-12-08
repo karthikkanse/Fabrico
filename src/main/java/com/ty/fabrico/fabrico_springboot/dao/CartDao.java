@@ -1,7 +1,5 @@
 package com.ty.fabrico.fabrico_springboot.dao;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -18,27 +16,17 @@ public class CartDao {
 		return cartRepository.save(cart);
 	}
 
-	public Cart updateCart(Cart cart, int cartId) {
-		Cart cart2 = getCartById(cartId);
-		if (cart2 != null) {
-			cart.setCartId(cartId);
-			return cartRepository.save(cart);
-		} else {
-			return null;
-		}
+	public Cart updateCart(Cart cart) {
+		return cartRepository.save(cart);
 	}
 
 	public Cart getCartById(int cartId) {
-		Optional<Cart> optional = cartRepository.findById(cartId);
-		if (optional.isPresent()) {
-			return optional.get();
-		}
-		return null;
+		return cartRepository.findById(cartId).get();
 	}
 
-	public String deleteCart(int cartId) {
-		cartRepository.deleteById(cartId);
-		return "Deleted";
+	public void deleteCart(Cart cart) {
+		cartRepository.delete(cart);
+
 	}
 
 }
