@@ -31,10 +31,10 @@ public class ProductService {
 		ResponseStructure<Product> responseStructure=new ResponseStructure<Product>();
 		ResponseEntity<ResponseStructure<Product>> responseEntity;
 		Optional<Product> product2=productDao.getProductById(productId);
-		if(product2!=null)
+		if(product2.isPresent())
 		{
 		responseStructure.setStatus(HttpStatus.OK.value());
-		responseStructure.setMessage("Received");
+		responseStructure.setMessage("Product Found");
 		responseStructure.setData(product2.get());
 		return responseEntity =new ResponseEntity<ResponseStructure<Product>>(responseStructure,HttpStatus.OK);
 		}
