@@ -13,38 +13,26 @@ public class WeaverDao {
 
 	@Autowired
 	WeaverRepository weaverRepository;
-	
+
 	public Weaver saveWeaver(Weaver weaver) {
 		return weaverRepository.save(weaver);
 	}
-	
-	public Weaver getWeaverById(int weaverId) {
-	    Optional<Weaver> optional=  weaverRepository.findById(weaverId);
-	    if(optional.isPresent()) {
-	    	return optional.get();
-	    }else {
-	    	return null;
-	    }
-	}
-	
-	public Weaver updateWeaver(Weaver weaver,int weaverId) {
 
-		Weaver weaver2=getWeaverById(weaverId);
-		if(weaver2!=null) {
-			weaver.setWeaverid(weaverId);
-			return weaverRepository.save(weaver);
-		}else {
-			return null;
-		}
+	public Optional<Weaver> getWeaverById(int weaverId) {
+		return weaverRepository.findById(weaverId);
+
 	}
-	
-	public String deleteWeaver(int weaverid) {
-		weaverRepository.deleteById(weaverid);
-		return "Deleted";
+
+	public Weaver updateWeaver(Weaver weaver) {
+		return weaverRepository.save(weaver);
 	}
-	
-	public Weaver getWeaverByName(Weaver weaver) {
-		return weaverRepository.getWeaverByUsername(weaver.getUsername());
+
+	public void deleteWeaver(Weaver weaver) {
+		weaverRepository.delete(weaver);
 	}
-	
+
+	public Weaver getWeaverByName(String username) {
+		return weaverRepository.getWeaverByUsername(username);
+	}
+
 }
