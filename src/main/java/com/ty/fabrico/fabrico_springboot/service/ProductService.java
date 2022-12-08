@@ -23,7 +23,7 @@ public class ProductService {
 		responseStructure.setStatus(HttpStatus.CREATED.value());
 		responseStructure.setMessage("Product Saved");
 		responseStructure.setData(productDao.saveProduct(product));
-		return responseEntity=new ResponseEntity<ResponseStructure<Product>>(responseStructure,HttpStatus.NOT_FOUND);
+		return responseEntity=new ResponseEntity<ResponseStructure<Product>>(responseStructure,HttpStatus.CREATED);
 	}
 	
 	public ResponseEntity<ResponseStructure<Product>> getProductById(int productId)
@@ -63,7 +63,7 @@ public class ProductService {
 	{
 		Product product2=productDao.getProductById(productId).get();
 		ResponseStructure<Product> responseStructure=new ResponseStructure<Product>();
-		ResponseEntity<ResponseStructure<Product>> responseEntity=new ResponseEntity<ResponseStructure<Product>>(responseStructure,HttpStatus.OK);
+		ResponseEntity<ResponseStructure<Product>> responseEntity;
 
 		if(product2 !=null)
 			{
@@ -71,11 +71,11 @@ public class ProductService {
 			responseStructure.setStatus(HttpStatus.OK.value());
 			responseStructure.setMessage("Updated");
 			responseStructure.setData(productDao.updateProduct(product));
-			return responseEntity;
+			return responseEntity =new ResponseEntity<ResponseStructure<Product>>(responseStructure,HttpStatus.OK);
 			
 			}
 
-		else throw new NoSuchIdFoundException("No Product Id is found for Updation");
+		else throw new NoSuchIdFoundException("No Product Id is found to be Updated");
 	}
 	
 }
