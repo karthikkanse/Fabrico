@@ -1,7 +1,5 @@
 package com.ty.fabrico.fabrico_springboot.dao;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -19,29 +17,19 @@ public class CustomerDao {
 	}
 
 	public Customer getCustomerById(int customerId) {
-		Optional<Customer> optional = customerRepository.findById(customerId);
-		if (optional.isPresent()) {
-			return optional.get();
-		}
-		return null;
+		return customerRepository.findById(customerId).get();
 	}
 
-	public Customer getCustomerByEmail(Customer customer) {
+	public Customer getCustomerByEmail(String email) {
 
-		return customerRepository.getCustomerByEmail(customer.getEmail());
+		return customerRepository.getCustomerByEmail(email);
 	}
 
-	public Customer updateCustomer(Customer customer, int customerId) {
-		Customer customer1 = getCustomerById(customerId);
-		if (customer1 != null) {
-			customer.setCustomerId(customerId);
-			return customerRepository.save(customer);
-		} else
-			return null;
+	public Customer updateCustomer(Customer customer) {
+		return customerRepository.save(customer);
 	}
 
-	public String deleteCustomer(int customerId) {
-		customerRepository.deleteById(customerId);
-		return "Deleted";
+	public void deleteCustomer(Customer customer) {
+		customerRepository.delete(customer);
 	}
 }
