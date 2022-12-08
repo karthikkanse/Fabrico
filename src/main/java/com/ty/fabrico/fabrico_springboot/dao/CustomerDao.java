@@ -1,5 +1,7 @@
 package com.ty.fabrico.fabrico_springboot.dao;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -16,8 +18,8 @@ public class CustomerDao {
 		return customerRepository.save(customer);
 	}
 
-	public Customer getCustomerById(int customerId) {
-		return customerRepository.findById(customerId).get();
+	public Optional<Customer> getCustomerById(int customerId) {
+		return customerRepository.findById(customerId);
 	}
 
 	public Customer getCustomerByEmail(String email) {
