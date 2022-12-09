@@ -26,7 +26,7 @@ public class CartService {
 		List<Product> product = cart.getProduct();
 		double totalcost = 0;
 		for (Product products2 : product) {
-			totalcost = totalcost + (products2.getProductPrice() * cart.getCartQuantity());
+			totalcost = totalcost + (products2.getProductPrice() * products2.getQuantity());
 		}
 		totalcost = (totalcost * 0.18) + totalcost;
 		cart.setTotalcost(totalcost);
@@ -46,7 +46,7 @@ public class CartService {
 			List<Product> products = cart.getProduct();
 			double totalcost = 0;
 			for (Product products2 : products) {
-				totalcost = totalcost + (products2.getProductPrice() * cart.getCartQuantity());
+				totalcost = totalcost + (products2.getProductPrice() * products2.getQuantity());
 			}
 			totalcost = (totalcost * 0.18) + totalcost;
 			cart.setTotalcost(totalcost);
