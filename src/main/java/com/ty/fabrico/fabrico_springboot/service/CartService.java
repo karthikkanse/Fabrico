@@ -25,10 +25,20 @@ public class CartService {
 		ResponseStructure<Cart> responseStructure = new ResponseStructure<Cart>();
 		List<Product> product = cart.getProduct();
 		double totalcost = 0;
+		int quantity=0;
 		for (Product products2 : product) {
-			totalcost = totalcost + (products2.getProductPrice() * cart.getCartQuantity());
+			totalcost += (products2.getProductPrice() * products2.getQuantity());
+			quantity+=products2.getQuantity();
 		}
-		totalcost = (totalcost * 0.18) + totalcost;
+		
+		if(quantity>=10 && quantity<20) {
+			totalcost =  totalcost-(totalcost * 0.10);
+		}else if(quantity>=20 && quantity<35) {
+			totalcost =  totalcost-(totalcost * 0.20);
+		}else if(quantity>=40) {
+			totalcost =  totalcost-(totalcost * 0.35);
+		}
+		
 		cart.setTotalcost(totalcost);
 		responseStructure.setStatus(HttpStatus.CREATED.value());
 		responseStructure.setMessage("saved");
@@ -37,6 +47,7 @@ public class CartService {
 
 	}
 
+	
 	public ResponseEntity<ResponseStructure<Cart>> updateCart(Cart cart, int cartId) {
 		ResponseEntity<ResponseStructure<Cart>> responseEntity;
 		ResponseStructure<Cart> responseStructure = new ResponseStructure<Cart>();
@@ -45,13 +56,22 @@ public class CartService {
 			cart.setCartId(cartId);
 			List<Product> products = cart.getProduct();
 			double totalcost = 0;
+			int quantity=0;
 			for (Product products2 : products) {
-				totalcost = totalcost + (products2.getProductPrice() * cart.getCartQuantity());
+				totalcost +=(products2.getProductPrice() * products2.getQuantity());
+				quantity+=products2.getQuantity();
 			}
-			totalcost = (totalcost * 0.18) + totalcost;
+			if(quantity>=10 && quantity<20) {
+				totalcost =  totalcost-(totalcost * 0.10);
+			}else if(quantity>=20 && quantity<35) {
+				totalcost =  totalcost-(totalcost * 0.20);
+			}else if(quantity>=40) {
+				totalcost =  totalcost-(totalcost * 0.35);
+			}
+			
 			cart.setTotalcost(totalcost);
 			responseStructure.setStatus(HttpStatus.OK.value());
-			responseStructure.setMessage("updated");
+			responseStructure.setMessage("Updated");
 			responseStructure.setData(cartDao.updateCart(cart));
 
 		} else {
@@ -96,7 +116,6 @@ public class CartService {
 			throw new NoSuchIdFoundException();
 
 		}
-
 	}
 
 }
