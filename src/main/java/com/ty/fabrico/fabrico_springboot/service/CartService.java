@@ -22,6 +22,7 @@ public class CartService {
 	@Autowired
 	private CartDao cartDao;
 	
+	@Autowired
 	private CustomerDao customerDao;
 
 	public ResponseEntity<ResponseStructure<Cart>> saveCart(Cart cart, int customerid) {
@@ -57,6 +58,7 @@ public class CartService {
 		responseStructure.setStatus(HttpStatus.CREATED.value());
 		responseStructure.setMessage("saved");
 		responseStructure.setData(cartDao.saveCart(cart));
+
 		}else {
 			throw new NoSuchIdFoundException("No Such Id Found For Customer");
 		}
@@ -95,7 +97,7 @@ public class CartService {
 			throw new NoSuchIdFoundException();
 
 		}
-		return responseEntity=new ResponseEntity<ResponseStructure<Cart>>(responseStructure, HttpStatus.OK);
+		return responseEntity = new ResponseEntity<ResponseStructure<Cart>>(responseStructure, HttpStatus.OK);
 
 	}
 
@@ -126,7 +128,7 @@ public class CartService {
 			responseStructure.setStatus(HttpStatus.OK.value());
 			responseStructure.setMessage("Deleted");
 			responseStructure.setData(optional.get());
-			return responseEntity=new ResponseEntity<ResponseStructure<Cart>>(responseStructure, HttpStatus.OK);
+			return responseEntity = new ResponseEntity<ResponseStructure<Cart>>(responseStructure, HttpStatus.OK);
 
 		} else {
 			throw new NoSuchIdFoundException();
