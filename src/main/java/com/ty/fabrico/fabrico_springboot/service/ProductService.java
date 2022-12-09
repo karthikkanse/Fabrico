@@ -112,9 +112,7 @@ public class ProductService {
 			responseStructure.setData(productDao.updateProduct(product));
 			return responseEntity = new ResponseEntity<ResponseStructure<Product>>(responseStructure, HttpStatus.OK);
 
-		}
-
-		else
+		}else
 			throw new NoSuchIdFoundException("No Id Found Unable To Update");
 	}
 
