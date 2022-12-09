@@ -7,7 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.ty.fabrico.fabrico_springboot.dao.CartDao;
 import com.ty.fabrico.fabrico_springboot.dao.CustomerDao;
+import com.ty.fabrico.fabrico_springboot.dto.Cart;
 import com.ty.fabrico.fabrico_springboot.dto.Customer;
 import com.ty.fabrico.fabrico_springboot.exception.NoSuchIdFoundException;
 import com.ty.fabrico.fabrico_springboot.exception.NoSuchUsernameFoundException;
@@ -19,7 +21,7 @@ public class CustomerService {
 
 	@Autowired
 	private CustomerDao customerDao;
-
+	
 	public ResponseEntity<ResponseStructure<Customer>> saveCustomer(Customer customer) {
 		ResponseStructure<Customer> responseStructure = new ResponseStructure<Customer>();
 		ResponseEntity<ResponseStructure<Customer>> responseEntity;
