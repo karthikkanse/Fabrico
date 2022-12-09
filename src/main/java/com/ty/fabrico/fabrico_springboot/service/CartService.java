@@ -33,7 +33,7 @@ public class CartService {
 		responseStructure.setStatus(HttpStatus.CREATED.value());
 		responseStructure.setMessage("saved");
 		responseStructure.setData(cartDao.saveCart(cart));
-		return responseEntity=new ResponseEntity<ResponseStructure<Cart>>(responseStructure, HttpStatus.CREATED);
+		return responseEntity = new ResponseEntity<ResponseStructure<Cart>>(responseStructure, HttpStatus.CREATED);
 
 	}
 
@@ -59,7 +59,7 @@ public class CartService {
 			throw new NoSuchIdFoundException();
 
 		}
-		return responseEntity=new ResponseEntity<ResponseStructure<Cart>>(responseStructure, HttpStatus.OK);
+		return responseEntity = new ResponseEntity<ResponseStructure<Cart>>(responseStructure, HttpStatus.OK);
 
 	}
 
@@ -90,7 +90,7 @@ public class CartService {
 			responseStructure.setStatus(HttpStatus.OK.value());
 			responseStructure.setMessage("Deleted");
 			responseStructure.setData(optional.get());
-			return responseEntity=new ResponseEntity<ResponseStructure<Cart>>(responseStructure, HttpStatus.OK);
+			return responseEntity = new ResponseEntity<ResponseStructure<Cart>>(responseStructure, HttpStatus.OK);
 
 		} else {
 			throw new NoSuchIdFoundException();
