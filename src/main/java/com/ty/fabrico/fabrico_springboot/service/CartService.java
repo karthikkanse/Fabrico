@@ -26,14 +26,14 @@ public class CartService {
 		List<Product> product = cart.getProduct();
 		double totalcost = 0;
 		for (Product products2 : product) {
-			totalcost = totalcost + (products2.getProductPrice() * cart.getCartQuantity());
+			totalcost = totalcost + (products2.getProductPrice() * products2.getQuantity());
 		}
 		totalcost = (totalcost * 0.18) + totalcost;
 		cart.setTotalcost(totalcost);
 		responseStructure.setStatus(HttpStatus.CREATED.value());
 		responseStructure.setMessage("saved");
 		responseStructure.setData(cartDao.saveCart(cart));
-		return responseEntity=new ResponseEntity<ResponseStructure<Cart>>(responseStructure, HttpStatus.CREATED);
+		return responseEntity = new ResponseEntity<ResponseStructure<Cart>>(responseStructure, HttpStatus.CREATED);
 
 	}
 
@@ -46,7 +46,7 @@ public class CartService {
 			List<Product> products = cart.getProduct();
 			double totalcost = 0;
 			for (Product products2 : products) {
-				totalcost = totalcost + (products2.getProductPrice() * cart.getCartQuantity());
+				totalcost = totalcost + (products2.getProductPrice() * products2.getQuantity());
 			}
 			totalcost = (totalcost * 0.18) + totalcost;
 			cart.setTotalcost(totalcost);
@@ -59,7 +59,7 @@ public class CartService {
 			throw new NoSuchIdFoundException();
 
 		}
-		return responseEntity=new ResponseEntity<ResponseStructure<Cart>>(responseStructure, HttpStatus.OK);
+		return responseEntity = new ResponseEntity<ResponseStructure<Cart>>(responseStructure, HttpStatus.OK);
 
 	}
 
@@ -90,7 +90,7 @@ public class CartService {
 			responseStructure.setStatus(HttpStatus.OK.value());
 			responseStructure.setMessage("Deleted");
 			responseStructure.setData(optional.get());
-			return responseEntity=new ResponseEntity<ResponseStructure<Cart>>(responseStructure, HttpStatus.OK);
+			return responseEntity = new ResponseEntity<ResponseStructure<Cart>>(responseStructure, HttpStatus.OK);
 
 		} else {
 			throw new NoSuchIdFoundException();
