@@ -23,8 +23,8 @@ public class CartController {
 		CartService cartService;
 
 		@PostMapping
-		public ResponseEntity<ResponseStructure<Cart>> saveCustomer(@RequestBody Cart cart) {
-			return cartService.saveCart(cart);
+		public ResponseEntity<ResponseStructure<Cart>> saveCustomer(@RequestBody Cart cart,@RequestParam int customerid) {
+			return cartService.saveCart(cart,customerid);
 		}
 		@PutMapping
 		public ResponseEntity<ResponseStructure<Cart>> updateCustomer(@RequestBody Cart cart,@RequestParam  int cartId) {
