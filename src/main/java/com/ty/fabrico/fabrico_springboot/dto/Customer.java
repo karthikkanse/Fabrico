@@ -25,6 +25,6 @@ public class Customer {
 	private String address;
 	private String premium;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	Cart cart;
 }
