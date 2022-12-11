@@ -28,7 +28,7 @@ public class CartService {
 	public ResponseEntity<ResponseStructure<Cart>> saveCart(Cart cart, int customerid) {
 		ResponseEntity<ResponseStructure<Cart>> responseEntity;
 		ResponseStructure<Cart> responseStructure = new ResponseStructure<Cart>();
-		Optional<Customer> optional=customerDao.getCustomerById(customerid);
+		Optional<Customer> optional=customerDao.getCustomerById(customerid); 
 		Customer customer;
 		if(optional.isPresent()) {
 			customer= optional.get();
