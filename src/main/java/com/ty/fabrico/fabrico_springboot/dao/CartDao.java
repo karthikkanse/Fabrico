@@ -26,7 +26,7 @@ public class CartDao {
 		return cartRepository.findById(cartId);
 	}
 
-	public void deleteCart(int cartid) {
-		cartRepository.deleteById(cartid);	}
+	public void deleteCart(Cart cart) {
+		cartRepository.delete(cart);;	}
 
 }

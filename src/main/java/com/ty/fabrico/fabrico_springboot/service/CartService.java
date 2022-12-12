@@ -131,7 +131,9 @@ public class CartService {
 		Optional<Cart> optional = cartDao.getCartById(cartid);
 
 		if (optional.isPresent()) {
-			cartDao.deleteCart(cartid);
+			Customer customer= customerDao.getCustomerByCartId(cartid);
+            customer.setCart(null);
+            cartDao.deleteCart(optional.get());
 			responseStructure.setStatus(HttpStatus.OK.value());
 			responseStructure.setMessage("Deleted");
 			responseStructure.setData(optional.get());
