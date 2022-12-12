@@ -125,18 +125,17 @@ public class CartService {
 
 	}
 
-	public ResponseEntity<ResponseStructure<Cart>> deleteCart(int cartId) {
+	public ResponseEntity<ResponseStructure<Cart>> deleteCart(int cartid) {
 		ResponseEntity<ResponseStructure<Cart>> responseEntity;
 		ResponseStructure<Cart> responseStructure = new ResponseStructure<Cart>();
-		Optional<Cart> optional = cartDao.getCartById(cartId);
+		Optional<Cart> optional = cartDao.getCartById(cartid);
 
 		if (optional.isPresent()) {
-			cartDao.deleteCart(optional.get());
+			cartDao.deleteCart(cartid);
 			responseStructure.setStatus(HttpStatus.OK.value());
 			responseStructure.setMessage("Deleted");
 			responseStructure.setData(optional.get());
 			return responseEntity = new ResponseEntity<ResponseStructure<Cart>>(responseStructure, HttpStatus.OK);
-
 		} else {
 			throw new NoSuchIdFoundException();
 
