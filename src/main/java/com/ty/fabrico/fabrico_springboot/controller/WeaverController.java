@@ -42,8 +42,7 @@ public class WeaverController {
 	@ApiResponses(value= {@ApiResponse(code=201, message="Created"),
 			@ApiResponse(code=500, message="Internal Server Error"),
 			@ApiResponse(code=404, message="Not Found")})
-	@GetMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}, produces= {
-		MediaType.APPLICATION_JSON_VALUE})
+	@GetMapping(produces= {MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<ResponseStructure<Weaver>> getWeaverById(@RequestParam int weaverid){
 		return weaverService.getWeaverById(weaverid);
 	}
@@ -52,8 +51,7 @@ public class WeaverController {
 	@ApiResponses(value= {@ApiResponse(code=201, message="Created"),
 			@ApiResponse(code=500, message="Internal Server Error"),
 			@ApiResponse(code=404, message="Not Found")})
-	@DeleteMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}, produces= {
-		MediaType.APPLICATION_JSON_VALUE})
+	@DeleteMapping(produces= {MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<ResponseStructure<Weaver>> deleteWeaver(@RequestParam int weaverid){
 		return weaverService.deleteWeaver(weaverid);
 	}
