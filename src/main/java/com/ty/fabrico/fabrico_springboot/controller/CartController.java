@@ -43,8 +43,8 @@ public class CartController {
 				@ApiResponse(code=404, message="Not Found")})
 		@PutMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}, produces= {
 			MediaType.APPLICATION_JSON_VALUE})
-		public ResponseEntity<ResponseStructure<Cart>> updateCart(@RequestBody Cart cart,@RequestParam  int cartId) {
-			return cartService.updateCart(cart,cartId);
+		public ResponseEntity<ResponseStructure<Cart>> updateCart(@RequestBody Cart cart,@RequestParam  int cartid) {
+			return cartService.updateCart(cart,cartid);
 		}
 		
 		@ApiOperation(value="Fetch Cart" , notes="It is used to Fetch the Cart details")
@@ -61,8 +61,8 @@ public class CartController {
 				@ApiResponse(code=500, message="Internal Server Error"),
 				@ApiResponse(code=404, message="Not Found")})
 		@DeleteMapping( produces= {MediaType.APPLICATION_JSON_VALUE})
-		public ResponseEntity<ResponseStructure<Cart>> deleteCart(@RequestParam int cartId) {
-			return cartService.deleteCart(cartId);
+		public ResponseEntity<ResponseStructure<Cart>> deleteCart(@RequestParam int cartid) {
+			return cartService.deleteCart(cartid);
 		}
 	}
 

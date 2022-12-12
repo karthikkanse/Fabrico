@@ -76,10 +76,10 @@ public class ProductService {
 		return responseEntity = new ResponseEntity<ResponseStructure<Product>>(responseStructure, HttpStatus.CREATED);
 	}
 
-	public ResponseEntity<ResponseStructure<Product>> getProductById(int productId) {
+	public ResponseEntity<ResponseStructure<Product>> getProductById(int productid) {
 		ResponseStructure<Product> responseStructure = new ResponseStructure<Product>();
 		ResponseEntity<ResponseStructure<Product>> responseEntity;
-		Optional<Product> optional = productDao.getProductById(productId);
+		Optional<Product> optional = productDao.getProductById(productid);
 		if (optional.isPresent()) {
 			responseStructure.setStatus(HttpStatus.OK.value());
 			responseStructure.setMessage("Product Found");
@@ -89,10 +89,10 @@ public class ProductService {
 			throw new NoSuchIdFoundException("Product Id Not Found");
 	}
 
-	public ResponseEntity<ResponseStructure<Product>> deleteProduct(int productId) {
+	public ResponseEntity<ResponseStructure<Product>> deleteProduct(int productid) {
 		ResponseStructure<Product> responseStructure = new ResponseStructure<Product>();
 		ResponseEntity<ResponseStructure<Product>> responseEntity;
-		Optional<Product> optional = productDao.getProductById(productId);
+		Optional<Product> optional = productDao.getProductById(productid);
 		if (optional.isPresent()) {
 			productDao.deleteProduct(optional.get());
 			responseStructure.setStatus(HttpStatus.OK.value());
@@ -100,21 +100,27 @@ public class ProductService {
 			responseStructure.setData(optional.get());
 			return responseEntity = new ResponseEntity<ResponseStructure<Product>>(responseStructure, HttpStatus.OK);
 		} else
-			throw new NoSuchIdFoundException();
+			throw new NoSuchIdFoundException("No Such Id Found Unable To Delete");
 	}
 
-	public ResponseEntity<ResponseStructure<Product>> updateProduct(Product product, int productId) {
-		Product product2 = productDao.getProductById(productId).get();
+	public ResponseEntity<ResponseStructure<Product>> updateProduct(Product product, int productid) {
+		Optional<Product> optional = productDao.getProductById(productid);
+		Product product2;
 		ResponseStructure<Product> responseStructure = new ResponseStructure<Product>();
 		ResponseEntity<ResponseStructure<Product>> responseEntity;
+		if(optional.isPresent()) {
+			product2=optional.get();
+		}else {
+			product2=null;
+		}
 		if (product2 != null) {
-			product.setPId(productId);
+			product.setPId(productid);
 			responseStructure.setStatus(HttpStatus.OK.value());
 			responseStructure.setMessage("Updated");
 			responseStructure.setData(productDao.updateProduct(product));
 			return responseEntity = new ResponseEntity<ResponseStructure<Product>>(responseStructure, HttpStatus.OK);
 		}else
-			throw new NoSuchIdFoundException("No Id Found Unable To Update");
+			throw new NoSuchIdFoundException("No Such Id Found Unable To Update");
 	}
 
 }
