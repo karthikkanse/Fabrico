@@ -61,7 +61,7 @@ public class CustomerService {
 			throw new NoSuchIdFoundException("No such Id is Found");
 		}
 	
-	public ResponseEntity<ResponseStructure<Customer>> getCustomerByEmail(Customer customer){
+	public ResponseEntity<ResponseStructure<Customer>> customerLogin(Customer customer){
 		ResponseStructure<Customer> responseStructure = new ResponseStructure<Customer>();
 		ResponseEntity<ResponseStructure<Customer>> responseEntity;
 		Customer customer1=customerDao.getCustomerByEmail(customer.getEmail());

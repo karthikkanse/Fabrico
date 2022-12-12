@@ -1,6 +1,5 @@
 package com.ty.fabrico.fabrico_springboot.controller;
 
-import org.mapstruct.ValueMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -37,8 +36,8 @@ public class CustomerController {
 		return customerService.getCustomerById(customerId);
 	}
 	@PatchMapping
-	public ResponseEntity<ResponseStructure<Customer>> getCustomerByEmail(@RequestBody Customer customer) {
-		return customerService.getCustomerByEmail(customer);
+	public ResponseEntity<ResponseStructure<Customer>> customerLogin(@RequestBody Customer customer) {
+		return customerService.customerLogin(customer);
 	}
 	@DeleteMapping
 	public ResponseEntity<ResponseStructure<Customer>> deleteCustomer(@RequestParam int customerId) {
