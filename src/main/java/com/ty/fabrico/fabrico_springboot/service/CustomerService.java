@@ -7,9 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.ty.fabrico.fabrico_springboot.dao.CartDao;
 import com.ty.fabrico.fabrico_springboot.dao.CustomerDao;
-import com.ty.fabrico.fabrico_springboot.dto.Cart;
 import com.ty.fabrico.fabrico_springboot.dto.Customer;
 import com.ty.fabrico.fabrico_springboot.exception.NoSuchIdFoundException;
 import com.ty.fabrico.fabrico_springboot.exception.NoSuchUsernameFoundException;
@@ -56,9 +54,12 @@ public class CustomerService {
 			return responseEntity = new ResponseEntity<ResponseStructure<Customer>>(responseStructure, HttpStatus.OK);
 		} else
 			throw new NoSuchIdFoundException("No such Id is Found");
-	}
 
-	public ResponseEntity<ResponseStructure<Customer>> getCustomerByEmail(Customer customer) {
+		}
+	
+
+	public ResponseEntity<ResponseStructure<Customer>> customerLogin(Customer customer) {
+
 		ResponseStructure<Customer> responseStructure = new ResponseStructure<Customer>();
 		ResponseEntity<ResponseStructure<Customer>> responseEntity;
 		Customer customer1 = customerDao.getCustomerByEmail(customer.getEmail());
