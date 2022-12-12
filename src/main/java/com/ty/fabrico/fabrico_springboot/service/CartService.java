@@ -9,7 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.ty.fabrico.fabrico_springboot.dao.CartDao;
+import com.ty.fabrico.fabrico_springboot.dao.CustomerDao;
 import com.ty.fabrico.fabrico_springboot.dto.Cart;
+import com.ty.fabrico.fabrico_springboot.dto.Customer;
 import com.ty.fabrico.fabrico_springboot.dto.Product;
 import com.ty.fabrico.fabrico_springboot.exception.NoSuchIdFoundException;
 import com.ty.fabrico.fabrico_springboot.util.ResponseStructure;
@@ -19,17 +21,33 @@ public class CartService {
 
 	@Autowired
 	private CartDao cartDao;
+	
+	@Autowired
+	private CustomerDao customerDao;
 
-	public ResponseEntity<ResponseStructure<Cart>> saveCart(Cart cart) {
+	public ResponseEntity<ResponseStructure<Cart>> saveCart(Cart cart, int customerid) {
 		ResponseEntity<ResponseStructure<Cart>> responseEntity;
 		ResponseStructure<Cart> responseStructure = new ResponseStructure<Cart>();
+		Optional<Customer> optional=customerDao.getCustomerById(customerid); 
+		Customer customer;
+		if(optional.isPresent()) {
+			customer= optional.get();
+		}else {
+			customer=null;
+		}
+		
+		if(customer!=null) {
+		customer.setCart(cart);
 		List<Product> product = cart.getProduct();
 		double totalcost = 0;
 		int quantity=0;
 		for (Product products2 : product) {
 			totalcost += (products2.getProductPrice() * products2.getQuantity());
 			quantity+=products2.getQuantity();
+<<<<<<< HEAD
 			totalcost = totalcost + (products2.getProductPrice() * products2.getQuantity());
+=======
+>>>>>>> a38fdbdf7b0acd4406e70ac96fa7b53adf20b5b5
 		}
 		
 		if(quantity>=10 && quantity<20) {
@@ -44,8 +62,11 @@ public class CartService {
 		responseStructure.setStatus(HttpStatus.CREATED.value());
 		responseStructure.setMessage("saved");
 		responseStructure.setData(cartDao.saveCart(cart));
-		return responseEntity = new ResponseEntity<ResponseStructure<Cart>>(responseStructure, HttpStatus.CREATED);
 
+		}else {
+			throw new NoSuchIdFoundException("No Such Id Found For Customer");
+		}
+		return responseEntity=new ResponseEntity<ResponseStructure<Cart>>(responseStructure, HttpStatus.CREATED);
 	}
 
 	
@@ -59,12 +80,17 @@ public class CartService {
 			double totalcost = 0;
 			int quantity=0;
 			for (Product products2 : products) {
+<<<<<<< HEAD
 
 				totalcost +=(products2.getProductPrice() * products2.getQuantity());
 				quantity+=products2.getQuantity();
 
 				totalcost = totalcost + (products2.getProductPrice() * products2.getQuantity());
 
+=======
+				totalcost +=(products2.getProductPrice() * products2.getQuantity());
+				quantity+=products2.getQuantity();
+>>>>>>> a38fdbdf7b0acd4406e70ac96fa7b53adf20b5b5
 			}
 			if(quantity>=10 && quantity<20) {
 				totalcost =  totalcost-(totalcost * 0.10);

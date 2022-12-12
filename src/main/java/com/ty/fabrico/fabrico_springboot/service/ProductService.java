@@ -28,6 +28,9 @@ public class ProductService {
 	
 	@Autowired
 	CustomerDao customerDao;
+	
+	@Autowired
+	CartService cartService;
 
 	public ResponseEntity<ResponseStructure<Product>> saveProductForWeaver(Product product, int weaverid) {
 		ResponseStructure<Product> responseStructure = new ResponseStructure<Product>();
@@ -67,6 +70,7 @@ public class ProductService {
 			responseStructure.setStatus(HttpStatus.CREATED.value());
 			responseStructure.setMessage("Product Saved To Cart");
 			responseStructure.setData(productDao.saveProduct(product));
+			cartService.updateCart(cart, cart.getCartId());
 			customerDao.updateCustomer(customer);
 		}
 		return responseEntity = new ResponseEntity<ResponseStructure<Product>>(responseStructure, HttpStatus.CREATED);
@@ -97,21 +101,18 @@ public class ProductService {
 			return responseEntity = new ResponseEntity<ResponseStructure<Product>>(responseStructure, HttpStatus.OK);
 		} else
 			throw new NoSuchIdFoundException();
-
 	}
 
 	public ResponseEntity<ResponseStructure<Product>> updateProduct(Product product, int productId) {
 		Product product2 = productDao.getProductById(productId).get();
 		ResponseStructure<Product> responseStructure = new ResponseStructure<Product>();
 		ResponseEntity<ResponseStructure<Product>> responseEntity;
-
 		if (product2 != null) {
 			product.setPId(productId);
 			responseStructure.setStatus(HttpStatus.OK.value());
 			responseStructure.setMessage("Updated");
 			responseStructure.setData(productDao.updateProduct(product));
 			return responseEntity = new ResponseEntity<ResponseStructure<Product>>(responseStructure, HttpStatus.OK);
-
 		}else
 			throw new NoSuchIdFoundException("No Id Found Unable To Update");
 	}
