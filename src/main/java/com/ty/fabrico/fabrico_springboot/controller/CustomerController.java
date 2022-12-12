@@ -1,8 +1,4 @@
 package com.ty.fabrico.fabrico_springboot.controller;
-<<<<<<< HEAD
-
-=======
->>>>>>> a38fdbdf7b0acd4406e70ac96fa7b53adf20b5b5
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
