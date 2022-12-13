@@ -54,7 +54,7 @@ public class WeaverService {
 			weaver.setWeaverid(weaverid);
 			responseStructure.setStatus(HttpStatus.OK.value());
 			responseStructure.setMessage("Updated");
-			responseStructure.setData(weaver);
+			responseStructure.setData(weaverDao.updateWeaver(weaver));
 			return responseEntity;
 		} else {
 			throw new NoSuchIdFoundException("Unable to Update No Such Id Found");
