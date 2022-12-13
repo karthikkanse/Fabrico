@@ -69,7 +69,7 @@ public class WeaverService {
 		if(optional.isPresent()) {
 			weaverDao.deleteWeaver(optional.get());
 			responseStructure.setStatus(HttpStatus.OK.value());
-			responseStructure.setMessage("Updated");
+			responseStructure.setMessage("Deleted");
 			responseStructure.setData(optional.get());
 			return responseEntity;
 		} else {

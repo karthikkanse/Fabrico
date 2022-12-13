@@ -1,6 +1,7 @@
 package com.ty.fabrico.fabrico_springboot.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,10 @@ import com.ty.fabrico.fabrico_springboot.dto.Cart;
 import com.ty.fabrico.fabrico_springboot.service.CartService;
 import com.ty.fabrico.fabrico_springboot.util.ResponseStructure;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @RestController
 @RequestMapping("cart")
 public class CartController {
@@ -22,21 +27,42 @@ public class CartController {
 		@Autowired
 		CartService cartService;
 
-		@PostMapping
-		public ResponseEntity<ResponseStructure<Cart>> saveCustomer(@RequestBody Cart cart,@RequestParam int customerid) {
+		@ApiOperation(value="Save Cart" , notes="It is used to Save the Cart details")
+		@ApiResponses(value= {@ApiResponse(code=201, message="Created"),
+				@ApiResponse(code=500, message="Internal Server Error"),
+				@ApiResponse(code=404, message="Not Found")})
+		@PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}, produces= {
+			MediaType.APPLICATION_JSON_VALUE})
+		public ResponseEntity<ResponseStructure<Cart>> saveCart(@RequestBody Cart cart,@RequestParam int customerid) {
 			return cartService.saveCart(cart,customerid);
 		}
-		@PutMapping
-		public ResponseEntity<ResponseStructure<Cart>> updateCustomer(@RequestBody Cart cart,@RequestParam  int cartId) {
-			return cartService.updateCart(cart,cartId);
+		
+		@ApiOperation(value="Update Cart" , notes="It is used to Update the Cart details")
+		@ApiResponses(value= {@ApiResponse(code=201, message="Created"),
+				@ApiResponse(code=500, message="Internal Server Error"),
+				@ApiResponse(code=404, message="Not Found")})
+		@PutMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}, produces= {
+			MediaType.APPLICATION_JSON_VALUE})
+		public ResponseEntity<ResponseStructure<Cart>> updateCart(@RequestBody Cart cart,@RequestParam  int cartid) {
+			return cartService.updateCart(cart,cartid);
 		}
-		@GetMapping
-		public ResponseEntity<ResponseStructure<Cart>> getCustomerById(@RequestParam int cartId) {
+		
+		@ApiOperation(value="Fetch Cart" , notes="It is used to Fetch the Cart details")
+		@ApiResponses(value= {@ApiResponse(code=201, message="Created"),
+				@ApiResponse(code=500, message="Internal Server Error"),
+				@ApiResponse(code=404, message="Not Found")})
+		@GetMapping(produces= {MediaType.APPLICATION_JSON_VALUE})
+		public ResponseEntity<ResponseStructure<Cart>> getCartById(@RequestParam int cartId) {
 			return cartService.getCartById(cartId);
 		}
-		@DeleteMapping
-		public ResponseEntity<ResponseStructure<Cart>> deleteCart(@RequestParam int cartId) {
-			return cartService.deleteCart(cartId);
+		
+		@ApiOperation(value="Delete Cart" , notes="It is used to Delete the Cart details")
+		@ApiResponses(value= {@ApiResponse(code=201, message="Created"),
+				@ApiResponse(code=500, message="Internal Server Error"),
+				@ApiResponse(code=404, message="Not Found")})
+		@DeleteMapping( produces= {MediaType.APPLICATION_JSON_VALUE})
+		public ResponseEntity<ResponseStructure<Cart>> deleteCart(@RequestParam int cartid) {
+			return cartService.deleteCart(cartid);
 		}
 	}
 

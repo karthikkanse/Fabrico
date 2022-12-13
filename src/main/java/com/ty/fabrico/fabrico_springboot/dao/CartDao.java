@@ -27,8 +27,6 @@ public class CartDao {
 	}
 
 	public void deleteCart(Cart cart) {
-		cartRepository.delete(cart);
-
-	}
+		cartRepository.delete(cart);;	}
 
 }
