@@ -1,5 +1,6 @@
 package com.ty.fabrico.fabrico_springboot.dto;
 
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,6 +20,7 @@ public class Customer {
 	@NotNull
 	private String email;
 	@NotNull
+	@Convert(converter=AesEncryption.class)
 	private String password;
 	@NotNull
 	private String address;

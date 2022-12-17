@@ -2,6 +2,7 @@ package com.ty.fabrico.fabrico_springboot.dto;
 
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,6 +24,7 @@ public class Weaver {
 	@NotNull
 	private String username;
 	@NotNull
+	@Convert(converter=AesEncryption.class)
 	private String password;
 	@NotNull
 	private long phone;
