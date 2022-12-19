@@ -27,8 +27,10 @@ public class Weaver {
 	@Convert(converter=AesEncryption.class)
 	private String password;
 	@NotNull
+	@Convert(converter=AesEncryption.class)
 	private long phone;
 	@NotNull
+	@Convert(converter=AesEncryption.class)
 	private String address;
 	
 	@OneToMany(cascade = CascadeType.ALL/*,mappedBy = "weaver"*/)
