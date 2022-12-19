@@ -44,6 +44,9 @@ public class CartService {
 		for (Product products2 : product) {
 			totalcost += (products2.getProductPrice() * products2.getQuantity());
 			quantity+=products2.getQuantity();
+
+			totalcost = totalcost + (products2.getProductPrice() * products2.getQuantity());
+
 		}
 		
 		if(quantity>=10 && quantity<20) {
@@ -76,6 +79,10 @@ public class CartService {
 			double totalcost = 0;
 			int quantity=0;
 			for (Product products2 : products) {
+				totalcost +=(products2.getProductPrice() * products2.getQuantity());
+				quantity+=products2.getQuantity();
+
+				totalcost = totalcost + (products2.getProductPrice() * products2.getQuantity());
 				totalcost +=(products2.getProductPrice() * products2.getQuantity());
 				quantity+=products2.getQuantity();
 			}
