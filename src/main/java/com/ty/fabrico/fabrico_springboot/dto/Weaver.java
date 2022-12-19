@@ -31,8 +31,7 @@ public class Weaver {
 	@NotNull
 	private String address;
 	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn
+	@OneToMany(cascade = CascadeType.ALL/*,mappedBy = "weaver"*/)
 	List<Product> product;
 	
 }
