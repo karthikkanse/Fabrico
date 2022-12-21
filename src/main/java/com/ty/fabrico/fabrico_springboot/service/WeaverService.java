@@ -2,6 +2,7 @@ package com.ty.fabrico.fabrico_springboot.service;
 
 import java.util.Optional;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,8 @@ import com.ty.fabrico.fabrico_springboot.util.ResponseStructure;
 @Service
 public class WeaverService {
 
+	private static final Logger LOGGER=Logger.getLogger(WeaverService.class);
+	
 	@Autowired
 	private WeaverDao weaverDao;
 
@@ -25,6 +28,7 @@ public class WeaverService {
 		responseStructure.setStatus(HttpStatus.CREATED.value());
 		responseStructure.setMessage("Saved");
 		responseStructure.setData(weaverDao.saveWeaver(weaver));
+		LOGGER.debug("Weaver saved");
 		ResponseEntity<ResponseStructure<Weaver>> responseEntity = new ResponseEntity<ResponseStructure<Weaver>>(
 				responseStructure, HttpStatus.CREATED);
 		return responseEntity;
@@ -39,8 +43,10 @@ public class WeaverService {
 			responseStructure.setStatus(HttpStatus.OK.value());
 			responseStructure.setMessage("Found");
 			responseStructure.setData(optional.get());
+			LOGGER.debug("Weaver Found");
 			return responseEntity;
 		} else {
+			LOGGER.error("Weaver not found");
 			throw new NoSuchIdFoundException("No Such Id Found");
 		}
 	}
@@ -55,8 +61,10 @@ public class WeaverService {
 			responseStructure.setStatus(HttpStatus.OK.value());
 			responseStructure.setMessage("Updated");
 			responseStructure.setData(weaverDao.updateWeaver(weaver));
+			LOGGER.debug("Weaver Updated");
 			return responseEntity;
 		} else {
+			LOGGER.error("Weaver not found to update");
 			throw new NoSuchIdFoundException("Unable to Update No Such Id Found");
 		}
 	}
@@ -71,8 +79,10 @@ public class WeaverService {
 			responseStructure.setStatus(HttpStatus.OK.value());
 			responseStructure.setMessage("Deleted");
 			responseStructure.setData(optional.get());
+			LOGGER.warn("Weaver deleted");
 			return responseEntity;
 		} else {
+			LOGGER.error("Weaver not found to delete");
 			throw new NoSuchIdFoundException("No Such Id Found Unable to Delete");
 		}	
 	}
@@ -87,11 +97,14 @@ public class WeaverService {
 				responseStructure.setStatus(HttpStatus.OK.value());
 				responseStructure.setMessage("Login Successfull");
 				responseStructure.setData(weaver2);
+				LOGGER.debug("Login successfull");
 				return responseEntity;
 			}else {
+				LOGGER.error("Invalid password");
 				throw new PasswordIncorrectException();
 			}
 		}else {
+			LOGGER.error("Invalid Mail-Id");
 			throw new NoSuchUsernameFoundException();
 		}
 	}
