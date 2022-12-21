@@ -17,7 +17,12 @@ public class Customer {
 	private int customerId;
 	@NotNull
 	private String customerName;
+	
 	@NotNull
+	@Convert(converter=AesEncryption.class)
+	private long phone;
+	@NotNull
+	@Convert(converter=AesEncryption.class)
 	private String email;
 	@NotNull
 	@Convert(converter=AesEncryption.class)

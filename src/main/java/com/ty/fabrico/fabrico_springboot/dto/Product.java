@@ -1,9 +1,12 @@
 package com.ty.fabrico.fabrico_springboot.dto;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 import lombok.Data;
@@ -13,7 +16,7 @@ import lombok.Data;
 public class Product {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int pId;
 	@NotNull
 	String productName;
@@ -21,6 +24,9 @@ public class Product {
 	double productPrice;
 	@NotNull
 	private int quantity;
-	
-	
+
+	/*@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn
+	private Weaver weaver;*/
+
 }

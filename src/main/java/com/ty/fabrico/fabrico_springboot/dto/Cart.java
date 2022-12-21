@@ -21,8 +21,6 @@ public class Cart {
 	@NotNull
 	private String cartName;
 	@NotNull
-	private long phone;
-	@NotNull
 	private double totalcost;
 	
 	@OneToMany(cascade = CascadeType.ALL)
