@@ -68,7 +68,6 @@ public class CartService {
 
 		} else {
 			LOGGER.error("customer not found");
-			
 			throw new NoSuchIdFoundException("No Such Id Found For Customer");
 		}
 		return responseEntity = new ResponseEntity<ResponseStructure<Cart>>(responseStructure, HttpStatus.CREATED);
