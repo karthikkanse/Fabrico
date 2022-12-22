@@ -18,7 +18,7 @@ public class Weaver {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int weaverid;
+	private int weaverid;	
 	@NotNull
 	private String weavername;
 	@NotNull
