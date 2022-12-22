@@ -3,6 +3,7 @@ package com.ty.fabrico.fabrico_springboot.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,56 +20,59 @@ import com.ty.fabrico.fabrico_springboot.util.ResponseStructure;
 @Service
 public class CartService {
 
+	private static final Logger LOGGER = Logger.getLogger(CartService.class);
+
 	@Autowired
 	private CartDao cartDao;
-	
+
 	@Autowired
 	private CustomerDao customerDao;
 
 	public ResponseEntity<ResponseStructure<Cart>> saveCart(Cart cart, int customerid) {
 		ResponseEntity<ResponseStructure<Cart>> responseEntity;
 		ResponseStructure<Cart> responseStructure = new ResponseStructure<Cart>();
-		Optional<Customer> optional=customerDao.getCustomerById(customerid); 
+		Optional<Customer> optional = customerDao.getCustomerById(customerid);
 		Customer customer;
-		if(optional.isPresent()) {
-			customer= optional.get();
-		}else {
-			customer=null;
+		if (optional.isPresent()) {
+			customer = optional.get();
+		} else {
+			customer = null;
 		}
-		
-		if(customer!=null) {
-		customer.setCart(cart);
-		List<Product> product = cart.getProduct();
-		double totalcost = 0;
-		int quantity=0;
-		for (Product products2 : product) {
-			totalcost += (products2.getProductPrice() * products2.getQuantity());
-			quantity+=products2.getQuantity();
 
-			totalcost = totalcost + (products2.getProductPrice() * products2.getQuantity());
+		if (customer != null) {
+			customer.setCart(cart);
+			List<Product> product = cart.getProduct();
+			double totalcost = 0;
+			int quantity = 0;
+			for (Product products2 : product) {
+				totalcost += (products2.getProductPrice() * products2.getQuantity());
+				quantity += products2.getQuantity();
 
-		}
-		
-		if(quantity>=10 && quantity<20) {
-			totalcost =  totalcost-(totalcost * 0.10);
-		}else if(quantity>=20 && quantity<35) {
-			totalcost =  totalcost-(totalcost * 0.20);
-		}else if(quantity>=40) {
-			totalcost =  totalcost-(totalcost * 0.35);
-		}
-		
-		cart.setTotalcost(totalcost);
-		responseStructure.setStatus(HttpStatus.CREATED.value());
-		responseStructure.setMessage("saved");
-		responseStructure.setData(cartDao.saveCart(cart));
+				totalcost = totalcost + (products2.getProductPrice() * products2.getQuantity());
 
-		}else {
+			}
+
+			if (quantity >= 10 && quantity < 20) {
+				totalcost = totalcost - (totalcost * 0.10);
+			} else if (quantity >= 20 && quantity < 35) {
+				totalcost = totalcost - (totalcost * 0.20);
+			} else if (quantity >= 40) {
+				totalcost = totalcost - (totalcost * 0.35);
+			}
+
+			cart.setTotalcost(totalcost);
+			responseStructure.setStatus(HttpStatus.CREATED.value());
+			responseStructure.setMessage("saved");
+			responseStructure.setData(cartDao.saveCart(cart));
+			LOGGER.debug("cart saved");
+
+		} else {
+			LOGGER.error("customer not found");
 			throw new NoSuchIdFoundException("No Such Id Found For Customer");
 		}
-		return responseEntity=new ResponseEntity<ResponseStructure<Cart>>(responseStructure, HttpStatus.CREATED);
+		return responseEntity = new ResponseEntity<ResponseStructure<Cart>>(responseStructure, HttpStatus.CREATED);
 	}
 
-	
 	public ResponseEntity<ResponseStructure<Cart>> updateCart(Cart cart, int cartId) {
 		ResponseEntity<ResponseStructure<Cart>> responseEntity;
 		ResponseStructure<Cart> responseStructure = new ResponseStructure<Cart>();
@@ -77,31 +81,32 @@ public class CartService {
 			cart.setCartId(cartId);
 			List<Product> products = cart.getProduct();
 			double totalcost = 0;
-			int quantity=0;
+			int quantity = 0;
 			for (Product products2 : products) {
-				totalcost +=(products2.getProductPrice() * products2.getQuantity());
-				quantity+=products2.getQuantity();
+				totalcost += (products2.getProductPrice() * products2.getQuantity());
+				quantity += products2.getQuantity();
 
 				totalcost = totalcost + (products2.getProductPrice() * products2.getQuantity());
-				totalcost +=(products2.getProductPrice() * products2.getQuantity());
-				quantity+=products2.getQuantity();
+				totalcost += (products2.getProductPrice() * products2.getQuantity());
+				quantity += products2.getQuantity();
 			}
-			if(quantity>=10 && quantity<20) {
-				totalcost =  totalcost-(totalcost * 0.10);
-			}else if(quantity>=20 && quantity<35) {
-				totalcost =  totalcost-(totalcost * 0.20);
-			}else if(quantity>=40) {
-				totalcost =  totalcost-(totalcost * 0.35);
+			if (quantity >= 10 && quantity < 20) {
+				totalcost = totalcost - (totalcost * 0.10);
+			} else if (quantity >= 20 && quantity < 35) {
+				totalcost = totalcost - (totalcost * 0.20);
+			} else if (quantity >= 40) {
+				totalcost = totalcost - (totalcost * 0.35);
 			}
-			
+
 			cart.setTotalcost(totalcost);
 			responseStructure.setStatus(HttpStatus.OK.value());
 			responseStructure.setMessage("Updated");
 			responseStructure.setData(cartDao.updateCart(cart));
+			LOGGER.debug("Cart Updated");
 
 		} else {
-
-			throw new NoSuchIdFoundException();
+			LOGGER.error("Cart not found to update");
+			throw new NoSuchIdFoundException("No such id found to update");
 
 		}
 		return responseEntity = new ResponseEntity<ResponseStructure<Cart>>(responseStructure, HttpStatus.OK);
@@ -116,10 +121,11 @@ public class CartService {
 			responseStructure.setStatus(HttpStatus.OK.value());
 			responseStructure.setMessage("Found");
 			responseStructure.setData(optional.get());
+			LOGGER.debug("Cart found");
 			return responseEntity = new ResponseEntity<ResponseStructure<Cart>>(responseStructure, HttpStatus.OK);
 		} else {
-
-			throw new NoSuchIdFoundException();
+			LOGGER.error("Cart not found");
+			throw new NoSuchIdFoundException("No such id Found");
 
 		}
 
@@ -131,15 +137,18 @@ public class CartService {
 		Optional<Cart> optional = cartDao.getCartById(cartid);
 
 		if (optional.isPresent()) {
-			Customer customer= customerDao.getCustomerByCartId(cartid);
-            customer.setCart(null);
-            cartDao.deleteCart(optional.get());
+			Customer customer = customerDao.getCustomerByCartId(cartid);
+			customer.setCart(null);
+			cartDao.deleteCart(optional.get());
 			responseStructure.setStatus(HttpStatus.OK.value());
 			responseStructure.setMessage("Deleted");
 			responseStructure.setData(optional.get());
+			LOGGER.warn("Cart delete");
 			return responseEntity = new ResponseEntity<ResponseStructure<Cart>>(responseStructure, HttpStatus.OK);
+
 		} else {
-			throw new NoSuchIdFoundException();
+			LOGGER.error("Cart not found to delete");
+			throw new NoSuchIdFoundException("No such id found to delete");
 
 		}
 	}
