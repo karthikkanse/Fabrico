@@ -43,4 +43,15 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
 		responseStructure.setData(exception.getMessage());
 		return responseEntity = new ResponseEntity<ResponseStructure<String>>(responseStructure, HttpStatus.NOT_FOUND);
 	}
+	
+	@ExceptionHandler(UserNameAlreadyExists.class)
+	public ResponseEntity<ResponseStructure<String>> userNameAlreadyExistsExceptionHandler(UserNameAlreadyExists exception) {
+
+		ResponseStructure<String> responseStructure = new ResponseStructure<String>();
+		ResponseEntity<ResponseStructure<String>> responseEntity;
+		responseStructure.setStatus(HttpStatus.NOT_ACCEPTABLE.value());
+		responseStructure.setMessage("UserName or Email-id Already Exists Try With Diffrent UserName or Email-id");
+		responseStructure.setData(exception.getMessage());
+		return responseEntity = new ResponseEntity<ResponseStructure<String>>(responseStructure, HttpStatus.NOT_FOUND);
+	}
 }

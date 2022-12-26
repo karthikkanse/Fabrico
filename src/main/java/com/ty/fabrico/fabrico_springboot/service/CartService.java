@@ -1,5 +1,6 @@
 package com.ty.fabrico.fabrico_springboot.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,26 +42,27 @@ public class CartService {
 
 		if (customer != null) {
 			customer.setCart(cart);
-			List<Product> product = cart.getProduct();
-			double totalcost = 0;
-			int quantity = 0;
-			for (Product products2 : product) {
-				totalcost += (products2.getProductPrice() * products2.getQuantity());
-				quantity += products2.getQuantity();
-
-				totalcost = totalcost + (products2.getProductPrice() * products2.getQuantity());
-
-			}
-
-			if (quantity >= 10 && quantity < 20) {
-				totalcost = totalcost - (totalcost * 0.10);
-			} else if (quantity >= 20 && quantity < 35) {
-				totalcost = totalcost - (totalcost * 0.20);
-			} else if (quantity >= 40) {
-				totalcost = totalcost - (totalcost * 0.35);
-			}
-
-			cart.setTotalcost(totalcost);
+//			List<Product> product = new ArrayList<Product>();
+//			
+//			double totalcost = 0;
+//			int quantity = 0;
+//			for (Product products2 : product) {
+//				totalcost += (products2.getProductPrice() * products2.getQuantity());
+//				quantity += products2.getQuantity();
+//
+//				totalcost = totalcost + (products2.getProductPrice() * products2.getQuantity());
+//
+//			}
+//
+//			if (quantity >= 10 && quantity < 20) {
+//				totalcost = totalcost - (totalcost * 0.10);
+//			} else if (quantity >= 20 && quantity < 35) {
+//				totalcost = totalcost - (totalcost * 0.20);
+//			} else if (quantity >= 40) {
+//				totalcost = totalcost - (totalcost * 0.35);
+//			}
+//
+//			cart.setTotalcost(totalcost);
 			responseStructure.setStatus(HttpStatus.CREATED.value());
 			responseStructure.setMessage("saved");
 			responseStructure.setData(cartDao.saveCart(cart));
@@ -83,10 +85,6 @@ public class CartService {
 			double totalcost = 0;
 			int quantity = 0;
 			for (Product products2 : products) {
-				totalcost += (products2.getProductPrice() * products2.getQuantity());
-				quantity += products2.getQuantity();
-
-				totalcost = totalcost + (products2.getProductPrice() * products2.getQuantity());
 				totalcost += (products2.getProductPrice() * products2.getQuantity());
 				quantity += products2.getQuantity();
 			}
@@ -143,7 +141,7 @@ public class CartService {
 			responseStructure.setStatus(HttpStatus.OK.value());
 			responseStructure.setMessage("Deleted");
 			responseStructure.setData(optional.get());
-			LOGGER.warn("Cart delete");
+			LOGGER.warn("Cart deleted");
 			return responseEntity = new ResponseEntity<ResponseStructure<Cart>>(responseStructure, HttpStatus.OK);
 
 		} else {

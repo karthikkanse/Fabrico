@@ -28,5 +28,6 @@ public class Product {
 	/*@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn
 	private Weaver weaver;*/
+	
 
 }

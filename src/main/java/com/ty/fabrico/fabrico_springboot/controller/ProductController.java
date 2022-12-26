@@ -42,10 +42,9 @@ public class ProductController {
 	@ApiResponses(value= {@ApiResponse(code=201, message="Created"),
 			@ApiResponse(code=500, message="Internal Server Error"),
 			@ApiResponse(code=404, message="Not Found")})
-	@PatchMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}, produces= {
-		MediaType.APPLICATION_JSON_VALUE})
-	public ResponseEntity<ResponseStructure<Product>> saveProductForCustomer(@RequestBody Product product,@RequestParam int customerid){
-		return productService.saveProductForCustomer(product, customerid);
+	@PatchMapping
+	public ResponseEntity<ResponseStructure<Product>> saveProductForCustomer(@RequestParam int productid,@RequestParam int customerid){
+		return productService.saveProductForCustomer(productid, customerid);
 	}
 	
 	@ApiOperation(value="Save Product for Customer" , notes="It is used to Fetch the Product Details for Customer")

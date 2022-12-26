@@ -13,6 +13,7 @@ import com.ty.fabrico.fabrico_springboot.dto.Weaver;
 import com.ty.fabrico.fabrico_springboot.exception.NoSuchIdFoundException;
 import com.ty.fabrico.fabrico_springboot.exception.NoSuchUsernameFoundException;
 import com.ty.fabrico.fabrico_springboot.exception.PasswordIncorrectException;
+import com.ty.fabrico.fabrico_springboot.exception.UserNameAlreadyExists;
 import com.ty.fabrico.fabrico_springboot.util.ResponseStructure;
 
 @Service
@@ -25,6 +26,8 @@ public class WeaverService {
 
 	public ResponseEntity<ResponseStructure<Weaver>> saveWeaver(Weaver weaver) {
 		ResponseStructure<Weaver> responseStructure = new ResponseStructure<Weaver>();
+		Weaver weaver2=weaverDao.getWeaverByName(weaver.getUsername());
+		if(weaver2==null) {
 		responseStructure.setStatus(HttpStatus.CREATED.value());
 		responseStructure.setMessage("Saved");
 		responseStructure.setData(weaverDao.saveWeaver(weaver));
@@ -32,6 +35,10 @@ public class WeaverService {
 		ResponseEntity<ResponseStructure<Weaver>> responseEntity = new ResponseEntity<ResponseStructure<Weaver>>(
 				responseStructure, HttpStatus.CREATED);
 		return responseEntity;
+		}else {
+			LOGGER.error("Tried to signUp with existing user name");
+			throw new UserNameAlreadyExists("User Name Already Exists Sign In With Different Name");
+		}
 	}
 
 	public ResponseEntity<ResponseStructure<Weaver>> getWeaverById(int weaverid) {

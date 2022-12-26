@@ -1,5 +1,7 @@
 package com.ty.fabrico.fabrico_springboot.dto;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.UniqueElements;
+
 import lombok.Data;
 
 @Entity
@@ -17,12 +22,12 @@ public class Customer {
 	private int customerId;
 	@NotNull
 	private String customerName;
-	
 	@NotNull
 	@Convert(converter=AesEncryption.class)
 	private long phone;
 	@NotNull
 	@Convert(converter=AesEncryption.class)
+	@Column(unique = true)
 	private String email;
 	@NotNull
 	@Convert(converter=AesEncryption.class)
@@ -31,6 +36,6 @@ public class Customer {
 	private String address;
 	private String premium;
 
-	@OneToOne
-	Cart cart;
+	@OneToOne(cascade = CascadeType.REMOVE)
+	private Cart cart;
 }

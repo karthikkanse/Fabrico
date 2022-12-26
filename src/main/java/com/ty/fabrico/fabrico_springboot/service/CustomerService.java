@@ -13,6 +13,7 @@ import com.ty.fabrico.fabrico_springboot.dto.Customer;
 import com.ty.fabrico.fabrico_springboot.exception.NoSuchIdFoundException;
 import com.ty.fabrico.fabrico_springboot.exception.NoSuchUsernameFoundException;
 import com.ty.fabrico.fabrico_springboot.exception.PasswordIncorrectException;
+import com.ty.fabrico.fabrico_springboot.exception.UserNameAlreadyExists;
 import com.ty.fabrico.fabrico_springboot.util.ResponseStructure;
 
 
@@ -26,12 +27,18 @@ public class CustomerService {
 	
 	public ResponseEntity<ResponseStructure<Customer>> saveCustomer(Customer customer) {
 		ResponseStructure<Customer> responseStructure = new ResponseStructure<Customer>();
+		Customer customer2=customerDao.getCustomerByEmail(customer.getEmail());
 		ResponseEntity<ResponseStructure<Customer>> responseEntity;
+		if(customer2==null) {
 		responseStructure.setStatus(HttpStatus.CREATED.value());
 		responseStructure.setMessage("Saved");
 		responseStructure.setData(customerDao.saveCustomer(customer));
 		LOGGER.debug("Customer Saved");
 		return responseEntity = new ResponseEntity<ResponseStructure<Customer>>(responseStructure, HttpStatus.CREATED);
+		}else {
+			LOGGER.error("Tried to signUp with existing email-id");
+			throw new UserNameAlreadyExists("Email-id Already Exists Sign In With Different mail-id");
+		}
 	}
 
 	public ResponseEntity<ResponseStructure<Customer>> updateCustomer(Customer customer, int customerId) {
