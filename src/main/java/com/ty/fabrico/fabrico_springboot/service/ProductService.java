@@ -17,6 +17,7 @@ import com.ty.fabrico.fabrico_springboot.dto.Cart;
 import com.ty.fabrico.fabrico_springboot.dto.Customer;
 import com.ty.fabrico.fabrico_springboot.dto.Product;
 import com.ty.fabrico.fabrico_springboot.dto.Weaver;
+import com.ty.fabrico.fabrico_springboot.exception.CartNotFoundException;
 import com.ty.fabrico.fabrico_springboot.exception.NoSuchIdFoundException;
 import com.ty.fabrico.fabrico_springboot.util.ResponseStructure;
 
@@ -64,7 +65,7 @@ public class ProductService {
 		ResponseStructure<Product> responseStructure = new ResponseStructure<Product>();
 		ResponseEntity<ResponseStructure<Product>> responseEntity;
 		Optional<Customer> optional = customerDao.getCustomerById(customerid);
-		Optional<Product> optional2=productDao.getProductById(productid);
+		Optional<Product> optional2 = productDao.getProductById(productid);
 		Product product;
 		Customer customer;
 		if (optional.isPresent()) {
@@ -74,33 +75,38 @@ public class ProductService {
 			LOGGER.error("Customer not found to add products");
 			throw new NoSuchIdFoundException("No Such Id Found For Customer");
 		}
-		if(optional2.isPresent()) {
+		if (optional2.isPresent()) {
 			LOGGER.debug("Product found");
-			product=optional2.get();
-		}else {
+			product = optional2.get();
+		} else {
 			LOGGER.error("Product not found to add");
 			throw new NoSuchIdFoundException("No Such Id Found For Product");
 		}
 		if (customer != null) {
 			Cart cart = customer.getCart();
-			if(cart!=null) {
-			List<Product> products = cart.getProduct();
-			products.add(product);
-			responseStructure.setStatus(HttpStatus.CREATED.value());
-			responseStructure.setMessage("Product Saved To Cart");
-			responseStructure.setData(product);
-			cartService.updateCart(cart, cart.getCartId());
-//			customerDao.updateCustomer(customer);
-			LOGGER.debug("Products add to customer");
-			}else {
-				List<Product> products = new ArrayList<Product>();
-				products.add(product);
-				responseStructure.setStatus(HttpStatus.CREATED.value());
-				responseStructure.setMessage("Product Saved To Cart");
-				responseStructure.setData(product);
-				cartService.updateCart(cart, cart.getCartId());
-				customerDao.updateCustomer(customer);
-				LOGGER.debug("Products add to customer");
+			if (cart != null) {
+				if (cart.getProduct() != null) {
+					List<Product> products = cart.getProduct();
+					products.add(product);
+					responseStructure.setStatus(HttpStatus.CREATED.value());
+					responseStructure.setMessage("Product Saved To Cart");
+					responseStructure.setData(product);
+					cartService.updateCart(cart, cart.getCartId());
+					customerDao.updateCustomer(customer);
+					LOGGER.debug("Products add to customer");
+				} else {
+					List<Product> products = new ArrayList<Product>();
+					products.add(product);
+					responseStructure.setStatus(HttpStatus.CREATED.value());
+					responseStructure.setMessage("Product Saved To Cart");
+					responseStructure.setData(product);
+					cartService.updateCart(cart, cart.getCartId());
+					customerDao.updateCustomer(customer);
+					LOGGER.debug("Products add to customer");
+				}
+			} else {
+				LOGGER.error("Trying to insert products to null cart");
+				throw new CartNotFoundException();
 			}
 		}
 		return responseEntity = new ResponseEntity<ResponseStructure<Product>>(responseStructure, HttpStatus.CREATED);
