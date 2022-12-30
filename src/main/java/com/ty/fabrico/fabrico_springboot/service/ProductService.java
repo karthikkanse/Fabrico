@@ -54,7 +54,7 @@ public class ProductService {
 			products.add(product);
 			responseStructure.setStatus(HttpStatus.CREATED.value());
 			responseStructure.setMessage("Product Saved To Weaver");
-			responseStructure.setData(productDao.saveProduct(product));
+			responseStructure.setData(null);
 			weaverDao.updateWeaver(weaver);
 			LOGGER.debug("Products add to weaver");
 		}
