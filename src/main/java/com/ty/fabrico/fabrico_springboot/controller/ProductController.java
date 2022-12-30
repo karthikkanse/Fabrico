@@ -31,7 +31,7 @@ public class ProductController {
 	@ApiOperation(value="Save Product for Weaver" , notes="It is used to Save the Product Details for Weaver")
 	@ApiResponses(value= {@ApiResponse(code=201, message="Created"),
 			@ApiResponse(code=500, message="Internal Server Error"),
-			@ApiResponse(code=404, message="Not Found")})
+			@ApiResponse(code=404, message="Not Found"),@ApiResponse(code=200, message="ok")})
 	@PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}, produces= {
 		MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<ResponseStructure<Product>> saveProductForWeaver(@RequestBody Product product,@RequestParam int weaverid) {
@@ -41,8 +41,9 @@ public class ProductController {
 	@ApiOperation(value="Fetch Product for Customer" , notes="It is used to Save the Product Details for Customer")
 	@ApiResponses(value= {@ApiResponse(code=201, message="Created"),
 			@ApiResponse(code=500, message="Internal Server Error"),
-			@ApiResponse(code=404, message="Not Found")})
-	@PatchMapping
+			@ApiResponse(code=404, message="Not Found"),@ApiResponse(code=200, message="ok")})
+	@PatchMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}, produces= {
+			MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<ResponseStructure<Product>> saveProductForCustomer(@RequestParam int productid,@RequestParam int customerid){
 		return productService.saveProductForCustomer(productid, customerid);
 	}
@@ -50,8 +51,8 @@ public class ProductController {
 	@ApiOperation(value="Save Product for Customer" , notes="It is used to Fetch the Product Details for Customer")
 	@ApiResponses(value= {@ApiResponse(code=201, message="Created"),
 			@ApiResponse(code=500, message="Internal Server Error"),
-			@ApiResponse(code=404, message="Not Found")})
-	@GetMapping(produces= {MediaType.APPLICATION_JSON_VALUE})
+			@ApiResponse(code=404, message="Not Found"),@ApiResponse(code=200, message="ok")})
+	@GetMapping(consumes = {MediaType.APPLICATION_XML_VALUE}, produces= {MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<ResponseStructure<Product>> getProductById(@RequestParam int productid){
 		return productService.getProductById(productid);
 	}
@@ -59,7 +60,7 @@ public class ProductController {
 	@ApiOperation(value="Update Product for Customer" , notes="It is used to Update the Product Details for Customer")
 	@ApiResponses(value= {@ApiResponse(code=201, message="Created"),
 			@ApiResponse(code=500, message="Internal Server Error"),
-			@ApiResponse(code=404, message="Not Found")})
+			@ApiResponse(code=404, message="Not Found"),@ApiResponse(code=200, message="ok")})
 	@PutMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}, produces= {
 			MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<ResponseStructure<Product>> updateProductById(@RequestBody Product product, @RequestParam int productid){
@@ -69,8 +70,8 @@ public class ProductController {
 	@ApiOperation(value="Delete Product for Customer" , notes="It is used to Delete the Product Details for Customer")
 	@ApiResponses(value= {@ApiResponse(code=201, message="Created"),
 			@ApiResponse(code=500, message="Internal Server Error"),
-			@ApiResponse(code=404, message="Not Found")})
-	@DeleteMapping(produces= {MediaType.APPLICATION_JSON_VALUE})
+			@ApiResponse(code=404, message="Not Found"),@ApiResponse(code=200, message="ok")})
+	@DeleteMapping(consumes = { MediaType.APPLICATION_XML_VALUE}, produces= {MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<ResponseStructure<Product>> deleteProductById(@RequestParam int productid){
 		return productService.deleteProduct(productid);
 	}

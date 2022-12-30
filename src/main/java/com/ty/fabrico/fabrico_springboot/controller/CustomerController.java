@@ -29,7 +29,7 @@ public class CustomerController {
 	@ApiOperation(value="Save Customer" , notes="It is used to save the Customer")
 	@ApiResponses(value= {@ApiResponse(code=201, message="Created"),
 			@ApiResponse(code=500, message="Internal Server Error"),
-			@ApiResponse(code=404, message="Not Found")})
+			@ApiResponse(code=404, message="Not Found"),@ApiResponse(code=200, message="ok")})
 	@PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}, produces= {
 		MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<ResponseStructure<Customer>> saveCustomer(@RequestBody Customer customer) {
@@ -39,7 +39,7 @@ public class CustomerController {
 	@ApiOperation(value="Update Customer" , notes="It is used to update the Customer")
 	@ApiResponses(value= {@ApiResponse(code=201, message="Created"),
 			@ApiResponse(code=500, message="Internal Server Error"),
-			@ApiResponse(code=404, message="Not Found")})
+			@ApiResponse(code=404, message="Not Found"),@ApiResponse(code=200, message="ok")})
 	@PutMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}, produces= {
 		MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<ResponseStructure<Customer>> updateCustomer(@RequestBody Customer customer,@RequestParam int customerId) {
@@ -49,8 +49,8 @@ public class CustomerController {
 	@ApiOperation(value="Fetch Customer by Id" , notes="It is used to fetch the Customer by Id")
 	@ApiResponses(value= {@ApiResponse(code=201, message="Created"),
 			@ApiResponse(code=500, message="Internal Server Error"),
-			@ApiResponse(code=404, message="Not Found")})
-	@GetMapping(produces= {MediaType.APPLICATION_JSON_VALUE})
+			@ApiResponse(code=404, message="Not Found"),@ApiResponse(code=200, message="ok")})
+	@GetMapping(consumes = {MediaType.APPLICATION_XML_VALUE},produces= {MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<ResponseStructure<Customer>> getCustomerById(@RequestParam int customerId) {
 		return customerService.getCustomerById(customerId);
 	}
@@ -59,8 +59,8 @@ public class CustomerController {
 	@ApiOperation(value="Customer Login" , notes="It is used to Customer Login")
 	@ApiResponses(value= {@ApiResponse(code=201, message="Created"),
 			@ApiResponse(code=500, message="Internal Server Error"),
-			@ApiResponse(code=404, message="Not Found")})
-	@PatchMapping(produces= {MediaType.APPLICATION_JSON_VALUE})
+			@ApiResponse(code=404, message="Not Found"),@ApiResponse(code=200, message="ok")})
+	@PatchMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},produces= {MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<ResponseStructure<Customer>> customerLogin(@RequestBody Customer customer) {
 		return customerService.customerLogin(customer);
 
@@ -69,8 +69,8 @@ public class CustomerController {
 	@ApiOperation(value="Delete Customer" , notes="It is used to delete the Customer")
 	@ApiResponses(value= {@ApiResponse(code=201, message="Created"),
 			@ApiResponse(code=500, message="Internal Server Error"),
-			@ApiResponse(code=404, message="Not Found")})
-	@DeleteMapping(produces= {MediaType.APPLICATION_JSON_VALUE})
+			@ApiResponse(code=404, message="Not Found"),@ApiResponse(code=200, message="ok")})
+	@DeleteMapping(consumes = {MediaType.APPLICATION_XML_VALUE},produces= {MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<ResponseStructure<Customer>> deleteCustomer(@RequestParam int customerId) {
 		return customerService.deleteCustomer(customerId);
 	}

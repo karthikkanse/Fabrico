@@ -30,7 +30,7 @@ public class CartController {
 		@ApiOperation(value="Save Cart" , notes="It is used to Save the Cart details")
 		@ApiResponses(value= {@ApiResponse(code=201, message="Created"),
 				@ApiResponse(code=500, message="Internal Server Error"),
-				@ApiResponse(code=404, message="Not Found")})
+				@ApiResponse(code=404, message="Not Found"),@ApiResponse(code=200, message="ok")})
 		@PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}, produces= {
 			MediaType.APPLICATION_JSON_VALUE})
 		public ResponseEntity<ResponseStructure<Cart>> saveCart(@RequestBody Cart cart,@RequestParam int customerid) {
@@ -40,7 +40,8 @@ public class CartController {
 		@ApiOperation(value="Update Cart" , notes="It is used to Update the Cart details")
 		@ApiResponses(value= {@ApiResponse(code=201, message="Created"),
 				@ApiResponse(code=500, message="Internal Server Error"),
-				@ApiResponse(code=404, message="Not Found")})
+				@ApiResponse(code=404, message="Not Found"),@ApiResponse(code=500, message="Internal Server Error")
+		,@ApiResponse(code=200, message="ok")})
 		@PutMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}, produces= {
 			MediaType.APPLICATION_JSON_VALUE})
 		public ResponseEntity<ResponseStructure<Cart>> updateCart(@RequestBody Cart cart,@RequestParam  int cartid) {
@@ -50,8 +51,8 @@ public class CartController {
 		@ApiOperation(value="Fetch Cart" , notes="It is used to Fetch the Cart details")
 		@ApiResponses(value= {@ApiResponse(code=201, message="Created"),
 				@ApiResponse(code=500, message="Internal Server Error"),
-				@ApiResponse(code=404, message="Not Found")})
-		@GetMapping(produces= {MediaType.APPLICATION_JSON_VALUE})
+				@ApiResponse(code=404, message="Not Found"),@ApiResponse(code=200, message="ok")})
+		@GetMapping(consumes = {MediaType.APPLICATION_XML_VALUE},produces= {MediaType.APPLICATION_JSON_VALUE})
 		public ResponseEntity<ResponseStructure<Cart>> getCartById(@RequestParam int cartId) {
 			return cartService.getCartById(cartId);
 		}
@@ -59,8 +60,8 @@ public class CartController {
 		@ApiOperation(value="Delete Cart" , notes="It is used to Delete the Cart details")
 		@ApiResponses(value= {@ApiResponse(code=201, message="Created"),
 				@ApiResponse(code=500, message="Internal Server Error"),
-				@ApiResponse(code=404, message="Not Found")})
-		@DeleteMapping( produces= {MediaType.APPLICATION_JSON_VALUE})
+				@ApiResponse(code=404, message="Not Found"),@ApiResponse(code=200, message="ok")})
+		@DeleteMapping(consumes = {MediaType.APPLICATION_XML_VALUE}, produces= {MediaType.APPLICATION_JSON_VALUE})
 		public ResponseEntity<ResponseStructure<Cart>> deleteCart(@RequestParam int cartid) {
 			return cartService.deleteCart(cartid);
 		}
