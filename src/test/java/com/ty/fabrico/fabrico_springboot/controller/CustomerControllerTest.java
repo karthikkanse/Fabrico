@@ -1,9 +1,11 @@
-package com.ty.fabrico.fabrico_springboot;
+package com.ty.fabrico.fabrico_springboot.controller;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -11,14 +13,17 @@ import com.ty.fabrico.fabrico_springboot.dto.Customer;
 import com.ty.fabrico.fabrico_springboot.repository.CustomerRepository;
 
 @SpringBootTest
-class FabricoSpringbootApplicationTests {
+@TestMethodOrder(OrderAnnotation.class)
+class CustomerControllerTest {
 
 	@Autowired
 	CustomerRepository customerRepository;
-	
+
 	@Test
-	public void testSave() {
-		Customer customer=new Customer();
+	@Order(1)
+	void testSaveCustomer() {
+		Customer customer = new Customer();
+		customer.setCustomerId(1);
 		customer.setCustomerName("Umesh");
 		customer.setPhone(8296);
 		customer.setEmail("umesh@gmail.com");
@@ -26,15 +31,12 @@ class FabricoSpringbootApplicationTests {
 		customer.setAddress("Bangalore");
 		customerRepository.save(customer);
 		assertNotNull(customerRepository.findById(customer.getCustomerId()).get());
+
 	}
-	
+
 	@Test
-	public void testGetCustomer()	{
-		customerRepository.findById(1).get();
-	}
-	
-	@Test
-	public void testUpdateCustomer()	{
+	@Order(2)
+	void testUpdateCustomer() {
 		Customer customer=customerRepository.findById(1).get();
 		customer.setCustomerName("Mahesh");
 		customer.setPhone(7896);
@@ -44,20 +46,26 @@ class FabricoSpringbootApplicationTests {
 		customerRepository.save(customer);
 		assertNotNull(customerRepository.findById(customer.getCustomerId()).get());
 	}
-	
+
 	@Test
-	public void testDeleteCustomer()	{
-		Customer customer=customerRepository.findById(12).get();
-		customerRepository.deleteById(customer.getCustomerId());
-		assertEquals(12,customer.getCustomerId());
+	@Order(3)
+	void testGetCustomerById() {
+		customerRepository.findById(1).get();
 	}
-	
+
 	@Test
-	public void testLoginCustomer()	{
-		String email="umesh@gmail.com";
-		String password="123";
+	@Order(4)
+	void testCustomerLogin() {
+		String email="mahesh@gmail.com";
+		String password="456";
 		Customer customer=customerRepository.getCustomerByEmail(email);
 		assertEquals(password, customer.getPassword());
 	}
 
+	@Test
+	@Order(5)
+	void testDeleteCustomer() {
+		Customer customer=customerRepository.findById(1).get();
+		customerRepository.deleteById(customer.getCustomerId());
+}
 }
