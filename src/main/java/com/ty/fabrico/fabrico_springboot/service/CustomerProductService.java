@@ -11,22 +11,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.ty.fabrico.fabrico_springboot.dao.CustomerDao;
-import com.ty.fabrico.fabrico_springboot.dao.ProductDao;
+import com.ty.fabrico.fabrico_springboot.dao.CustomerProductDao;
 import com.ty.fabrico.fabrico_springboot.dao.WeaverDao;
 import com.ty.fabrico.fabrico_springboot.dto.Cart;
 import com.ty.fabrico.fabrico_springboot.dto.Customer;
-import com.ty.fabrico.fabrico_springboot.dto.Product;
-import com.ty.fabrico.fabrico_springboot.dto.Weaver;
+import com.ty.fabrico.fabrico_springboot.dto.CustomerProduct;
 import com.ty.fabrico.fabrico_springboot.exception.CartNotFoundException;
 import com.ty.fabrico.fabrico_springboot.exception.NoSuchIdFoundException;
 import com.ty.fabrico.fabrico_springboot.util.ResponseStructure;
 
 @Service
-public class ProductService {
+public class CustomerProductService {
 
-	public static final Logger LOGGER = Logger.getLogger(ProductService.class);
+	public static final Logger LOGGER = Logger.getLogger(CustomerProductService.class);
 	@Autowired
-	ProductDao productDao;
+	CustomerProductDao productDao;
 
 	@Autowired
 	WeaverDao weaverDao;
@@ -36,37 +35,13 @@ public class ProductService {
 
 	@Autowired
 	CartService cartService;
-
-	public ResponseEntity<ResponseStructure<Product>> saveProductForWeaver(Product product, int weaverid) {
-		ResponseStructure<Product> responseStructure = new ResponseStructure<Product>();
-		ResponseEntity<ResponseStructure<Product>> responseEntity;
-		Optional<Weaver> optional = weaverDao.getWeaverById(weaverid);
-		Weaver weaver;
-		if (optional.isPresent()) {
-			LOGGER.debug("Weaver found");
-			weaver = optional.get();
-		} else {
-			LOGGER.error("Weaver not found to add products");
-			throw new NoSuchIdFoundException("No Such Id Found For Weaver");
-		}
-		if (weaver != null) {
-			List<Product> products = weaver.getProduct();
-			products.add(product);
-			responseStructure.setStatus(HttpStatus.CREATED.value());
-			responseStructure.setMessage("Product Saved To Weaver");
-			responseStructure.setData(null);
-			weaverDao.updateWeaver(weaver);
-			LOGGER.debug("Products add to weaver");
-		}
-		return responseEntity = new ResponseEntity<ResponseStructure<Product>>(responseStructure, HttpStatus.CREATED);
-	}
-
-	public ResponseEntity<ResponseStructure<Product>> saveProductForCustomer(int productid, int customerid) {
-		ResponseStructure<Product> responseStructure = new ResponseStructure<Product>();
-		ResponseEntity<ResponseStructure<Product>> responseEntity;
+	
+	public ResponseEntity<ResponseStructure<CustomerProduct>> saveProductForCustomer(int productid, int customerid) {
+		ResponseStructure<CustomerProduct> responseStructure = new ResponseStructure<CustomerProduct>();
+		ResponseEntity<ResponseStructure<CustomerProduct>> responseEntity;
 		Optional<Customer> optional = customerDao.getCustomerById(customerid);
-		Optional<Product> optional2 = productDao.getProductById(productid);
-		Product product;
+		Optional<CustomerProduct> optional2 = productDao.getProductById(productid);
+		CustomerProduct product;
 		Customer customer;
 		if (optional.isPresent()) {
 			LOGGER.debug("Customer found");
@@ -85,8 +60,8 @@ public class ProductService {
 		if (customer != null) {
 			Cart cart = customer.getCart();
 			if (cart != null) {
-				if (cart.getProduct() != null) {
-					List<Product> products = cart.getProduct();
+				if (cart.getCustomerProduct() != null) {
+					List<CustomerProduct> products = cart.getCustomerProduct();
 					products.add(product);
 					responseStructure.setStatus(HttpStatus.CREATED.value());
 					responseStructure.setMessage("Product Saved To Cart");
@@ -95,7 +70,7 @@ public class ProductService {
 					customerDao.updateCustomer(customer);
 					LOGGER.debug("Products add to customer");
 				} else {
-					List<Product> products = new ArrayList<Product>();
+					List<CustomerProduct> products = new ArrayList<CustomerProduct>();
 					products.add(product);
 					responseStructure.setStatus(HttpStatus.CREATED.value());
 					responseStructure.setMessage("Product Saved To Cart");
@@ -109,59 +84,59 @@ public class ProductService {
 				throw new CartNotFoundException();
 			}
 		}
-		return responseEntity = new ResponseEntity<ResponseStructure<Product>>(responseStructure, HttpStatus.CREATED);
+		return responseEntity = new ResponseEntity<ResponseStructure<CustomerProduct>>(responseStructure, HttpStatus.CREATED);
 	}
-
-	public ResponseEntity<ResponseStructure<Product>> getProductById(int productid) {
-		ResponseStructure<Product> responseStructure = new ResponseStructure<Product>();
-		ResponseEntity<ResponseStructure<Product>> responseEntity;
-		Optional<Product> optional = productDao.getProductById(productid);
+	
+	public ResponseEntity<ResponseStructure<CustomerProduct>> getCustomerProductById(int productid) {
+		ResponseStructure<CustomerProduct> responseStructure = new ResponseStructure<CustomerProduct>();
+		ResponseEntity<ResponseStructure<CustomerProduct>> responseEntity;
+		Optional<CustomerProduct> optional = productDao.getProductById(productid);
 		if (optional.isPresent()) {
 			responseStructure.setStatus(HttpStatus.OK.value());
 			responseStructure.setMessage("Product Found");
 			responseStructure.setData(optional.get());
 			LOGGER.debug("Products found");
-			return responseEntity = new ResponseEntity<ResponseStructure<Product>>(responseStructure, HttpStatus.OK);
+			return responseEntity = new ResponseEntity<ResponseStructure<CustomerProduct>>(responseStructure, HttpStatus.OK);
 		} else {
 			LOGGER.error("Product not found");
 			throw new NoSuchIdFoundException("Product Id Not Found");
 		}
 	}
 
-	public ResponseEntity<ResponseStructure<Product>> deleteProduct(int productid) {
-		ResponseStructure<Product> responseStructure = new ResponseStructure<Product>();
-		ResponseEntity<ResponseStructure<Product>> responseEntity;
-		Optional<Product> optional = productDao.getProductById(productid);
+	public ResponseEntity<ResponseStructure<CustomerProduct>> deleteCustomerProduct(int productid) {
+		ResponseStructure<CustomerProduct> responseStructure = new ResponseStructure<CustomerProduct>();
+		ResponseEntity<ResponseStructure<CustomerProduct>> responseEntity;
+		Optional<CustomerProduct> optional = productDao.getProductById(productid);
 		if (optional.isPresent()) {
 			productDao.deleteProduct(optional.get());
 			responseStructure.setStatus(HttpStatus.OK.value());
 			responseStructure.setMessage("Deleted");
 			responseStructure.setData(optional.get());
 			LOGGER.warn("Product deleted");
-			return responseEntity = new ResponseEntity<ResponseStructure<Product>>(responseStructure, HttpStatus.OK);
+			return responseEntity = new ResponseEntity<ResponseStructure<CustomerProduct>>(responseStructure, HttpStatus.OK);
 		} else {
 			LOGGER.error("Product not found to delete");
 			throw new NoSuchIdFoundException("No Such Id Found Unable To Delete");
 		}
 	}
 
-	public ResponseEntity<ResponseStructure<Product>> updateProduct(Product product, int productid) {
-		Optional<Product> optional = productDao.getProductById(productid);
-		Product product2;
-		ResponseStructure<Product> responseStructure = new ResponseStructure<Product>();
-		ResponseEntity<ResponseStructure<Product>> responseEntity;
+	public ResponseEntity<ResponseStructure<CustomerProduct>> updateCustomerProduct(CustomerProduct product, int productid) {
+		Optional<CustomerProduct> optional = productDao.getProductById(productid);
+		CustomerProduct product2;
+		ResponseStructure<CustomerProduct> responseStructure = new ResponseStructure<CustomerProduct>();
+		ResponseEntity<ResponseStructure<CustomerProduct>> responseEntity;
 		if (optional.isPresent()) {
 			product2 = optional.get();
 		} else {
 			product2 = null;
 		}
 		if (product2 != null) {
-			product.setPId(productid);
+			product.setCpId(productid);
 			responseStructure.setStatus(HttpStatus.OK.value());
 			responseStructure.setMessage("Updated");
 			responseStructure.setData(productDao.updateProduct(product));
 			LOGGER.debug("Product updated");
-			return responseEntity = new ResponseEntity<ResponseStructure<Product>>(responseStructure, HttpStatus.OK);
+			return responseEntity = new ResponseEntity<ResponseStructure<CustomerProduct>>(responseStructure, HttpStatus.OK);
 		} else {
 			LOGGER.error("Product not found to update");
 			throw new NoSuchIdFoundException("No Such Id Found Unable To Update");

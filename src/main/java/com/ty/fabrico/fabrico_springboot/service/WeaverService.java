@@ -63,12 +63,14 @@ public class WeaverService {
 		ResponseEntity<ResponseStructure<Weaver>> responseEntity = new ResponseEntity<ResponseStructure<Weaver>>(
 				responseStructure, HttpStatus.OK);
 		Optional<Weaver> optional = weaverDao.getWeaverById(weaverid);
+		Weaver weaver2;
 		if (optional.isPresent()) {
+			weaver2=optional.get();
 			weaver.setWeaverid(weaverid);
 			responseStructure.setStatus(HttpStatus.OK.value());
 			responseStructure.setMessage("Updated");
 			responseStructure.setData(weaverDao.updateWeaver(weaver));
-			LOGGER.debug("Weaver Updated");
+			LOGGER.debug("Weaver Updated"); 
 			return responseEntity;
 		} else {
 			LOGGER.error("Weaver not found to update");

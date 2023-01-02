@@ -5,37 +5,37 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import com.ty.fabrico.fabrico_springboot.dto.Product;
-import com.ty.fabrico.fabrico_springboot.repository.ProductRepository;
+import com.ty.fabrico.fabrico_springboot.dto.WeaverProduct;
+import com.ty.fabrico.fabrico_springboot.repository.WeaverProductRepository;
 
 @Repository
-public class ProductDao {
+public class WeaverProductDao {
 
 	@Autowired
-	ProductRepository productRepository;
+	WeaverProductRepository productRepository;
 	
-	public Product saveProduct(Product product)
+	public WeaverProduct saveProduct(WeaverProduct product)
 	{
 		return productRepository.save(product);
 	}
 	
-	public Optional<Product> getProductById(int productId)
+	public Optional<WeaverProduct> getProductById(int productId)
 	{
 		return productRepository.findById(productId);
 	}
 	
-	public Product updateProduct(Product product)
+	public WeaverProduct updateProduct(WeaverProduct product)
 	{
 		return productRepository.save(product);
 	}
 	
-	public void deleteProduct(Product product)
+	public void deleteProduct(WeaverProduct product)
 	{
 		
 		 productRepository.delete(product);
 	}
 	
-	public List<Product> getAllProduct(){
+	public List<WeaverProduct> getAllProduct(){
 		return productRepository.findAll();
 	}
 }

@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.UniqueElements;
@@ -25,7 +26,7 @@ public class Customer {
 	@NotNull
 	@Convert(converter=AesEncryption.class)
 	private long phone;
-	@NotNull
+	@Email(message = "Please enter valid mail-id")
 	@Convert(converter=AesEncryption.class)
 	@Column(unique = true)
 	private String email;
