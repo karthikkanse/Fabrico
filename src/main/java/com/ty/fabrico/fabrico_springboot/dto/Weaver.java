@@ -33,11 +33,11 @@ public class Weaver {
 	@NotNull
 	@Convert(converter=AesEncryption.class)
 	private long phone;
-	@NotNull
+	@NotNull(message = "Enter the address")
 	@Convert(converter=AesEncryption.class)
 	private String address;
 	
-	@OneToMany(cascade = CascadeType.ALL/*,mappedBy = "weaver"*/)
-	List<Product> product;
+	@OneToMany(cascade = CascadeType.ALL)
+	List<WeaverProduct> weaverProduct;
 	
 }

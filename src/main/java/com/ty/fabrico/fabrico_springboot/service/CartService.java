@@ -14,7 +14,7 @@ import com.ty.fabrico.fabrico_springboot.dao.CartDao;
 import com.ty.fabrico.fabrico_springboot.dao.CustomerDao;
 import com.ty.fabrico.fabrico_springboot.dto.Cart;
 import com.ty.fabrico.fabrico_springboot.dto.Customer;
-import com.ty.fabrico.fabrico_springboot.dto.Product;
+import com.ty.fabrico.fabrico_springboot.dto.CustomerProduct;
 import com.ty.fabrico.fabrico_springboot.exception.NoSuchIdFoundException;
 import com.ty.fabrico.fabrico_springboot.util.ResponseStructure;
 
@@ -81,10 +81,10 @@ public class CartService {
 		Optional<Cart> optional = cartDao.getCartById(cartId);
 		if (optional.isPresent()) {
 			cart.setCartId(cartId);
-			List<Product> products = cart.getProduct();
+			List<CustomerProduct> products = cart.getCustomerProduct();
 			double totalcost = 0;
 			int quantity = 0;
-			for (Product products2 : products) {
+			for (CustomerProduct products2 : products) {
 				totalcost += (products2.getProductPrice() * products2.getQuantity());
 				quantity += products2.getQuantity();
 			}

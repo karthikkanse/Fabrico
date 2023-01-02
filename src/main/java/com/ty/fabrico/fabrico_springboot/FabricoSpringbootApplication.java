@@ -8,5 +8,4 @@ public class FabricoSpringbootApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(FabricoSpringbootApplication.class, args);
 	}
-	
 }

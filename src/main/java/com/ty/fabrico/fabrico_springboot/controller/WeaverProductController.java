@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ty.fabrico.fabrico_springboot.dto.Weaver;
-import com.ty.fabrico.fabrico_springboot.service.WeaverService;
+import com.ty.fabrico.fabrico_springboot.dto.WeaverProduct;
+import com.ty.fabrico.fabrico_springboot.service.WeaverProductService;
 import com.ty.fabrico.fabrico_springboot.util.ResponseStructure;
 
 import io.swagger.annotations.ApiOperation;
@@ -22,64 +23,50 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping("weaver")
-public class WeaverController {
+@RequestMapping("weaverProduct")
+public class WeaverProductController {
 
 	@Autowired
-	WeaverService weaverService;
+	WeaverProductService productService;
 
-	@ApiOperation(value = "Save Weaver", notes = "It is used to save the Weaver Details")
+	@ApiOperation(value = "Save Product for Weaver", notes = "It is used to Save the Product Details for Weaver")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Created"),
 			@ApiResponse(code = 500, message = "Internal Server Error"),
 			@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 200, message = "ok") })
 	@PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, produces = {
 			MediaType.APPLICATION_JSON_VALUE })
-
-	public ResponseEntity<ResponseStructure<Weaver>> saveWeaver(@RequestBody Weaver weaver) {
-		return weaverService.saveWeaver(weaver);
+	public ResponseEntity<ResponseStructure<Weaver>> saveProductForWeaver(@RequestBody WeaverProduct product,
+			@RequestParam int weaverid) {
+		return productService.saveProductForWeaver(product, weaverid);
 	}
 
-	@ApiOperation(value = "Fetch Weaver By Id", notes = "It is used to fetch the Weaver Details by Id")
+	@ApiOperation(value = "Fetch Product for Customer", notes = "It is used to Fetch the Product Details for Customer")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Created"),
 			@ApiResponse(code = 500, message = "Internal Server Error"),
 			@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 200, message = "ok") })
-	@GetMapping( produces = { MediaType.APPLICATION_JSON_VALUE })
-
-	public ResponseEntity<ResponseStructure<Weaver>> getWeaverById(@RequestParam int weaverid) {
-		return weaverService.getWeaverById(weaverid);
+	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<ResponseStructure<WeaverProduct>> getProductById(@RequestParam int productid) {
+		return productService.getWeaverProductById(productid);
 	}
 
-	@ApiOperation(value = "Delete Weaver", notes = "It is used to delete the Weaver Details by Id")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Created"),
-			@ApiResponse(code = 500, message = "Internal Server Error"),
-			@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 200, message = "ok") })
-	@DeleteMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
-
-	public ResponseEntity<ResponseStructure<Weaver>> deleteWeaver(@RequestParam int weaverid) {
-		return weaverService.deleteWeaver(weaverid);
-	}
-
-	@ApiOperation(value = "Update Weaver", notes = "It is used to update the Weaver details")
+	@ApiOperation(value = "Update Product for Customer", notes = "It is used to Update the Product Details for Customer")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Created"),
 			@ApiResponse(code = 500, message = "Internal Server Error"),
 			@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 200, message = "ok") })
 	@PutMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, produces = {
 			MediaType.APPLICATION_JSON_VALUE })
-
-	public ResponseEntity<ResponseStructure<Weaver>> updateWeaver(@RequestBody Weaver weaver,
-			@RequestParam int weaverid) {
-		return weaverService.updateWeaver(weaver, weaverid);
+	public ResponseEntity<ResponseStructure<WeaverProduct>> updateProductById(@RequestBody WeaverProduct product,
+			@RequestParam int productid) {
+		return productService.updateWeaverProduct(product, productid);
 	}
 
-	@ApiOperation(value = "Login for Weaver", notes = "It is used to perform login for Weaver")
+	@ApiOperation(value = "Delete Product for Customer", notes = "It is used to Delete the Product Details for Customer")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Created"),
 			@ApiResponse(code = 500, message = "Internal Server Error"),
 			@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 200, message = "ok") })
-	@PatchMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, produces = {
-			MediaType.APPLICATION_JSON_VALUE })
-
-	public ResponseEntity<ResponseStructure<Weaver>> weaverLogin(@RequestBody Weaver weaver) {
-		return weaverService.weaverLogin(weaver);
+	@DeleteMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<ResponseStructure<WeaverProduct>> deleteProductById(@RequestParam int productid) {
+		return productService.deleteWeaverProduct(productid);
 	}
 
 }
