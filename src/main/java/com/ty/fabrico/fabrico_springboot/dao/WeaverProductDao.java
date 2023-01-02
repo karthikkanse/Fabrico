@@ -31,8 +31,8 @@ public class WeaverProductDao {
 	
 	public void deleteProduct(WeaverProduct product)
 	{
-		
 		 productRepository.delete(product);
+		 System.out.println("done");
 	}
 	
 	public List<WeaverProduct> getAllProduct(){
