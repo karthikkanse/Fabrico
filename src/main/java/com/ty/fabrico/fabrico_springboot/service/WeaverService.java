@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.ty.fabrico.fabrico_springboot.controller.WeaverProductController;
 import com.ty.fabrico.fabrico_springboot.dao.WeaverDao;
 import com.ty.fabrico.fabrico_springboot.dao.WeaverProductDao;
 import com.ty.fabrico.fabrico_springboot.dto.Weaver;
@@ -33,13 +34,7 @@ public class WeaverService {
 	private WeaverDao weaverDao;
 
 	@Autowired
-	private WeaverProductService productService;
-	
-	@Autowired
-	private WeaverProductDao productDao;
-	
-	@Autowired
-	private WeaverProductRepository  productRepository;
+	private WeaverProductController controller;
 
 	public ResponseEntity<ResponseStructure<Weaver>> saveWeaver(Weaver weaver) {
 		ResponseStructure<Weaver> responseStructure = new ResponseStructure<Weaver>();
@@ -80,16 +75,18 @@ public class WeaverService {
 		ResponseEntity<ResponseStructure<Weaver>> responseEntity = new ResponseEntity<ResponseStructure<Weaver>>(
 				responseStructure, HttpStatus.OK);
 		Optional<Weaver> optional = weaverDao.getWeaverById(weaverid);
-		Weaver weaver2;
 		if (optional.isPresent()) {
-			weaver2 = optional.get();
-			List<WeaverProduct> list = weaver2.getWeaverProduct();
+			List<WeaverProduct> list = optional.get().getWeaverProduct();
+			List<WeaverProduct> list2 = null;
+			optional.get().setWeaverProduct(list2);
+//			optional.get().setWeaverProduct(weaver.getWeaverProduct());
 			weaver.setWeaverid(weaverid);
 			responseStructure.setStatus(HttpStatus.OK.value());
 			responseStructure.setMessage("Updated");
 			responseStructure.setData(weaverDao.updateWeaver(weaver));
 			for (WeaverProduct weaverProduct : list) {
-			productService.deleteWeaverProduct(weaverProduct.getWpId());	
+				System.out.println(weaverProduct.getWpId());
+				controller.deleteProductById(weaverProduct.getWpId());
 			}
 			LOGGER.debug("Weaver Updated");
 			return responseEntity;
