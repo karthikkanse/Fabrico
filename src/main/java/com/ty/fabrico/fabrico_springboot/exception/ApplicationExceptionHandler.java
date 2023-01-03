@@ -77,17 +77,6 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
 		responseStructure.setData(exception.getMessage());
 		return responseEntity = new ResponseEntity<ResponseStructure<String>>(responseStructure, HttpStatus.NOT_FOUND);
 	}
-	@ExceptionHandler( ConstraintViolationException.class)
-	public ResponseEntity<ResponseStructure<String>>ConstraintViolationExceptionHandler(ConstraintViolationException exception){
-		ResponseStructure<String>responseStructure=new ResponseStructure<String>();
-		ResponseEntity<ResponseStructure<String>>responseEntity;
-		responseStructure.setStatus(HttpStatus.NOT_FOUND.value());
-		responseStructure.setMessage("Enter proper fields");
-		responseStructure.setData(exception.getMessage());
-		return responseEntity= new ResponseEntity<ResponseStructure<String>>(responseStructure,HttpStatus.NOT_FOUND);
-		
-		
-	}
 	
 	@Override
 	protected ResponseEntity<Object>handleMethodArgumentNotValid(MethodArgumentNotValidException exception,

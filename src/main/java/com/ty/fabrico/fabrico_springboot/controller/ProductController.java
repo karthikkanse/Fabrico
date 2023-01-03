@@ -1,5 +1,7 @@
 package com.ty.fabrico.fabrico_springboot.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +36,7 @@ public class ProductController {
 			@ApiResponse(code=404, message="Not Found")})
 	@PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}, produces= {
 		MediaType.APPLICATION_JSON_VALUE})
-	public ResponseEntity<ResponseStructure<Product>> saveProductForWeaver(@RequestBody Product product,@RequestParam int weaverid) {
+	public ResponseEntity<ResponseStructure<Product>> saveProductForWeaver(@Valid @RequestBody Product product,@RequestParam int weaverid) {
 		return  productService.saveProductForWeaver(product, weaverid);
 	}
 	
@@ -43,7 +45,7 @@ public class ProductController {
 			@ApiResponse(code=500, message="Internal Server Error"),
 			@ApiResponse(code=404, message="Not Found")})
 	@PatchMapping
-	public ResponseEntity<ResponseStructure<Product>> saveProductForCustomer(@RequestParam int productid,@RequestParam int customerid){
+	public ResponseEntity<ResponseStructure<Product>> saveProductForCustomer(@Valid @RequestParam int productid,@RequestParam int customerid){
 		return productService.saveProductForCustomer(productid, customerid);
 	}
 	
@@ -52,7 +54,7 @@ public class ProductController {
 			@ApiResponse(code=500, message="Internal Server Error"),
 			@ApiResponse(code=404, message="Not Found")})
 	@GetMapping(produces= {MediaType.APPLICATION_JSON_VALUE})
-	public ResponseEntity<ResponseStructure<Product>> getProductById(@RequestParam int productid){
+	public ResponseEntity<ResponseStructure<Product>> getProductById(@Valid @RequestParam int productid){
 		return productService.getProductById(productid);
 	}
 	
@@ -62,7 +64,7 @@ public class ProductController {
 			@ApiResponse(code=404, message="Not Found")})
 	@PutMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}, produces= {
 			MediaType.APPLICATION_JSON_VALUE})
-	public ResponseEntity<ResponseStructure<Product>> updateProductById(@RequestBody Product product, @RequestParam int productid){
+	public ResponseEntity<ResponseStructure<Product>> updateProductById(@Valid @RequestBody Product product, @RequestParam int productid){
 		return productService.updateProduct(product, productid);
 	}
 	
@@ -71,7 +73,7 @@ public class ProductController {
 			@ApiResponse(code=500, message="Internal Server Error"),
 			@ApiResponse(code=404, message="Not Found")})
 	@DeleteMapping(produces= {MediaType.APPLICATION_JSON_VALUE})
-	public ResponseEntity<ResponseStructure<Product>> deleteProductById(@RequestParam int productid){
+	public ResponseEntity<ResponseStructure<Product>> deleteProductById(@Valid @RequestParam int productid){
 		return productService.deleteProduct(productid);
 	}
 

@@ -21,9 +21,9 @@ public class Cart {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int cartId;
-	@NotNull
+	@NotNull(message="Fill The CartName..It Should Not Be Empty")
 	private String cartName;
-	@NotNull
+	@NotNull(message="Fill The Totalcost...It Should Not Be Empty")
 	private double totalcost;
 	
 	@OneToMany(cascade = CascadeType.DETACH)

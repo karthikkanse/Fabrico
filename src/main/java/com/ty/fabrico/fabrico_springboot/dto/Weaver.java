@@ -22,18 +22,18 @@ public class Weaver {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int weaverid;	
-	@NotNull
+	@NotNull(message="Please enter Your Name..It should not be null")
 	private String weavername;
-	@NotNull
+	@NotNull(message="Please enter Your UserName..It should not be null")
 	@Column(unique = true)
 	private String username;
-	@NotNull
+	@NotNull(message="Please enter Your Password..It should not be null")
 	@Convert(converter=AesEncryption.class)
 	private String password;
-	@NotNull
+	@NotNull(message="Please enter Your Phoneno..It should not be null")
 	@Convert(converter=AesEncryption.class)
 	private long phone;
-	@NotNull
+	@NotNull(message="Please enter Your Address..It should not be null")
 	@Convert(converter=AesEncryption.class)
 	private String address;
 	

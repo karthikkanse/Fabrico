@@ -1,5 +1,7 @@
 package com.ty.fabrico.fabrico_springboot.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +36,7 @@ public class CartController {
 		@PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, 
 				                 MediaType.APPLICATION_XML_VALUE}, produces= {
 			                     MediaType.APPLICATION_JSON_VALUE})
-		public ResponseEntity<ResponseStructure<Cart>> saveCart(@RequestBody Cart cart,@RequestParam int customerid) {
+		public ResponseEntity<ResponseStructure<Cart>> saveCart(@Valid @RequestBody Cart cart,@RequestParam int customerid) {
 			return cartService.saveCart(cart,customerid);
 		}
 		
@@ -45,7 +47,7 @@ public class CartController {
 		@PutMapping(consumes = {MediaType.APPLICATION_JSON_VALUE,
 				                MediaType.APPLICATION_XML_VALUE}, produces= {
 			                    MediaType.APPLICATION_JSON_VALUE})
-		public ResponseEntity<ResponseStructure<Cart>> updateCart(@RequestBody Cart cart,@RequestParam  int cartid) {
+		public ResponseEntity<ResponseStructure<Cart>> updateCart(@Valid @RequestBody Cart cart,@RequestParam  int cartid) {
 			return cartService.updateCart(cart,cartid);
 		}
 		
@@ -55,7 +57,7 @@ public class CartController {
 				              @ApiResponse(code=404, message="Not Found")})
 		@GetMapping(produces= {MediaType.APPLICATION_JSON_VALUE})
 		
-		public ResponseEntity<ResponseStructure<Cart>> getCartById(@RequestParam int cartId) {
+		public ResponseEntity<ResponseStructure<Cart>> getCartById(@Valid @RequestParam int cartId) {
 			return cartService.getCartById(cartId);
 		}
 		
@@ -65,7 +67,7 @@ public class CartController {
 				              @ApiResponse(code=404, message="Not Found")})
 		@DeleteMapping( produces= {MediaType.APPLICATION_JSON_VALUE})
 		
-		public ResponseEntity<ResponseStructure<Cart>> deleteCart(@RequestParam int cartid) {
+		public ResponseEntity<ResponseStructure<Cart>> deleteCart(@Valid @RequestParam int cartid) {
 			return cartService.deleteCart(cartid);
 		}
 	}

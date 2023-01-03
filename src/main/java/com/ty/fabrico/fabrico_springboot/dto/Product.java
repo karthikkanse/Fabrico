@@ -18,11 +18,11 @@ public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int pId;
-	@NotNull
+	@NotNull(message="Please enter Your Productname..It should not be null")
 	String productName;
-	@NotNull
+	@NotNull(message="Please enter Your Productprice..It should not be null")
 	double productPrice;
-	@NotNull
+	@NotNull(message="Please enter Your quantity..It should not be null")
 	private int quantity;
 
 	/*@ManyToOne(cascade = CascadeType.ALL)

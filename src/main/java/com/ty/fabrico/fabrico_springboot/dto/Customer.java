@@ -20,19 +20,19 @@ public class Customer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int customerId;
-	@NotNull
+	@NotNull(message="Please Enter Your Name..It should not be null")
 	private String customerName;
-	@NotNull
+	@NotNull(message="Please enter Your Phoneno..It should not be null")
 	@Convert(converter=AesEncryption.class)
 	private long phone;
-	@NotNull
+	@NotNull(message="Please enter Your Email..It should not be null")
 	@Convert(converter=AesEncryption.class)
 	@Column(unique = true)
 	private String email;
-	@NotNull
+	@NotNull(message="Please enter Your Password..It should not be null")
 	@Convert(converter=AesEncryption.class)
 	private String password;
-	@NotNull
+	@NotNull(message="Please enter Your Address..It should not be null")
 	private String address;
 	private String premium;
 

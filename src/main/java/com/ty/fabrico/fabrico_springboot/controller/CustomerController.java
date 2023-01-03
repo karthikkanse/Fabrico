@@ -1,5 +1,7 @@
 package com.ty.fabrico.fabrico_springboot.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -28,11 +30,11 @@ public class CustomerController {
 	
 	@ApiOperation(value="Save Customer" , notes="It is used to save the Customer")
 	@ApiResponses(value= {@ApiResponse(code=201, message="Created"),
-			@ApiResponse(code=500, message="Internal Server Error"),
+			              @ApiResponse(code=500, message="Internal Server Error"),
 			@ApiResponse(code=404, message="Not Found")})
 	@PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}, produces= {
 		MediaType.APPLICATION_JSON_VALUE})
-	public ResponseEntity<ResponseStructure<Customer>> saveCustomer(@RequestBody Customer customer) {
+	public ResponseEntity<ResponseStructure<Customer>> saveCustomer(@Valid @RequestBody Customer customer) {
 		return customerService.saveCustomer(customer);
 	}
 	
@@ -42,7 +44,7 @@ public class CustomerController {
 			@ApiResponse(code=404, message="Not Found")})
 	@PutMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}, produces= {
 		MediaType.APPLICATION_JSON_VALUE})
-	public ResponseEntity<ResponseStructure<Customer>> updateCustomer(@RequestBody Customer customer,@RequestParam int customerId) {
+	public ResponseEntity<ResponseStructure<Customer>> updateCustomer(@Valid @RequestBody Customer customer,@RequestParam int customerId) {
 		return customerService.updateCustomer(customer,customerId);
 	}
 	
@@ -51,7 +53,7 @@ public class CustomerController {
 			@ApiResponse(code=500, message="Internal Server Error"),
 			@ApiResponse(code=404, message="Not Found")})
 	@GetMapping(produces= {MediaType.APPLICATION_JSON_VALUE})
-	public ResponseEntity<ResponseStructure<Customer>> getCustomerById(@RequestParam int customerId) {
+	public ResponseEntity<ResponseStructure<Customer>> getCustomerById(@Valid @RequestParam int customerId) {
 		return customerService.getCustomerById(customerId);
 	}
 
@@ -61,7 +63,7 @@ public class CustomerController {
 			@ApiResponse(code=500, message="Internal Server Error"),
 			@ApiResponse(code=404, message="Not Found")})
 	@PatchMapping(produces= {MediaType.APPLICATION_JSON_VALUE})
-	public ResponseEntity<ResponseStructure<Customer>> customerLogin(@RequestBody Customer customer) {
+	public ResponseEntity<ResponseStructure<Customer>> customerLogin(@Valid @RequestBody Customer customer) {
 		return customerService.customerLogin(customer);
 
 	}
@@ -71,7 +73,7 @@ public class CustomerController {
 			@ApiResponse(code=500, message="Internal Server Error"),
 			@ApiResponse(code=404, message="Not Found")})
 	@DeleteMapping(produces= {MediaType.APPLICATION_JSON_VALUE})
-	public ResponseEntity<ResponseStructure<Customer>> deleteCustomer(@RequestParam int customerId) {
+	public ResponseEntity<ResponseStructure<Customer>> deleteCustomer(@Valid @RequestParam int customerId) {
 		return customerService.deleteCustomer(customerId);
 	}
 }
