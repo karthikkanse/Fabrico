@@ -1,5 +1,7 @@
 package com.ty.fabrico.fabrico_springboot.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +36,9 @@ public class WeaverController {
 			@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 200, message = "ok") })
 	@PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, produces = {
 			MediaType.APPLICATION_JSON_VALUE })
+	
+	public ResponseEntity<ResponseStructure<Weaver>> saveWeaver(@Valid @RequestBody Weaver weaver) {
+=======
 
 	public ResponseEntity<ResponseStructure<Weaver>> saveWeaver(@RequestBody Weaver weaver) {
 		return weaverService.saveWeaver(weaver);
@@ -42,6 +47,10 @@ public class WeaverController {
 	@ApiOperation(value = "Fetch Weaver By Id", notes = "It is used to fetch the Weaver Details by Id")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Created"),
 			@ApiResponse(code = 500, message = "Internal Server Error"),
+			@ApiResponse(code = 404, message = "Not Found") })
+	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
+	
+	public ResponseEntity<ResponseStructure<Weaver>> getWeaverById(@Valid @RequestParam int weaverid) {
 			@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 200, message = "ok") })
 	@GetMapping( produces = { MediaType.APPLICATION_JSON_VALUE })
 
@@ -54,6 +63,8 @@ public class WeaverController {
 			@ApiResponse(code = 500, message = "Internal Server Error"),
 			@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 200, message = "ok") })
 	@DeleteMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
+	
+	public ResponseEntity<ResponseStructure<Weaver>> deleteWeaver(@Valid @RequestParam int weaverid) {
 
 	public ResponseEntity<ResponseStructure<Weaver>> deleteWeaver(@RequestParam int weaverid) {
 		return weaverService.deleteWeaver(weaverid);
@@ -65,6 +76,9 @@ public class WeaverController {
 			@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 200, message = "ok") })
 	@PutMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, produces = {
 			MediaType.APPLICATION_JSON_VALUE })
+	
+	public ResponseEntity<ResponseStructure<Weaver>> updateWeaver(@Valid @RequestBody Weaver weaver,
+			@Valid @RequestParam int weaverid) {
 
 	public ResponseEntity<ResponseStructure<Weaver>> updateWeaver(@RequestBody Weaver weaver,
 			@RequestParam int weaverid) {
@@ -77,6 +91,8 @@ public class WeaverController {
 			@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 200, message = "ok") })
 	@PatchMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, produces = {
 			MediaType.APPLICATION_JSON_VALUE })
+	
+	public ResponseEntity<ResponseStructure<Weaver>> weaverLogin(@Valid @RequestBody Weaver weaver) {
 
 	public ResponseEntity<ResponseStructure<Weaver>> weaverLogin(@RequestBody Weaver weaver) {
 		return weaverService.weaverLogin(weaver);
