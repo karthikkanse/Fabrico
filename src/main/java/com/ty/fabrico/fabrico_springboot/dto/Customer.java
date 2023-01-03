@@ -26,6 +26,8 @@ public class Customer {
 	private long phone;
 	@NotEmpty
 	@Email
+	@Email(message = "Please enter valid mail-id")
+	@Convert(converter=AesEncryption.class)
 	@Column(unique = true)
 	@Convert(converter=AesEncryption.class)
 	private String email;

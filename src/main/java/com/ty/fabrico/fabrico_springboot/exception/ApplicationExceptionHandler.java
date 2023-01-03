@@ -12,8 +12,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+=======
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -105,4 +107,17 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
 
 		return new ResponseEntity<Object>(responseStructure,HttpStatus.BAD_REQUEST);
 	}
+	
+//	@ExceptionHandler(value =  MethodArgumentNotValidException.class)
+//	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
+//	public ResponseEntity handleValidationException(MethodArgumentNotValidException exception){
+		
+//		ResponseStructure<String> responseStructure = new ResponseStructure<String>();
+//		ResponseEntity<ResponseStructure<String>> responseEntity;
+//		responseStructure.setStatus(HttpStatus.BAD_REQUEST.value());
+//		responseStructure.setMessage("Please fill the field");
+//		responseStructure.setData(exception.getMessage());
+//		return responseEntity = new ResponseEntity<ResponseStructure<String>>(responseStructure, HttpStatus.BAD_REQUEST);
+//		return new ResponseEntity(exception.getMessage(), HttpStatus.BAD_REQUEST);
+//	}
 }

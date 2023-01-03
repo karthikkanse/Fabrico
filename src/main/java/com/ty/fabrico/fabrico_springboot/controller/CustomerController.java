@@ -74,6 +74,54 @@ public class CustomerController {
 			@ApiResponse(code=404, message="Not Found")})
 	@DeleteMapping(produces= {MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<ResponseStructure<Customer>> deleteCustomer(@Valid @RequestParam int customerId) {
+
+	@ApiOperation(value = "Save Customer", notes = "It is used to save the Customer")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Created"),
+			@ApiResponse(code = 500, message = "Internal Server Error"),
+			@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 200, message = "ok") })
+	@PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, produces = {
+			MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<ResponseStructure<Customer>> saveCustomer(@RequestBody Customer customer) {
+		return customerService.saveCustomer(customer);
+	}
+
+	@ApiOperation(value = "Update Customer", notes = "It is used to update the Customer")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Created"),
+			@ApiResponse(code = 500, message = "Internal Server Error"),
+			@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 200, message = "ok") })
+	@PutMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, produces = {
+			MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<ResponseStructure<Customer>> updateCustomer(@RequestBody Customer customer,
+			@RequestParam int customerId) {
+		return customerService.updateCustomer(customer, customerId);
+	}
+
+	@ApiOperation(value = "Fetch Customer by Id", notes = "It is used to fetch the Customer by Id")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Created"),
+			@ApiResponse(code = 500, message = "Internal Server Error"),
+			@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 200, message = "ok") })
+	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<ResponseStructure<Customer>> getCustomerById(@RequestParam int customerId) {
+		return customerService.getCustomerById(customerId);
+	}
+
+	@ApiOperation(value = "Customer Login", notes = "It is used to Customer Login")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Created"),
+			@ApiResponse(code = 500, message = "Internal Server Error"),
+			@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 200, message = "ok") })
+	@PatchMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, produces = {
+			MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<ResponseStructure<Customer>> customerLogin(@RequestBody Customer customer) {
+		return customerService.customerLogin(customer);
+
+	}
+
+	@ApiOperation(value = "Delete Customer", notes = "It is used to delete the Customer")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Created"),
+			@ApiResponse(code = 500, message = "Internal Server Error"),
+			@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 200, message = "ok") })
+	@DeleteMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<ResponseStructure<Customer>> deleteCustomer(@RequestParam int customerId) {
 		return customerService.deleteCustomer(customerId);
 	}
 }
