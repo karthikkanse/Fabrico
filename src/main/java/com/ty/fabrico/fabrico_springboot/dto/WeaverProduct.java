@@ -1,12 +1,10 @@
 package com.ty.fabrico.fabrico_springboot.dto;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import lombok.Data;
@@ -18,11 +16,11 @@ public class WeaverProduct {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int wpId;
-	@NotNull
+	@NotEmpty
 	String productName;
-	@NotNull
+	@NotNull(message = "Product price cannot be null")
 	double productPrice;
-	@NotNull
+	@NotNull(message="Product quantity cannot be null")
 	private int quantity;
 
 //	@ManyToOne(cascade = CascadeType.ALL)

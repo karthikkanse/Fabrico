@@ -38,9 +38,6 @@ public class WeaverController {
 			MediaType.APPLICATION_JSON_VALUE })
 	
 	public ResponseEntity<ResponseStructure<Weaver>> saveWeaver(@Valid @RequestBody Weaver weaver) {
-=======
-
-	public ResponseEntity<ResponseStructure<Weaver>> saveWeaver(@RequestBody Weaver weaver) {
 		return weaverService.saveWeaver(weaver);
 	}
 
@@ -51,10 +48,6 @@ public class WeaverController {
 	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
 	
 	public ResponseEntity<ResponseStructure<Weaver>> getWeaverById(@Valid @RequestParam int weaverid) {
-			@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 200, message = "ok") })
-	@GetMapping( produces = { MediaType.APPLICATION_JSON_VALUE })
-
-	public ResponseEntity<ResponseStructure<Weaver>> getWeaverById(@RequestParam int weaverid) {
 		return weaverService.getWeaverById(weaverid);
 	}
 
@@ -66,7 +59,6 @@ public class WeaverController {
 	
 	public ResponseEntity<ResponseStructure<Weaver>> deleteWeaver(@Valid @RequestParam int weaverid) {
 
-	public ResponseEntity<ResponseStructure<Weaver>> deleteWeaver(@RequestParam int weaverid) {
 		return weaverService.deleteWeaver(weaverid);
 	}
 
@@ -80,8 +72,6 @@ public class WeaverController {
 	public ResponseEntity<ResponseStructure<Weaver>> updateWeaver(@Valid @RequestBody Weaver weaver,
 			@Valid @RequestParam int weaverid) {
 
-	public ResponseEntity<ResponseStructure<Weaver>> updateWeaver(@RequestBody Weaver weaver,
-			@RequestParam int weaverid) {
 		return weaverService.updateWeaver(weaver, weaverid);
 	}
 
@@ -94,7 +84,6 @@ public class WeaverController {
 	
 	public ResponseEntity<ResponseStructure<Weaver>> weaverLogin(@Valid @RequestBody Weaver weaver) {
 
-	public ResponseEntity<ResponseStructure<Weaver>> weaverLogin(@RequestBody Weaver weaver) {
 		return weaverService.weaverLogin(weaver);
 	}
 

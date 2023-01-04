@@ -40,7 +40,7 @@ public class Weaver {
 	@NotNull
 	@Convert(converter=AesEncryption.class)
 	private long phone;
-	@NotNull(message = "Enter the address")
+	//@NotNull(message = "Enter the address")
 	@Convert(converter=AesEncryption.class)
 	private String address;
 	

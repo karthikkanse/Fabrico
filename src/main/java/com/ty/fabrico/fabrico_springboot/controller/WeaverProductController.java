@@ -1,11 +1,12 @@
 package com.ty.fabrico.fabrico_springboot.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,8 +36,8 @@ public class WeaverProductController {
 			@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 200, message = "ok") })
 	@PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, produces = {
 			MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<ResponseStructure<Weaver>> saveProductForWeaver(@RequestBody WeaverProduct product,
-			@RequestParam int weaverid) {
+	public ResponseEntity<ResponseStructure<Weaver>> saveProductForWeaver(@Valid @RequestBody WeaverProduct product,
+		@Valid	@RequestParam int weaverid) {
 		return productService.saveProductForWeaver(product, weaverid);
 	}
 
@@ -45,7 +46,7 @@ public class WeaverProductController {
 			@ApiResponse(code = 500, message = "Internal Server Error"),
 			@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 200, message = "ok") })
 	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<ResponseStructure<WeaverProduct>> getProductById(@RequestParam int productid) {
+	public ResponseEntity<ResponseStructure<WeaverProduct>> getProductById(@Valid @RequestParam int productid) {
 		return productService.getWeaverProductById(productid);
 	}
 
@@ -55,8 +56,8 @@ public class WeaverProductController {
 			@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 200, message = "ok") })
 	@PutMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, produces = {
 			MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<ResponseStructure<WeaverProduct>> updateProductById(@RequestBody WeaverProduct product,
-			@RequestParam int productid) {
+	public ResponseEntity<ResponseStructure<WeaverProduct>> updateProductById(@Valid @RequestBody WeaverProduct product,
+		@Valid	@RequestParam int productid) {
 		return productService.updateWeaverProduct(product, productid);
 	}
 
@@ -65,7 +66,7 @@ public class WeaverProductController {
 			@ApiResponse(code = 500, message = "Internal Server Error"),
 			@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 200, message = "ok") })
 	@DeleteMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<ResponseStructure<WeaverProduct>> deleteProductById(@RequestParam int productid) {
+	public ResponseEntity<ResponseStructure<WeaverProduct>> deleteProductById(@Valid @RequestParam int productid) {
 		return productService.deleteWeaverProduct(productid);
 	}
 
