@@ -13,11 +13,11 @@ import lombok.Data;
 
 @Entity
 @Data
-public class Product {
+public class WeaverProduct {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int pId;
+	int wpId;
 	@NotNull
 	String productName;
 	@NotNull
@@ -25,9 +25,9 @@ public class Product {
 	@NotNull
 	private int quantity;
 
-	/*@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn
-	private Weaver weaver;*/
-	
+//	@ManyToOne(cascade = CascadeType.ALL)
+//	@JoinColumn
+//	private Weaver weaver;
+
 
 }

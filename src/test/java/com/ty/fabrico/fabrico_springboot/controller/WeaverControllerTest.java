@@ -9,8 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import com.ty.fabrico.fabrico_springboot.dto.Product;
 import com.ty.fabrico.fabrico_springboot.dto.Weaver;
 import com.ty.fabrico.fabrico_springboot.repository.WeaverRepository;
 

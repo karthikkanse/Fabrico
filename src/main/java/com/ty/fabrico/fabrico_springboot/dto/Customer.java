@@ -8,10 +8,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.UniqueElements;
-
+import javax.validation.constraints.Size;
 import lombok.Data;
 
 @Entity
@@ -20,19 +20,22 @@ public class Customer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int customerId;
-	@NotNull
 	private String customerName;
 	@NotNull
 	@Convert(converter=AesEncryption.class)
 	private long phone;
-	@NotNull
+	@NotEmpty
+	@Email
+	@Email(message = "Please enter valid mail-id")
 	@Convert(converter=AesEncryption.class)
 	@Column(unique = true)
-	private String email;
-	@NotNull
 	@Convert(converter=AesEncryption.class)
+	private String email;
+	@NotEmpty
+	@Convert(converter=AesEncryption.class)
+	@Size(message = "Password should not be empty")
 	private String password;
-	@NotNull
+	@Convert(converter=AesEncryption.class)
 	private String address;
 	private String premium;
 
