@@ -14,11 +14,11 @@ public class CustomerProduct {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int cpId;
+	private int cpId;
 	@NotNull
-	String productName;
+	private String productName;
 	@NotNull
-	double productPrice;
+	private double productPrice;
 	@NotNull
 	private int quantity;
 }

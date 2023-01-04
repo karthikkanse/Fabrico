@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,19 +21,20 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
+@RequestMapping("customerProduct")
 public class CustomerProductController {
 
 	@Autowired
 	CustomerProductService productService;
-	
+
 	@ApiOperation(value = "Save Product for Customer", notes = "It is used to Save the Product Details for Customer")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Created"),
 			@ApiResponse(code = 500, message = "Internal Server Error"),
 			@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 200, message = "ok") })
-	@PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE })
+	@PostMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<ResponseStructure<CustomerProduct>> saveProductForCustomer(@RequestParam int productid,
-			@RequestParam int customerid) {
-		return productService.saveProductForCustomer(productid, customerid);
+			@RequestParam int quantity, @RequestParam int customerid) {
+		return productService.saveProductForCustomer(productid, quantity,customerid);
 	}
 
 	@ApiOperation(value = "Fetch Product for Customer", notes = "It is used to Fetch the Product Details for Customer")

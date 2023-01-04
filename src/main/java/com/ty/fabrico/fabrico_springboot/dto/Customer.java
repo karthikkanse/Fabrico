@@ -39,6 +39,6 @@ public class Customer {
 	private String address;
 	private String premium;
 
-	@OneToOne(cascade = CascadeType.REMOVE)
+	@OneToOne(cascade = CascadeType.ALL)
 	private Cart cart;
 }
