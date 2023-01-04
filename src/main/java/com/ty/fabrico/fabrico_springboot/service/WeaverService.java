@@ -34,7 +34,7 @@ public class WeaverService {
 	private WeaverDao weaverDao;
 
 	@Autowired
-	private WeaverProductController controller;
+	private WeaverProductService productService;
 
 	public ResponseEntity<ResponseStructure<Weaver>> saveWeaver(Weaver weaver) {
 		ResponseStructure<Weaver> responseStructure = new ResponseStructure<Weaver>();
@@ -79,14 +79,14 @@ public class WeaverService {
 			List<WeaverProduct> list = optional.get().getWeaverProduct();
 			List<WeaverProduct> list2 = null;
 			optional.get().setWeaverProduct(list2);
-//			optional.get().setWeaverProduct(weaver.getWeaverProduct());
 			weaver.setWeaverid(weaverid);
 			responseStructure.setStatus(HttpStatus.OK.value());
 			responseStructure.setMessage("Updated");
 			responseStructure.setData(weaverDao.updateWeaver(weaver));
 			for (WeaverProduct weaverProduct : list) {
 				System.out.println(weaverProduct.getWpId());
-				controller.deleteProductById(weaverProduct.getWpId());
+//				controller.deleteProductById(weaverProduct.getWpId(),weaverid);
+				productService.deleteWeaverProduct(weaverProduct.getWpId(),weaverid);
 			}
 			LOGGER.debug("Weaver Updated");
 			return responseEntity;

@@ -13,9 +13,11 @@ import org.springframework.stereotype.Service;
 import com.ty.fabrico.fabrico_springboot.dao.CustomerDao;
 import com.ty.fabrico.fabrico_springboot.dao.CustomerProductDao;
 import com.ty.fabrico.fabrico_springboot.dao.WeaverDao;
+import com.ty.fabrico.fabrico_springboot.dao.WeaverProductDao;
 import com.ty.fabrico.fabrico_springboot.dto.Cart;
 import com.ty.fabrico.fabrico_springboot.dto.Customer;
 import com.ty.fabrico.fabrico_springboot.dto.CustomerProduct;
+import com.ty.fabrico.fabrico_springboot.dto.WeaverProduct;
 import com.ty.fabrico.fabrico_springboot.exception.CartNotFoundException;
 import com.ty.fabrico.fabrico_springboot.exception.NoSuchIdFoundException;
 import com.ty.fabrico.fabrico_springboot.util.ResponseStructure;
@@ -28,6 +30,9 @@ public class CustomerProductService {
 	CustomerProductDao productDao;
 
 	@Autowired
+	WeaverProductDao weaverProductDao;
+
+	@Autowired
 	WeaverDao weaverDao;
 
 	@Autowired
@@ -35,13 +40,14 @@ public class CustomerProductService {
 
 	@Autowired
 	CartService cartService;
-	
-	public ResponseEntity<ResponseStructure<CustomerProduct>> saveProductForCustomer(int productid, int customerid) {
+
+	public ResponseEntity<ResponseStructure<CustomerProduct>> saveProductForCustomer(int productid, int quantity,
+			int customerid) {
 		ResponseStructure<CustomerProduct> responseStructure = new ResponseStructure<CustomerProduct>();
 		ResponseEntity<ResponseStructure<CustomerProduct>> responseEntity;
 		Optional<Customer> optional = customerDao.getCustomerById(customerid);
-		Optional<CustomerProduct> optional2 = productDao.getProductById(productid);
-		CustomerProduct product;
+		Optional<WeaverProduct> optional2 = weaverProductDao.getProductById(productid);
+		WeaverProduct product;
 		Customer customer;
 		if (optional.isPresent()) {
 			LOGGER.debug("Customer found");
@@ -62,19 +68,27 @@ public class CustomerProductService {
 			if (cart != null) {
 				if (cart.getCustomerProduct() != null) {
 					List<CustomerProduct> products = cart.getCustomerProduct();
-					products.add(product);
+					CustomerProduct customerProduct = new CustomerProduct();
+					customerProduct.setProductName(product.getProductName());
+					customerProduct.setProductPrice(product.getProductPrice());
+					customerProduct.setQuantity(quantity);
+					products.add(customerProduct);
 					responseStructure.setStatus(HttpStatus.CREATED.value());
 					responseStructure.setMessage("Product Saved To Cart");
-					responseStructure.setData(product);
+					responseStructure.setData(customerProduct);
 					cartService.updateCart(cart, cart.getCartId());
 					customerDao.updateCustomer(customer);
 					LOGGER.debug("Products add to customer");
 				} else {
 					List<CustomerProduct> products = new ArrayList<CustomerProduct>();
-					products.add(product);
+					CustomerProduct customerProduct = new CustomerProduct();
+					customerProduct.setProductName(product.getProductName());
+					customerProduct.setProductPrice(product.getProductPrice());
+					customerProduct.setQuantity(quantity);
+					products.add(customerProduct);
 					responseStructure.setStatus(HttpStatus.CREATED.value());
 					responseStructure.setMessage("Product Saved To Cart");
-					responseStructure.setData(product);
+					responseStructure.setData(customerProduct);
 					cartService.updateCart(cart, cart.getCartId());
 					customerDao.updateCustomer(customer);
 					LOGGER.debug("Products add to customer");
@@ -84,9 +98,10 @@ public class CustomerProductService {
 				throw new CartNotFoundException();
 			}
 		}
-		return responseEntity = new ResponseEntity<ResponseStructure<CustomerProduct>>(responseStructure, HttpStatus.CREATED);
+		return responseEntity = new ResponseEntity<ResponseStructure<CustomerProduct>>(responseStructure,
+				HttpStatus.CREATED);
 	}
-	
+
 	public ResponseEntity<ResponseStructure<CustomerProduct>> getCustomerProductById(int productid) {
 		ResponseStructure<CustomerProduct> responseStructure = new ResponseStructure<CustomerProduct>();
 		ResponseEntity<ResponseStructure<CustomerProduct>> responseEntity;
@@ -96,7 +111,8 @@ public class CustomerProductService {
 			responseStructure.setMessage("Product Found");
 			responseStructure.setData(optional.get());
 			LOGGER.debug("Products found");
-			return responseEntity = new ResponseEntity<ResponseStructure<CustomerProduct>>(responseStructure, HttpStatus.OK);
+			return responseEntity = new ResponseEntity<ResponseStructure<CustomerProduct>>(responseStructure,
+					HttpStatus.OK);
 		} else {
 			LOGGER.error("Product not found");
 			throw new NoSuchIdFoundException("Product Id Not Found");
@@ -113,14 +129,16 @@ public class CustomerProductService {
 			responseStructure.setMessage("Deleted");
 			responseStructure.setData(optional.get());
 			LOGGER.warn("Product deleted");
-			return responseEntity = new ResponseEntity<ResponseStructure<CustomerProduct>>(responseStructure, HttpStatus.OK);
+			return responseEntity = new ResponseEntity<ResponseStructure<CustomerProduct>>(responseStructure,
+					HttpStatus.OK);
 		} else {
 			LOGGER.error("Product not found to delete");
 			throw new NoSuchIdFoundException("No Such Id Found Unable To Delete");
 		}
 	}
 
-	public ResponseEntity<ResponseStructure<CustomerProduct>> updateCustomerProduct(CustomerProduct product, int productid) {
+	public ResponseEntity<ResponseStructure<CustomerProduct>> updateCustomerProduct(CustomerProduct product,
+			int productid) {
 		Optional<CustomerProduct> optional = productDao.getProductById(productid);
 		CustomerProduct product2;
 		ResponseStructure<CustomerProduct> responseStructure = new ResponseStructure<CustomerProduct>();
@@ -136,7 +154,8 @@ public class CustomerProductService {
 			responseStructure.setMessage("Updated");
 			responseStructure.setData(productDao.updateProduct(product));
 			LOGGER.debug("Product updated");
-			return responseEntity = new ResponseEntity<ResponseStructure<CustomerProduct>>(responseStructure, HttpStatus.OK);
+			return responseEntity = new ResponseEntity<ResponseStructure<CustomerProduct>>(responseStructure,
+					HttpStatus.OK);
 		} else {
 			LOGGER.error("Product not found to update");
 			throw new NoSuchIdFoundException("No Such Id Found Unable To Update");

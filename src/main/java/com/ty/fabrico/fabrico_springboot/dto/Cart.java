@@ -8,7 +8,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 
@@ -23,8 +26,14 @@ public class Cart {
 	@NotNull
 	private double totalcost;
 	
-	@OneToMany(cascade = CascadeType.REMOVE)
-	List<CustomerProduct> customerProduct;
+	@OneToMany(cascade = CascadeType.ALL)
+	private List<CustomerProduct> customerProduct;
+	
+	@OneToOne(mappedBy = "cart")//(cascade = CascadeType.ALL)
+	@JsonIgnore
+	private Customer customer;
+	
+	
 	
 	
 

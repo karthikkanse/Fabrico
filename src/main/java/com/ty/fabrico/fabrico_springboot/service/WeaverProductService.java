@@ -1,6 +1,7 @@
 package com.ty.fabrico.fabrico_springboot.service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.ty.fabrico.fabrico_springboot.controller.WeaverController;
 import com.ty.fabrico.fabrico_springboot.dao.CustomerDao;
 import com.ty.fabrico.fabrico_springboot.dao.WeaverProductDao;
 import com.ty.fabrico.fabrico_springboot.dao.WeaverDao;
@@ -31,7 +33,7 @@ public class WeaverProductService {
 
 	@Autowired
 	WeaverDao weaverDao;
-
+	
 	@Autowired
 	CustomerDao customerDao;
 
@@ -77,20 +79,39 @@ public class WeaverProductService {
 		}
 	}
 
-	public ResponseEntity<ResponseStructure<WeaverProduct>> deleteWeaverProduct(int productid) {
+	public ResponseEntity<ResponseStructure<WeaverProduct>> deleteWeaverProduct(int productid,int weaverid) {
 		ResponseStructure<WeaverProduct> responseStructure = new ResponseStructure<WeaverProduct>();
 		ResponseEntity<ResponseStructure<WeaverProduct>> responseEntity;
 		Optional<WeaverProduct> optional = productDao.getProductById(productid);
-		if (optional.isPresent()) {
-			productDao.deleteProduct(optional.get());
-			responseStructure.setStatus(HttpStatus.OK.value());
-			responseStructure.setMessage("Deleted");
-			responseStructure.setData(optional.get());
-			LOGGER.warn("Product deleted");
+		Optional<Weaver> optional1=weaverDao.getWeaverById(weaverid);
+		if (optional1.isPresent()) {
+			if(optional.isPresent()) {
+				List<WeaverProduct> list=optional1.get().getWeaverProduct();
+				int count=0;
+				for (WeaverProduct weaverProduct : list) {
+					if(weaverProduct.getWpId()==productid) {
+						count++;
+						list.remove(weaverProduct);
+						optional1.get().setWeaverProduct(list);
+						optional1.get().setWeaverid(weaverid);
+						weaverDao.updateWeaver(optional1.get());
+						productDao.deleteProduct(optional.get());
+						responseStructure.setStatus(HttpStatus.OK.value());
+						responseStructure.setMessage("Deleted");
+						responseStructure.setData(optional.get());
+						LOGGER.warn("Product deleted");
+					}
+				}
+				if(count==0) {
+					throw new NoSuchIdFoundException("No Such Product Found for WeaverId"+ weaverid);
+				}
+			}else {
+				throw new NoSuchIdFoundException("No Such Id Found For Product");
+			}
 			return responseEntity = new ResponseEntity<ResponseStructure<WeaverProduct>>(responseStructure, HttpStatus.OK);
 		} else {
-			LOGGER.error("Product not found to delete");
-			throw new NoSuchIdFoundException("No Such Id Found Unable To Delete");
+			LOGGER.error("Weaver Not Found To Delete Product");
+			throw new NoSuchIdFoundException("No Such Id Found for Weaver To Delete Product");
 		}
 	}
 

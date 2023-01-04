@@ -65,8 +65,8 @@ public class WeaverProductController {
 			@ApiResponse(code = 500, message = "Internal Server Error"),
 			@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 200, message = "ok") })
 	@DeleteMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<ResponseStructure<WeaverProduct>> deleteProductById(@RequestParam int productid) {
-		return productService.deleteWeaverProduct(productid);
+	public ResponseEntity<ResponseStructure<WeaverProduct>> deleteProductById(@RequestParam int productid,@RequestParam int weaverid) {
+		return productService.deleteWeaverProduct(productid,weaverid);
 	}
 
 }
