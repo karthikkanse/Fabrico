@@ -61,7 +61,7 @@ public class CartController {
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Created"),
 			@ApiResponse(code = 500, message = "Internal Server Error"),
 			@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 200, message = "ok") })
-	@DeleteMapping( produces = { MediaType.APPLICATION_JSON_VALUE })
+	@DeleteMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<ResponseStructure<Cart>> deleteCart(@RequestParam int cartid) {
 		return cartService.deleteCart(cartid);
 	}

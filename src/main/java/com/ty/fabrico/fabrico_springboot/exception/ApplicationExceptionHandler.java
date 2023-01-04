@@ -1,15 +1,20 @@
 package com.ty.fabrico.fabrico_springboot.exception;
 
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.ty.fabrico.fabrico_springboot.util.ResponseStructure;
-
 @RestControllerAdvice
 public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler {
 
@@ -66,6 +71,35 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
 		responseStructure.setMessage("Cart not Found to add Products");
 		responseStructure.setData(exception.getMessage());
 		return responseEntity = new ResponseEntity<ResponseStructure<String>>(responseStructure, HttpStatus.NOT_FOUND);
+	}
+//	@ExceptionHandler( ConstraintViolationException.class)
+//	public ResponseEntity<ResponseStructure<String>>ConstraintViolationExceptionHandler(ConstraintViolationException exception){
+//		ResponseStructure<String>responseStructure=new ResponseStructure<String>();
+//		ResponseEntity<ResponseStructure<String>>responseEntity;
+//		responseStructure.setStatus(HttpStatus.NOT_FOUND.value());
+//		responseStructure.setMessage("Enter proper fields");
+//		responseStructure.setData(exception.getMessage());
+//		return responseEntity= new ResponseEntity<ResponseStructure<String>>(responseStructure,HttpStatus.NOT_FOUND);
+//
+//
+//	}
+		
+	@Override
+	protected ResponseEntity<Object>handleMethodArgumentNotValid(MethodArgumentNotValidException exception,
+			HttpHeaders headers,HttpStatus status,WebRequest webRequest){
+		List<ObjectError>objectErrors=exception.getAllErrors();
+		Map<String,String>map=new LinkedHashMap<>();
+		for(ObjectError error:objectErrors) {
+			String message=error.getDefaultMessage();
+			String field=((FieldError)error).getField();
+			map.put(message, field);
+		}
+		ResponseStructure<Map<String,String>>responseStructure=new ResponseStructure<>();
+		responseStructure.setMessage("Field Validation Error");
+		responseStructure.setStatus(HttpStatus.BAD_REQUEST.value());
+		responseStructure.setData(map);
+
+		return new ResponseEntity<Object>(responseStructure,HttpStatus.BAD_REQUEST);
 	}
 	
 //	@ExceptionHandler(value =  MethodArgumentNotValidException.class)
