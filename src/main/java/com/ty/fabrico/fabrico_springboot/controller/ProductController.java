@@ -38,7 +38,7 @@ public class ProductController {
 		return  productService.saveProductForWeaver(product, weaverid);
 	}
 	
-	@ApiOperation(value="Fetch Product for Customer" , notes="It is used to Save the Product Details for Customer")
+	@ApiOperation(value="Save Product for Customer" , notes="It is used to Save the Product Details for Customer")
 	@ApiResponses(value= {@ApiResponse(code=201, message="Created"),
 			@ApiResponse(code=500, message="Internal Server Error"),
 			@ApiResponse(code=404, message="Not Found")})
@@ -47,7 +47,7 @@ public class ProductController {
 		return productService.saveProductForCustomer(productid, customerid);
 	}
 	
-	@ApiOperation(value="Save Product for Customer" , notes="It is used to Fetch the Product Details for Customer")
+	@ApiOperation(value="Fetch Product By Id" , notes="It is used to Fetch the Product Details By Id")
 	@ApiResponses(value= {@ApiResponse(code=201, message="Created"),
 			@ApiResponse(code=500, message="Internal Server Error"),
 			@ApiResponse(code=404, message="Not Found")})
@@ -56,7 +56,7 @@ public class ProductController {
 		return productService.getProductById(productid);
 	}
 	
-	@ApiOperation(value="Update Product for Customer" , notes="It is used to Update the Product Details for Customer")
+	@ApiOperation(value="Update Product By Id" , notes="It is used to Update the Product Details By Id")
 	@ApiResponses(value= {@ApiResponse(code=201, message="Created"),
 			@ApiResponse(code=500, message="Internal Server Error"),
 			@ApiResponse(code=404, message="Not Found")})
@@ -66,7 +66,7 @@ public class ProductController {
 		return productService.updateProduct(product, productid);
 	}
 	
-	@ApiOperation(value="Delete Product for Customer" , notes="It is used to Delete the Product Details for Customer")
+	@ApiOperation(value="Delete Product By Id" , notes="It is used to Delete the Product Details for Customer")
 	@ApiResponses(value= {@ApiResponse(code=201, message="Created"),
 			@ApiResponse(code=500, message="Internal Server Error"),
 			@ApiResponse(code=404, message="Not Found")})
