@@ -75,7 +75,7 @@ public class CustomerProductService {
 					products.add(customerProduct);
 					responseStructure.setStatus(HttpStatus.CREATED.value());
 					responseStructure.setMessage("Product Saved To Cart");
-					responseStructure.setData(customerProduct);
+					responseStructure.setData(productDao.saveProduct(customerProduct));
 					cartService.updateCart(cart, cart.getCartId());
 					customerDao.updateCustomer(customer);
 					LOGGER.debug("Products add to customer");
@@ -88,7 +88,7 @@ public class CustomerProductService {
 					products.add(customerProduct);
 					responseStructure.setStatus(HttpStatus.CREATED.value());
 					responseStructure.setMessage("Product Saved To Cart");
-					responseStructure.setData(customerProduct);
+					responseStructure.setData(productDao.saveProduct(customerProduct));
 					cartService.updateCart(cart, cart.getCartId());
 					customerDao.updateCustomer(customer);
 					LOGGER.debug("Products add to customer");

@@ -41,10 +41,10 @@ public class CartService {
 		}
 
 		if (customer != null) {
-			if(customer.getCart()!=null) {
+			if (customer.getCart() != null) {
 				deleteCart(customer.getCart().getCartId());
 			}
-			customer.setCart(cart);	
+			customer.setCart(cart);
 			cart.setCustomer(customer);
 			responseStructure.setStatus(HttpStatus.CREATED.value());
 			responseStructure.setMessage("saved");
@@ -67,16 +67,31 @@ public class CartService {
 			List<CustomerProduct> products = cart.getCustomerProduct();
 			double totalcost = 0;
 			int quantity = 0;
-			for (CustomerProduct products2 : products) {
-				totalcost += (products2.getProductPrice() * products2.getQuantity());
-				quantity += products2.getQuantity();
-			}
-			if (quantity >= 10 && quantity < 20) {
-				totalcost = totalcost - (totalcost * 0.10);
-			} else if (quantity >= 20 && quantity < 35) {
-				totalcost = totalcost - (totalcost * 0.20);
-			} else if (quantity >= 40) {
-				totalcost = totalcost - (totalcost * 0.35);
+			if (products != null) {
+				for (CustomerProduct products2 : products) {
+					totalcost += (products2.getProductPrice() * products2.getQuantity());
+					quantity += products2.getQuantity();
+				}
+				if (quantity >= 10 && quantity < 20) {
+					totalcost = totalcost - (totalcost * 0.10);
+				} else if (quantity >= 20 && quantity < 35) {
+					totalcost = totalcost - (totalcost * 0.20);
+				} else if (quantity >= 40) {
+					totalcost = totalcost - (totalcost * 0.35);
+				}
+			} else {
+				for (CustomerProduct products2 : optional.get().getCustomerProduct()) {
+					totalcost += (products2.getProductPrice() * products2.getQuantity());
+					quantity += products2.getQuantity();
+				}
+				if (quantity >= 10 && quantity < 20) {
+					totalcost = totalcost - (totalcost * 0.10);
+				} else if (quantity >= 20 && quantity < 35) {
+					totalcost = totalcost - (totalcost * 0.20);
+				} else if (quantity >= 40) {
+					totalcost = totalcost - (totalcost * 0.35);
+				}
+				cart.setCustomerProduct(optional.get().getCustomerProduct());
 			}
 
 			cart.setTotalcost(totalcost);
