@@ -45,13 +45,14 @@ public class CustomerProductService {
 			int customerid) {
 		ResponseStructure<CustomerProduct> responseStructure = new ResponseStructure<CustomerProduct>();
 		ResponseEntity<ResponseStructure<CustomerProduct>> responseEntity;
-		Optional<Customer> optional = customerDao.getCustomerById(customerid);
+		Optional<Customer> customer1 = customerDao.getCustomerById(customerid);
 		Optional<WeaverProduct> optional2 = weaverProductDao.getProductById(productid);
+		CustomerProduct customerProduct1 = productDao.getProductByName(optional2.get().getProductName());
 		WeaverProduct product;
 		Customer customer;
-		if (optional.isPresent()) {
+		if (customer1.isPresent()) {
 			LOGGER.debug("Customer found");
-			customer = optional.get();
+			customer = customer1.get();
 		} else {
 			LOGGER.error("Customer not found to add products");
 			throw new NoSuchIdFoundException("No Such Id Found For Customer");
@@ -68,11 +69,19 @@ public class CustomerProductService {
 			if (cart != null) {
 				if (cart.getCustomerProduct() != null) {
 					List<CustomerProduct> products = cart.getCustomerProduct();
-					CustomerProduct customerProduct = new CustomerProduct();
-					customerProduct.setProductName(product.getProductName());
-					customerProduct.setProductPrice(product.getProductPrice());
-					customerProduct.setQuantity(quantity);
-					products.add(customerProduct);
+					CustomerProduct customerProduct;
+					if (customerProduct1.equals(product.getProductName())) {
+						customerProduct = customerProduct1;
+						customerProduct.setCpId(customerProduct1.getCpId());
+						customerProduct.setQuantity(quantity + customerProduct1.getQuantity());
+						productDao.updateProduct(customerProduct);
+					} else {
+						customerProduct = new CustomerProduct();
+						customerProduct.setProductName(product.getProductName());
+						customerProduct.setProductPrice(product.getProductPrice());
+						customerProduct.setQuantity(quantity + customerProduct1.getQuantity());
+						products.add(customerProduct);
+					}
 					responseStructure.setStatus(HttpStatus.CREATED.value());
 					responseStructure.setMessage("Product Saved To Cart");
 					responseStructure.setData(productDao.saveProduct(customerProduct));
@@ -81,11 +90,19 @@ public class CustomerProductService {
 					LOGGER.debug("Products add to customer");
 				} else {
 					List<CustomerProduct> products = new ArrayList<CustomerProduct>();
-					CustomerProduct customerProduct = new CustomerProduct();
-					customerProduct.setProductName(product.getProductName());
-					customerProduct.setProductPrice(product.getProductPrice());
-					customerProduct.setQuantity(quantity);
-					products.add(customerProduct);
+					CustomerProduct customerProduct;
+					if (customerProduct1.equals(product.getProductName())) {
+						customerProduct = customerProduct1;
+						customerProduct.setCpId(customerProduct1.getCpId());
+						customerProduct.setQuantity(quantity + customerProduct1.getQuantity());
+						productDao.updateProduct(customerProduct);
+					} else {
+						customerProduct = new CustomerProduct();
+						customerProduct.setProductName(product.getProductName());
+						customerProduct.setProductPrice(product.getProductPrice());
+						customerProduct.setQuantity(quantity + customerProduct1.getQuantity());
+						products.add(customerProduct);
+					}
 					responseStructure.setStatus(HttpStatus.CREATED.value());
 					responseStructure.setMessage("Product Saved To Cart");
 					responseStructure.setData(productDao.saveProduct(customerProduct));
