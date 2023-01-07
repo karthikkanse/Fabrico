@@ -47,7 +47,7 @@ public class CustomerProductService {
 		ResponseEntity<ResponseStructure<CustomerProduct>> responseEntity;
 		Optional<Customer> customer1 = customerDao.getCustomerById(customerid);
 		Optional<WeaverProduct> optional2 = weaverProductDao.getProductById(productid);
-		CustomerProduct customerProduct1 = productDao.getProductByName(optional2.get().getProductName());
+		CustomerProduct customerProduct1;
 		WeaverProduct product;
 		Customer customer;
 		if (customer1.isPresent()) {
@@ -60,6 +60,7 @@ public class CustomerProductService {
 		if (optional2.isPresent()) {
 			LOGGER.debug("Product found");
 			product = optional2.get();
+			customerProduct1 = productDao.getProductByName(optional2.get().getProductName());
 		} else {
 			LOGGER.error("Product not found to add");
 			throw new NoSuchIdFoundException("No Such Id Found For Product");
@@ -70,16 +71,24 @@ public class CustomerProductService {
 				if (cart.getCustomerProduct() != null) {
 					List<CustomerProduct> products = cart.getCustomerProduct();
 					CustomerProduct customerProduct;
-					if (customerProduct1.equals(product.getProductName())) {
-						customerProduct = customerProduct1;
-						customerProduct.setCpId(customerProduct1.getCpId());
-						customerProduct.setQuantity(quantity + customerProduct1.getQuantity());
-						productDao.updateProduct(customerProduct);
+					if (customerProduct1 != null) {
+						if (customerProduct1.getProductName().equals(product.getProductName())) {
+							customerProduct = customerProduct1;
+							customerProduct.setCpId(customerProduct1.getCpId());
+							customerProduct.setQuantity(quantity + customerProduct1.getQuantity());
+							productDao.updateProduct(customerProduct);
+						} else {
+							customerProduct = new CustomerProduct();
+							customerProduct.setProductName(product.getProductName());
+							customerProduct.setProductPrice(product.getProductPrice());
+							customerProduct.setQuantity(quantity);
+							products.add(customerProduct);
+						}
 					} else {
 						customerProduct = new CustomerProduct();
 						customerProduct.setProductName(product.getProductName());
 						customerProduct.setProductPrice(product.getProductPrice());
-						customerProduct.setQuantity(quantity + customerProduct1.getQuantity());
+						customerProduct.setQuantity(quantity);
 						products.add(customerProduct);
 					}
 					responseStructure.setStatus(HttpStatus.CREATED.value());
@@ -91,7 +100,7 @@ public class CustomerProductService {
 				} else {
 					List<CustomerProduct> products = new ArrayList<CustomerProduct>();
 					CustomerProduct customerProduct;
-					if (customerProduct1.equals(product.getProductName())) {
+					if (customerProduct1.getProductName().equals(product.getProductName())) {
 						customerProduct = customerProduct1;
 						customerProduct.setCpId(customerProduct1.getCpId());
 						customerProduct.setQuantity(quantity + customerProduct1.getQuantity());
