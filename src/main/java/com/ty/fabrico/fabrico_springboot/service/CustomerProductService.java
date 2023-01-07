@@ -19,6 +19,7 @@ import com.ty.fabrico.fabrico_springboot.dto.Customer;
 import com.ty.fabrico.fabrico_springboot.dto.CustomerProduct;
 import com.ty.fabrico.fabrico_springboot.dto.WeaverProduct;
 import com.ty.fabrico.fabrico_springboot.exception.CartNotFoundException;
+import com.ty.fabrico.fabrico_springboot.exception.NoOfQuantitesUnableToAdd;
 import com.ty.fabrico.fabrico_springboot.exception.NoSuchIdFoundException;
 import com.ty.fabrico.fabrico_springboot.util.ResponseStructure;
 
@@ -74,31 +75,48 @@ public class CustomerProductService {
 					if (customerProduct1 != null) {
 						if (customerProduct1.getProductName().equals(product.getProductName())) {
 							customerProduct = customerProduct1;
-							customerProduct.setCpId(customerProduct1.getCpId());
-							customerProduct.setQuantity(quantity + customerProduct1.getQuantity());
-							product.setQuantity(product.getQuantity()-quantity);
-							product.setWpId(product.getWpId());
-							productDao.updateProduct(customerProduct);
-							weaverProductDao.updateProduct(product);
+							if (quantity <= product.getQuantity()) {
+								customerProduct.setCpId(customerProduct1.getCpId());
+								customerProduct.setQuantity(quantity + customerProduct1.getQuantity());
+								int a=quantity + customerProduct1.getQuantity();
+								if(a>=0) {
+								product.setQuantity(product.getQuantity() - quantity);
+								product.setWpId(product.getWpId());
+								productDao.updateProduct(customerProduct);
+								weaverProductDao.updateProduct(product);
+								}else {
+									throw new NoOfQuantitesUnableToAdd("Unable to delete cart products");
+								}
+							} else {
+								throw new NoOfQuantitesUnableToAdd();
+							}
 						} else {
+							customerProduct = new CustomerProduct();
+							if (quantity <= product.getQuantity()) {
+								customerProduct.setProductName(product.getProductName());
+								customerProduct.setProductPrice(product.getProductPrice());
+								customerProduct.setQuantity(quantity);
+								product.setQuantity(product.getQuantity() - quantity);
+								product.setWpId(product.getWpId());
+								productDao.updateProduct(customerProduct);
+								products.add(customerProduct);
+							} else {
+								throw new NoOfQuantitesUnableToAdd();
+							}
+						}
+					} else {
+						if (quantity <= product.getQuantity()) {
 							customerProduct = new CustomerProduct();
 							customerProduct.setProductName(product.getProductName());
 							customerProduct.setProductPrice(product.getProductPrice());
 							customerProduct.setQuantity(quantity);
-							product.setQuantity(product.getQuantity()-quantity);
+							product.setQuantity(product.getQuantity() - quantity);
 							product.setWpId(product.getWpId());
 							productDao.updateProduct(customerProduct);
 							products.add(customerProduct);
+						} else {
+							throw new NoOfQuantitesUnableToAdd();
 						}
-					} else {
-						customerProduct = new CustomerProduct();
-						customerProduct.setProductName(product.getProductName());
-						customerProduct.setProductPrice(product.getProductPrice());
-						customerProduct.setQuantity(quantity);
-						product.setQuantity(product.getQuantity()-quantity);
-						product.setWpId(product.getWpId());
-						productDao.updateProduct(customerProduct);
-						products.add(customerProduct);
 					}
 					responseStructure.setStatus(HttpStatus.CREATED.value());
 					responseStructure.setMessage("Product Saved To Cart");
@@ -109,18 +127,14 @@ public class CustomerProductService {
 				} else {
 					List<CustomerProduct> products = new ArrayList<CustomerProduct>();
 					CustomerProduct customerProduct;
-					if (customerProduct1.getProductName().equals(product.getProductName())) {
-						customerProduct = customerProduct1;
-						customerProduct.setCpId(customerProduct1.getCpId());
-						customerProduct.setQuantity(quantity + customerProduct1.getQuantity());
-						productDao.updateProduct(customerProduct);
-					} else {
-						customerProduct = new CustomerProduct();
-						customerProduct.setProductName(product.getProductName());
-						customerProduct.setProductPrice(product.getProductPrice());
-						customerProduct.setQuantity(quantity + customerProduct1.getQuantity());
-						products.add(customerProduct);
-					}
+					customerProduct = new CustomerProduct();
+					customerProduct.setProductName(product.getProductName());
+					customerProduct.setProductPrice(product.getProductPrice());
+					customerProduct.setQuantity(quantity);
+					product.setQuantity(product.getQuantity() - quantity);
+					product.setWpId(product.getWpId());
+					productDao.updateProduct(customerProduct);
+					products.add(customerProduct);
 					responseStructure.setStatus(HttpStatus.CREATED.value());
 					responseStructure.setMessage("Product Saved To Cart");
 					responseStructure.setData(productDao.saveProduct(customerProduct));
