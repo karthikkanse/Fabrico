@@ -76,12 +76,18 @@ public class CustomerProductService {
 							customerProduct = customerProduct1;
 							customerProduct.setCpId(customerProduct1.getCpId());
 							customerProduct.setQuantity(quantity + customerProduct1.getQuantity());
+							product.setQuantity(product.getQuantity()-quantity);
+							product.setWpId(product.getWpId());
 							productDao.updateProduct(customerProduct);
+							weaverProductDao.updateProduct(product);
 						} else {
 							customerProduct = new CustomerProduct();
 							customerProduct.setProductName(product.getProductName());
 							customerProduct.setProductPrice(product.getProductPrice());
 							customerProduct.setQuantity(quantity);
+							product.setQuantity(product.getQuantity()-quantity);
+							product.setWpId(product.getWpId());
+							productDao.updateProduct(customerProduct);
 							products.add(customerProduct);
 						}
 					} else {
@@ -89,6 +95,9 @@ public class CustomerProductService {
 						customerProduct.setProductName(product.getProductName());
 						customerProduct.setProductPrice(product.getProductPrice());
 						customerProduct.setQuantity(quantity);
+						product.setQuantity(product.getQuantity()-quantity);
+						product.setWpId(product.getWpId());
+						productDao.updateProduct(customerProduct);
 						products.add(customerProduct);
 					}
 					responseStructure.setStatus(HttpStatus.CREATED.value());
