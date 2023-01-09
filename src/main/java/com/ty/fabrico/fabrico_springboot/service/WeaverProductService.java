@@ -40,7 +40,7 @@ public class WeaverProductService {
 	@Autowired
 	CartService cartService;
 
-	public ResponseEntity<ResponseStructure<Weaver>> saveProductForWeaver(WeaverProduct product, int weaverid) {
+	public ResponseEntity<ResponseStructure<Weaver>> saveProductForWeaver(WeaverProduct product, String weaverid) {
 		ResponseStructure<Weaver> responseStructure = new ResponseStructure<Weaver>();
 		ResponseEntity<ResponseStructure<Weaver>> responseEntity;
 		Optional<Weaver> optional = weaverDao.getWeaverById(weaverid);
@@ -79,7 +79,7 @@ public class WeaverProductService {
 		}
 	}
 
-	public ResponseEntity<ResponseStructure<WeaverProduct>> deleteWeaverProduct(int productid,int weaverid) {
+	public ResponseEntity<ResponseStructure<WeaverProduct>> deleteWeaverProduct(int productid,String weaverid) {
 		ResponseStructure<WeaverProduct> responseStructure = new ResponseStructure<WeaverProduct>();
 		ResponseEntity<ResponseStructure<WeaverProduct>> responseEntity;
 		Optional<WeaverProduct> optional = productDao.getProductById(productid);
@@ -103,7 +103,7 @@ public class WeaverProductService {
 					}
 				}
 				if(count==0) {
-					throw new NoSuchIdFoundException("No Such Product Found for WeaverId"+ weaverid);
+					throw new NoSuchIdFoundException("No Such Product Found for WeaverId "+ weaverid);
 				}
 			}else {
 				throw new NoSuchIdFoundException("No Such Id Found For Product");

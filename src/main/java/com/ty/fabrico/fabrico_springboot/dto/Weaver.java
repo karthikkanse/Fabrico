@@ -18,6 +18,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.UniqueElements;
 
 import lombok.Data;
@@ -27,8 +28,10 @@ import lombok.Data;
 public class Weaver {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int weaverid;	
+	@GenericGenerator(name="id_genertion",strategy = "com.ty.fabrico.fabrico_springboot.customgeneration.WeaverCustomId")
+	@GeneratedValue(generator = "id_genertion")
+	private String weaverid;	
+	
 	private String weavername;
 	@Email
 	@Column(unique = true)
