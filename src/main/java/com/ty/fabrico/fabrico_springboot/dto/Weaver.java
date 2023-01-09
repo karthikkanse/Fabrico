@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -29,18 +30,22 @@ public class Weaver {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int weaverid;	
+	@NotBlank(message = "WeaverName should not be empty")
 	private String weavername;
+	@NotEmpty(message = "Username should not be empty")
 	@Email
 	@Column(unique = true)
-	private String username;
-	@NotEmpty
 	@Convert(converter=AesEncryption.class)
-	@Size(message = "Password should not be empty")
+	private String username;
+	@NotEmpty(message = "Password should not be empty")
+	@Convert(converter=AesEncryption.class)
 	private String password;
-	@NotNull
+	@Digits(integer=10,fraction=0,message = "Phone Number should be of 10 digits")
+	@Min(value=999999999,message = "Phone Number should be of 10 digits")
+	@Max(value=9999999999l,message = "Phone Number should be of 10 digits")
 	@Convert(converter=AesEncryption.class)
 	private long phone;
-	@NotNull(message = "Enter the address")
+	@NotBlank(message = "Address should not be empty")
 	@Convert(converter=AesEncryption.class)
 	private String address;
 	

@@ -8,7 +8,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -20,21 +24,22 @@ public class Customer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int customerId;
+	@NotBlank(message = "CustomerName should not be empty")
 	private String customerName;
-	@NotNull
+	@Digits(integer=10,fraction=0,message = "Phone Number should be of 10 digits")
+	@Min(value=999999999,message = "Phone Number should be of 10 digits")
+	@Max(value=9999999999l,message = "Phone Number should be of 10 digits")
 	@Convert(converter=AesEncryption.class)
 	private long phone;
-	@NotEmpty
+	@NotEmpty(message = "E-mail should not be empty")
 	@Email
-	@Email(message = "Please enter valid mail-id")
-	@Convert(converter=AesEncryption.class)
 	@Column(unique = true)
 	@Convert(converter=AesEncryption.class)
 	private String email;
-	@NotEmpty
+	@NotEmpty(message = "Password should not be empty")
 	@Convert(converter=AesEncryption.class)
-	@Size(message = "Password should not be empty")
 	private String password;
+	@NotBlank(message = "Address should not be empty")
 	@Convert(converter=AesEncryption.class)
 	private String address;
 	private String premium;
