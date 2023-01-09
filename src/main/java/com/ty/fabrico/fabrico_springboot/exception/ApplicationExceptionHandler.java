@@ -114,4 +114,15 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
 //		return responseEntity = new ResponseEntity<ResponseStructure<String>>(responseStructure, HttpStatus.BAD_REQUEST);
 //		return new ResponseEntity(exception.getMessage(), HttpStatus.BAD_REQUEST);
 //	}
+	
+	@ExceptionHandler(NoOfQuantitesUnableToAdd.class)
+	public ResponseEntity<ResponseStructure<String>> noOfQuantitesUnableToAddExceptionHandler(NoOfQuantitesUnableToAdd exception) {
+
+		ResponseStructure<String> responseStructure = new ResponseStructure<String>();
+		ResponseEntity<ResponseStructure<String>> responseEntity;
+		responseStructure.setStatus(HttpStatus.NOT_ACCEPTABLE.value());
+		responseStructure.setMessage("No of Quantites Unavilable");
+		responseStructure.setData(exception.getMessage());
+		return responseEntity = new ResponseEntity<ResponseStructure<String>>(responseStructure, HttpStatus.NOT_ACCEPTABLE);
+	}
 }
