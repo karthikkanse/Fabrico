@@ -1,5 +1,6 @@
 package com.ty.fabrico.fabrico_springboot;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,9 @@ import org.springframework.stereotype.Service;
 
 import com.ty.fabrico.fabrico_springboot.dao.CartDao;
 import com.ty.fabrico.fabrico_springboot.dto.Cart;
+import com.ty.fabrico.fabrico_springboot.dto.CustomerProduct;
+
+import net.bytebuddy.dynamic.scaffold.MethodRegistry.Handler.ForAbstractMethod;
 
 @Service
 public class EmailSenderService {
@@ -28,7 +32,12 @@ public class EmailSenderService {
 		if(cart2.isPresent())
 		{
 			Cart cart=cart2.get();
-			message.setText(cart.getCartName()+" "+cart.getTotalcost());
+			List<CustomerProduct> list=cart.getCustomerProduct();
+			int totalQuantites=0;
+			for (CustomerProduct customerProduct : list) {
+				totalQuantites+=customerProduct.getQuantity();
+			}
+			message.setText(cart.getCartName()+" no of quantities puschased is "+totalQuantites+" and its total cost is "+cart.getTotalcost());
 			mailSender.send(message);
 			System.out.println("Mail Sent Successfully");
 		}
