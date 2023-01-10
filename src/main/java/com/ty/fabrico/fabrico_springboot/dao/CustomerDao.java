@@ -18,7 +18,7 @@ public class CustomerDao {
 		return customerRepository.save(customer);
 	}
 
-	public Optional<Customer> getCustomerById(int customerId) {
+	public Optional<Customer> getCustomerById(String customerId) {
 		return customerRepository.findById(customerId);
 	}
 

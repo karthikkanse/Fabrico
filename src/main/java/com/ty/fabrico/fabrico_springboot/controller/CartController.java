@@ -33,7 +33,7 @@ public class CartController {
 			@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 200, message = "ok") })
 	@PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, produces = {
 			MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<ResponseStructure<Cart>> saveCart(@RequestBody Cart cart, @RequestParam int customerid) {
+	public ResponseEntity<ResponseStructure<Cart>> saveCart(@RequestBody Cart cart, @RequestParam String customerid) {
 		return cartService.saveCart(cart, customerid);
 	}
 

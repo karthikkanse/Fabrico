@@ -29,7 +29,7 @@ public class CartService {
 	@Autowired
 	private CustomerDao customerDao;
 
-	public ResponseEntity<ResponseStructure<Cart>> saveCart(Cart cart, int customerid) {
+	public ResponseEntity<ResponseStructure<Cart>> saveCart(Cart cart, String customerid) {
 		ResponseEntity<ResponseStructure<Cart>> responseEntity;
 		ResponseStructure<Cart> responseStructure = new ResponseStructure<Cart>();
 		Optional<Customer> optional = customerDao.getCustomerById(customerid);

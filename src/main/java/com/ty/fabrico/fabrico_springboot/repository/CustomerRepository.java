@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import com.ty.fabrico.fabrico_springboot.dto.Customer;
 
 
-public interface CustomerRepository extends JpaRepository<Customer, Integer>{
+public interface CustomerRepository extends JpaRepository<Customer, String>{
 
 	public Customer getCustomerByEmail(String email);
 	

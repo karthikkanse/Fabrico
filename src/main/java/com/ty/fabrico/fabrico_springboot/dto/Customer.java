@@ -16,14 +16,18 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.hibernate.annotations.GenericGenerator;
+
 import lombok.Data;
 
 @Entity
 @Data
 public class Customer {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int customerId;
+	@GenericGenerator(name="id_genertion",strategy = "com.ty.fabrico.fabrico_springboot.customgeneration.CustomerCustomId")
+	@GeneratedValue(generator = "id_genertion")
+	private String customerid;
 	@NotBlank(message = "CustomerName should not be empty")
 	private String customerName;
 	@Digits(integer=10,fraction=0,message = "Phone Number should be of 10 digits")
