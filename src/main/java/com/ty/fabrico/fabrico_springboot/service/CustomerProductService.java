@@ -42,7 +42,7 @@ public class CustomerProductService {
 	@Autowired
 	CartService cartService;
 
-	public ResponseEntity<ResponseStructure<CustomerProduct>> saveProductForCustomer(int productid, int quantity,
+	public ResponseEntity<ResponseStructure<CustomerProduct>> saveProductForCustomer(String productid, int quantity,
 			String customerid) {
 		ResponseStructure<CustomerProduct> responseStructure = new ResponseStructure<CustomerProduct>();
 		ResponseEntity<ResponseStructure<CustomerProduct>> responseEntity;
@@ -152,7 +152,7 @@ public class CustomerProductService {
 				HttpStatus.CREATED);
 	}
 
-	public ResponseEntity<ResponseStructure<CustomerProduct>> getCustomerProductById(int productid) {
+	public ResponseEntity<ResponseStructure<CustomerProduct>> getCustomerProductById(String productid) {
 		ResponseStructure<CustomerProduct> responseStructure = new ResponseStructure<CustomerProduct>();
 		ResponseEntity<ResponseStructure<CustomerProduct>> responseEntity;
 		Optional<CustomerProduct> optional = productDao.getProductById(productid);
@@ -169,7 +169,7 @@ public class CustomerProductService {
 		}
 	}
 
-	public ResponseEntity<ResponseStructure<CustomerProduct>> deleteCustomerProduct(int productid) {
+	public ResponseEntity<ResponseStructure<CustomerProduct>> deleteCustomerProduct(String productid) {
 		ResponseStructure<CustomerProduct> responseStructure = new ResponseStructure<CustomerProduct>();
 		ResponseEntity<ResponseStructure<CustomerProduct>> responseEntity;
 		Optional<CustomerProduct> optional = productDao.getProductById(productid);
@@ -188,7 +188,7 @@ public class CustomerProductService {
 	}
 
 	public ResponseEntity<ResponseStructure<CustomerProduct>> updateCustomerProduct(CustomerProduct product,
-			int productid) {
+			String productid) {
 		Optional<CustomerProduct> optional = productDao.getProductById(productid);
 		CustomerProduct product2;
 		ResponseStructure<CustomerProduct> responseStructure = new ResponseStructure<CustomerProduct>();

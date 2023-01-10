@@ -32,7 +32,7 @@ public class CustomerProductController {
 			@ApiResponse(code = 500, message = "Internal Server Error"),
 			@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 200, message = "ok") })
 	@PostMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<ResponseStructure<CustomerProduct>> saveProductForCustomer(@RequestParam int productid,
+	public ResponseEntity<ResponseStructure<CustomerProduct>> saveProductForCustomer(@RequestParam String productid,
 			@RequestParam int quantity, @RequestParam String customerid) {
 		return productService.saveProductForCustomer(productid, quantity,customerid);
 	}
@@ -42,7 +42,7 @@ public class CustomerProductController {
 			@ApiResponse(code = 500, message = "Internal Server Error"),
 			@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 200, message = "ok") })
 	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<ResponseStructure<CustomerProduct>> getProductById(@RequestParam int productid) {
+	public ResponseEntity<ResponseStructure<CustomerProduct>> getProductById(@RequestParam String productid) {
 		return productService.getCustomerProductById(productid);
 	}
 
@@ -53,7 +53,7 @@ public class CustomerProductController {
 	@PutMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, produces = {
 			MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<ResponseStructure<CustomerProduct>> updateProductById(@RequestBody CustomerProduct product,
-			@RequestParam int productid) {
+			@RequestParam String productid) {
 		return productService.updateCustomerProduct(product, productid);
 	}
 
@@ -62,7 +62,7 @@ public class CustomerProductController {
 			@ApiResponse(code = 500, message = "Internal Server Error"),
 			@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 200, message = "ok") })
 	@DeleteMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<ResponseStructure<CustomerProduct>> deleteProductById(@RequestParam int productid) {
+	public ResponseEntity<ResponseStructure<CustomerProduct>> deleteProductById(@RequestParam String productid) {
 		return productService.deleteCustomerProduct(productid);
 	}
 }
