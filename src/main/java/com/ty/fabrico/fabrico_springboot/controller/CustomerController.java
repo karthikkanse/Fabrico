@@ -44,7 +44,7 @@ public class CustomerController {
 			@ApiResponse(code=404, message="Not Found")})
 	@PutMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}, produces= {
 		MediaType.APPLICATION_JSON_VALUE})
-	public ResponseEntity<ResponseStructure<Customer>> updateCustomer(@Valid @RequestBody Customer customer,@Valid @RequestParam int customerId) {
+	public ResponseEntity<ResponseStructure<Customer>> updateCustomer(@Valid @RequestBody Customer customer,@Valid @RequestParam String customerId) {
 		return customerService.updateCustomer(customer,customerId);
 	}
 	
@@ -53,7 +53,7 @@ public class CustomerController {
 			@ApiResponse(code=500, message="Internal Server Error"),
 			@ApiResponse(code=404, message="Not Found")})
 	@GetMapping(produces= {MediaType.APPLICATION_JSON_VALUE})
-	public ResponseEntity<ResponseStructure<Customer>> getCustomerById(@Valid @RequestParam int customerId) {
+	public ResponseEntity<ResponseStructure<Customer>> getCustomerById(@Valid @RequestParam String customerId) {
 		return customerService.getCustomerById(customerId);
 	}
 
@@ -73,7 +73,7 @@ public class CustomerController {
 			@ApiResponse(code=500, message="Internal Server Error"),
 			@ApiResponse(code=404, message="Not Found")})
 	@DeleteMapping(produces= {MediaType.APPLICATION_JSON_VALUE})
-	public ResponseEntity<ResponseStructure<Customer>> deleteCustomer(@Valid @RequestParam int customerId) {
+	public ResponseEntity<ResponseStructure<Customer>> deleteCustomer(@Valid @RequestParam String customerId) {
 		return customerService.deleteCustomer(customerId);
 	}
 }

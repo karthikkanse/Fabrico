@@ -33,7 +33,7 @@ public class CustomerProductController {
 			@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 200, message = "ok") })
 	@PostMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<ResponseStructure<CustomerProduct>> saveProductForCustomer(@RequestParam int productid,
-			@RequestParam int quantity, @RequestParam int customerid) {
+			@RequestParam int quantity, @RequestParam String customerid) {
 		return productService.saveProductForCustomer(productid, quantity,customerid);
 	}
 
