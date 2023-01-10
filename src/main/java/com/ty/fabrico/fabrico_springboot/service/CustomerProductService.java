@@ -43,7 +43,7 @@ public class CustomerProductService {
 	CartService cartService;
 
 	public ResponseEntity<ResponseStructure<CustomerProduct>> saveProductForCustomer(int productid, int quantity,
-			int customerid) {
+			String customerid) {
 		ResponseStructure<CustomerProduct> responseStructure = new ResponseStructure<CustomerProduct>();
 		ResponseEntity<ResponseStructure<CustomerProduct>> responseEntity;
 		Optional<Customer> customer1 = customerDao.getCustomerById(customerid);

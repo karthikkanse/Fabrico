@@ -41,12 +41,12 @@ public class CustomerService {
 		}
 	}
 
-	public ResponseEntity<ResponseStructure<Customer>> updateCustomer(Customer customer, int customerId) {
+	public ResponseEntity<ResponseStructure<Customer>> updateCustomer(Customer customer, String customerId) {
 		ResponseStructure<Customer> responseStructure = new ResponseStructure<Customer>();
 		ResponseEntity<ResponseStructure<Customer>> responseEntity;
 		Optional<Customer> optional = customerDao.getCustomerById(customerId);
 		if (optional.isPresent()) {
-			customer.setCustomerId(customerId);
+			customer.setCustomerid(customerId);
 			responseStructure.setStatus(HttpStatus.OK.value());
 			responseStructure.setMessage("Updated");
 			responseStructure.setData(customerDao.updateCustomer(customer));
@@ -57,7 +57,7 @@ public class CustomerService {
 			throw new NoSuchIdFoundException("No Id Found to Update");
 	}
 
-	public ResponseEntity<ResponseStructure<Customer>> getCustomerById(int customerId) {
+	public ResponseEntity<ResponseStructure<Customer>> getCustomerById(String customerId) {
 		ResponseStructure<Customer> responseStructure = new ResponseStructure<Customer>();
 		ResponseEntity<ResponseStructure<Customer>> responseEntity;
 		Optional<Customer> optional = customerDao.getCustomerById(customerId);
@@ -96,7 +96,7 @@ public class CustomerService {
 
 	}
 
-	public ResponseEntity<ResponseStructure<Customer>> deleteCustomer(int customerId) {
+	public ResponseEntity<ResponseStructure<Customer>> deleteCustomer(String customerId) {
 		ResponseStructure<Customer> responseStructure = new ResponseStructure<Customer>();
 		ResponseEntity<ResponseStructure<Customer>> responseEntity;
 		Optional<Customer> optional = customerDao.getCustomerById(customerId);
