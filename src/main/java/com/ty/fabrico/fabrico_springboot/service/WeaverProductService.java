@@ -63,7 +63,7 @@ public class WeaverProductService {
 		return responseEntity = new ResponseEntity<ResponseStructure<Weaver>>(responseStructure, HttpStatus.CREATED);
 	}
 
-	public ResponseEntity<ResponseStructure<WeaverProduct>> getWeaverProductById(int productid) {
+	public ResponseEntity<ResponseStructure<WeaverProduct>> getWeaverProductById(String productid) {
 		ResponseStructure<WeaverProduct> responseStructure = new ResponseStructure<WeaverProduct>();
 		ResponseEntity<ResponseStructure<WeaverProduct>> responseEntity;
 		Optional<WeaverProduct> optional = productDao.getProductById(productid);
@@ -79,7 +79,7 @@ public class WeaverProductService {
 		}
 	}
 
-	public ResponseEntity<ResponseStructure<WeaverProduct>> deleteWeaverProduct(int productid,String weaverid) {
+	public ResponseEntity<ResponseStructure<WeaverProduct>> deleteWeaverProduct(String productid,String weaverid) {
 		ResponseStructure<WeaverProduct> responseStructure = new ResponseStructure<WeaverProduct>();
 		ResponseEntity<ResponseStructure<WeaverProduct>> responseEntity;
 		Optional<WeaverProduct> optional = productDao.getProductById(productid);
@@ -89,7 +89,7 @@ public class WeaverProductService {
 				List<WeaverProduct> list=optional1.get().getWeaverProduct();
 				int count=0;
 				for (WeaverProduct weaverProduct : list) {
-					if(weaverProduct.getWpId()==productid) {
+					if(weaverProduct.getWpId().equals(productid)) {
 						count++;
 						list.remove(weaverProduct);
 						optional1.get().setWeaverProduct(list);
@@ -115,7 +115,7 @@ public class WeaverProductService {
 		}
 	}
 
-	public ResponseEntity<ResponseStructure<WeaverProduct>> updateWeaverProduct(WeaverProduct product, int productid) {
+	public ResponseEntity<ResponseStructure<WeaverProduct>> updateWeaverProduct(WeaverProduct product, String productid) {
 		Optional<WeaverProduct> optional = productDao.getProductById(productid);
 		WeaverProduct product2;
 		ResponseStructure<WeaverProduct> responseStructure = new ResponseStructure<WeaverProduct>();

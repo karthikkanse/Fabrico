@@ -18,7 +18,7 @@ public class CustomerProductDao {
 		return productRepository.save(product);
 	}
 
-	public Optional<CustomerProduct> getProductById(int productId) {
+	public Optional<CustomerProduct> getProductById(String productId) {
 		return productRepository.findById(productId);
 	}
 

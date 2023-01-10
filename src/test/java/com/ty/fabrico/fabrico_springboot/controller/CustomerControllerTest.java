@@ -23,34 +23,34 @@ class CustomerControllerTest {
 	@Order(1)
 	void testSaveCustomer() {
 		Customer customer = new Customer();
-		customer.setCustomerId(1);
+		customer.setCustomerid("1");
 		customer.setCustomerName("Umesh");
 		customer.setPhone(8296);
 		customer.setEmail("umesh@gmail.com");
 		customer.setPassword("123");
 		customer.setAddress("Bangalore");
 		customerRepository.save(customer);
-		assertNotNull(customerRepository.findById(customer.getCustomerId()).get());
+		assertNotNull(customerRepository.findById(customer.getCustomerid()).get());
 
 	}
 
 	@Test
 	@Order(2)
 	void testUpdateCustomer() {
-		Customer customer=customerRepository.findById(1).get();
+		Customer customer=customerRepository.findById("1").get();
 		customer.setCustomerName("Mahesh");
 		customer.setPhone(7896);
 		customer.setEmail("mahesh@gmail.com");
 		customer.setPassword("456");
 		customer.setAddress("Mangalore");
 		customerRepository.save(customer);
-		assertNotNull(customerRepository.findById(customer.getCustomerId()).get());
+		assertNotNull(customerRepository.findById(customer.getCustomerid()).get());
 	}
 
 	@Test
 	@Order(3)
 	void testGetCustomerById() {
-		customerRepository.findById(1).get();
+		customerRepository.findById("1").get();
 	}
 
 	@Test
@@ -65,7 +65,7 @@ class CustomerControllerTest {
 	@Test
 	@Order(5)
 	void testDeleteCustomer() {
-		Customer customer=customerRepository.findById(1).get();
-		customerRepository.deleteById(customer.getCustomerId());
+		Customer customer=customerRepository.findById("1").get();
+		customerRepository.deleteById(customer.getCustomerid());
 }
 }
