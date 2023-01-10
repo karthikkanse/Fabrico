@@ -46,8 +46,7 @@ public class WeaverController {
 			@ApiResponse(code = 500, message = "Internal Server Error"),
 			@ApiResponse(code = 404, message = "Not Found") })
 	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
-
-	public ResponseEntity<ResponseStructure<Weaver>> getWeaverById(@Valid @RequestParam int weaverid) {
+	public ResponseEntity<ResponseStructure<Weaver>> getWeaverById(@Valid @RequestParam String weaverid) {
 		return weaverService.getWeaverById(weaverid);
 	}
 
@@ -56,8 +55,7 @@ public class WeaverController {
 			@ApiResponse(code = 500, message = "Internal Server Error"),
 			@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 200, message = "ok") })
 	@DeleteMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
-
-	public ResponseEntity<ResponseStructure<Weaver>> deleteWeaver(@Valid @RequestParam int weaverid) {
+	public ResponseEntity<ResponseStructure<Weaver>> deleteWeaver(@Valid @RequestParam String weaverid) {
 		return weaverService.deleteWeaver(weaverid);
 	}
 
@@ -68,7 +66,7 @@ public class WeaverController {
 	@PutMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, produces = {
 			MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<ResponseStructure<Weaver>> updateWeaver(@Valid @RequestBody Weaver weaver,
-			@Valid @RequestParam int weaverid) {
+			@Valid @RequestParam String weaverid) {
 		return weaverService.updateWeaver(weaver, weaverid);
 	}
 

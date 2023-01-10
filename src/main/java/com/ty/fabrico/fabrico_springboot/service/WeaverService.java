@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,7 +54,7 @@ public class WeaverService {
 		}
 	}
 
-	public ResponseEntity<ResponseStructure<Weaver>> getWeaverById(int weaverid) {
+	public ResponseEntity<ResponseStructure<Weaver>> getWeaverById(String weaverid) {
 		Optional<Weaver> optional = weaverDao.getWeaverById(weaverid);
 		ResponseStructure<Weaver> responseStructure = new ResponseStructure<Weaver>();
 		ResponseEntity<ResponseStructure<Weaver>> responseEntity = new ResponseEntity<ResponseStructure<Weaver>>(
@@ -70,24 +71,21 @@ public class WeaverService {
 		}
 	}
 
-	public ResponseEntity<ResponseStructure<Weaver>> updateWeaver(Weaver weaver, int weaverid) {
+	public ResponseEntity<ResponseStructure<Weaver>> updateWeaver(Weaver weaver, String weaverid) {
 		ResponseStructure<Weaver> responseStructure = new ResponseStructure<Weaver>();
 		ResponseEntity<ResponseStructure<Weaver>> responseEntity = new ResponseEntity<ResponseStructure<Weaver>>(
 				responseStructure, HttpStatus.OK);
 		Optional<Weaver> optional = weaverDao.getWeaverById(weaverid);
 		if (optional.isPresent()) {
 			List<WeaverProduct> list = optional.get().getWeaverProduct();
-			List<WeaverProduct> list2 = null;
-			optional.get().setWeaverProduct(list2);
-			weaver.setWeaverid(weaverid);
+			for (WeaverProduct weaverProduct : weaver.getWeaverProduct()) {
+				list.add(weaverProduct);
+			}
+			optional.get().setWeaverProduct(list);
 			responseStructure.setStatus(HttpStatus.OK.value());
 			responseStructure.setMessage("Updated");
-			responseStructure.setData(weaverDao.updateWeaver(weaver));
-			for (WeaverProduct weaverProduct : list) {
-				System.out.println(weaverProduct.getWpId());
-//				controller.deleteProductById(weaverProduct.getWpId(),weaverid);
-				productService.deleteWeaverProduct(weaverProduct.getWpId(),weaverid);
-			}
+			responseStructure.setData(weaverDao.updateWeaver(optional.get()));
+
 			LOGGER.debug("Weaver Updated");
 			return responseEntity;
 		} else {
@@ -96,7 +94,7 @@ public class WeaverService {
 		}
 	}
 
-	public ResponseEntity<ResponseStructure<Weaver>> deleteWeaver(int weaverid) {
+	public ResponseEntity<ResponseStructure<Weaver>> deleteWeaver(String weaverid) {
 		ResponseStructure<Weaver> responseStructure = new ResponseStructure<Weaver>();
 		ResponseEntity<ResponseStructure<Weaver>> responseEntity = new ResponseEntity<ResponseStructure<Weaver>>(
 				responseStructure, HttpStatus.OK);

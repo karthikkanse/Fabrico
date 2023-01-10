@@ -77,14 +77,15 @@ public class CustomerProductService {
 							customerProduct = customerProduct1;
 							if (quantity <= product.getQuantity()) {
 								customerProduct.setCpId(customerProduct1.getCpId());
-								customerProduct.setQuantity(quantity + customerProduct1.getQuantity());
-								int a=quantity + customerProduct1.getQuantity();
-								if(a>=0) {
-								product.setQuantity(product.getQuantity() - quantity);
-								product.setWpId(product.getWpId());
-								productDao.updateProduct(customerProduct);
-								weaverProductDao.updateProduct(product);
-								}else {
+
+								int a = quantity + customerProduct1.getQuantity();
+								if (a >= 0) {
+									customerProduct.setQuantity(quantity + customerProduct1.getQuantity());
+									product.setQuantity(product.getQuantity() - quantity);
+									product.setWpId(product.getWpId());
+									productDao.updateProduct(customerProduct);
+									weaverProductDao.updateProduct(product);
+								} else {
 									throw new NoOfQuantitesUnableToAdd("Unable to delete cart products");
 								}
 							} else {
