@@ -19,7 +19,7 @@ public class WeaverProductDao {
 		return productRepository.save(product);
 	}
 	
-	public Optional<WeaverProduct> getProductById(int productId)
+	public Optional<WeaverProduct> getProductById(String productId)
 	{
 		return productRepository.findById(productId);
 	}

@@ -6,6 +6,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import lombok.Data;
 
 @Entity
@@ -13,8 +15,9 @@ import lombok.Data;
 public class CustomerProduct {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int cpId;
+	@GenericGenerator(name="id_genertion",strategy = "com.ty.fabrico.fabrico_springboot.customgeneration.CustomerProductCustomId")
+	@GeneratedValue(generator = "id_genertion")
+	private String cpId;
 	@NotNull
 	private String productName;
 	@NotNull

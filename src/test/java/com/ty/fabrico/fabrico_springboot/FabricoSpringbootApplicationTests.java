@@ -25,31 +25,31 @@ class FabricoSpringbootApplicationTests {
 		customer.setPassword("123");
 		customer.setAddress("Bangalore");
 		customerRepository.save(customer);
-		assertNotNull(customerRepository.findById(customer.getCustomerId()).get());
+		assertNotNull(customerRepository.findById(customer.getCustomerid()));
 	}
 	
 	@Test
 	public void testGetCustomer()	{
-		customerRepository.findById(1).get();
+		customerRepository.findById("1").get();
 	}
 	
 	@Test
 	public void testUpdateCustomer()	{
-		Customer customer=customerRepository.findById(1).get();
+		Customer customer=customerRepository.findById("1").get();
 		customer.setCustomerName("Mahesh");
 		customer.setPhone(7896);
 		customer.setEmail("mahesh@gmail.com");
 		customer.setPassword("456");
 		customer.setAddress("Mangalore");
 		customerRepository.save(customer);
-		assertNotNull(customerRepository.findById(customer.getCustomerId()).get());
+		assertNotNull(customerRepository.findById(customer.getCustomerid()));
 	}
 	
 	@Test
 	public void testDeleteCustomer()	{
-		Customer customer=customerRepository.findById(12).get();
-		customerRepository.deleteById(customer.getCustomerId());
-		assertEquals(12,customer.getCustomerId());
+		Customer customer=customerRepository.findById("12").get();
+		customerRepository.deleteById(customer.getCustomerid());
+		assertEquals(12,customer.getCustomerid());
 	}
 	
 	@Test
