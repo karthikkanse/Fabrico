@@ -35,7 +35,7 @@ public class CustomerDao {
 		customerRepository.delete(customer);
 	}
 	
-	public Customer getCustomerByCartId(int cartid) {
+	public Customer getCustomerByCartId(String cartid) {
 		return customerRepository.getCustomerByCartId(cartid);
 	}
 }

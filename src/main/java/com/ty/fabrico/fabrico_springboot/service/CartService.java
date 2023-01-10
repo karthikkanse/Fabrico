@@ -58,7 +58,7 @@ public class CartService {
 		return responseEntity = new ResponseEntity<ResponseStructure<Cart>>(responseStructure, HttpStatus.CREATED);
 	}
 
-	public ResponseEntity<ResponseStructure<Cart>> updateCart(Cart cart, int cartId) {
+	public ResponseEntity<ResponseStructure<Cart>> updateCart(Cart cart, String cartId) {
 		ResponseEntity<ResponseStructure<Cart>> responseEntity;
 		ResponseStructure<Cart> responseStructure = new ResponseStructure<Cart>();
 		Optional<Cart> optional = cartDao.getCartById(cartId);
@@ -109,7 +109,7 @@ public class CartService {
 
 	}
 
-	public ResponseEntity<ResponseStructure<Cart>> getCartById(int cartId) {
+	public ResponseEntity<ResponseStructure<Cart>> getCartById(String cartId) {
 		ResponseEntity<ResponseStructure<Cart>> responseEntity;
 		ResponseStructure<Cart> responseStructure = new ResponseStructure<Cart>();
 		Optional<Cart> optional = cartDao.getCartById(cartId);
@@ -127,7 +127,7 @@ public class CartService {
 
 	}
 
-	public ResponseEntity<ResponseStructure<Cart>> deleteCart(int cartid) {
+	public ResponseEntity<ResponseStructure<Cart>> deleteCart(String cartid) {
 		ResponseEntity<ResponseStructure<Cart>> responseEntity;
 		ResponseStructure<Cart> responseStructure = new ResponseStructure<Cart>();
 		Optional<Cart> optional = cartDao.getCartById(cartid);
