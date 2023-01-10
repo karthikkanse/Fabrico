@@ -1,12 +1,9 @@
 package com.ty.fabrico.fabrico_springboot.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-
-import com.ty.fabrico.fabrico_springboot.dto.Customer;
 import com.ty.fabrico.fabrico_springboot.dto.Weaver;
 
-public interface WeaverRepository extends JpaRepository<Weaver, Integer>{
+public interface WeaverRepository extends JpaRepository<Weaver, String>{
 	
 	public Weaver getWeaverByUsername(String username);
 

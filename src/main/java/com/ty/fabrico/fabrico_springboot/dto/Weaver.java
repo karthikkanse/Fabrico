@@ -19,6 +19,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.UniqueElements;
 
 import lombok.Data;
@@ -28,9 +29,10 @@ import lombok.Data;
 public class Weaver {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int weaverid;	
-	@NotBlank(message = "WeaverName should not be empty")
+	@GenericGenerator(name="id_genertion",strategy = "com.ty.fabrico.fabrico_springboot.customgeneration.WeaverCustomId")
+	@GeneratedValue(generator = "id_genertion")
+	private String weaverid;	
+  @NotBlank(message = "WeaverName should not be empty")
 	private String weavername;
 	@NotEmpty(message = "Username should not be empty")
 	@Email
