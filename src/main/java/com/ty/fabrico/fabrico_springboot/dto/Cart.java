@@ -11,6 +11,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
@@ -19,8 +21,9 @@ import lombok.Data;
 @Data
 public class Cart {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int cartId;
+	@GenericGenerator(name="id_genertion",strategy = "com.ty.fabrico.fabrico_springboot.customgeneration.CartCustomId")
+	@GeneratedValue(generator = "id_genertion")
+	private String cartId;
 	@NotNull
 	private String cartName;
 	@NotNull

@@ -1,4 +1,4 @@
-package com.ty.fabrico.fabrico_springboot;
+package com.ty.fabrico.fabrico_springboot.util;
 
 import java.util.Optional;
 
@@ -19,7 +19,7 @@ public class EmailSenderService {
 	@Autowired
 	private CartDao dao;
 	
-	public void sendEmail(String toEmail,String subject,int cartId) {
+	public void sendEmail(String toEmail,String subject,String cartId) {
 		SimpleMailMessage message=new SimpleMailMessage();
 		message.setFrom("fabricoapplication@gmail.com");
 		message.setTo(toEmail);

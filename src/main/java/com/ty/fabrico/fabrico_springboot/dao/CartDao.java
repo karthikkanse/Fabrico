@@ -22,7 +22,7 @@ public class CartDao {
 		return cartRepository.save(cart);
 	}
 
-	public Optional<Cart> getCartById(int cartId) {
+	public Optional<Cart> getCartById(String cartId) {
 		return cartRepository.findById(cartId);
 	}
 
