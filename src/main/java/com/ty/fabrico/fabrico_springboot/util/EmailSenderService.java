@@ -14,32 +14,32 @@ import com.ty.fabrico.fabrico_springboot.dto.CustomerProduct;
 
 import net.bytebuddy.dynamic.scaffold.MethodRegistry.Handler.ForAbstractMethod;
 
-@Service
-public class EmailSenderService {
-
-	@Autowired
-	private JavaMailSender mailSender;
-	
-	@Autowired
-	private CartDao dao;
-	
-	public void sendEmail(String toEmail,String subject,String cartId) {
-		SimpleMailMessage message=new SimpleMailMessage();
-		message.setFrom("fabricoapplication@gmail.com");
-		message.setTo(toEmail);
-		message.setSubject(subject);
-		Optional<Cart> cart2=dao.getCartById(cartId);
-		if(cart2.isPresent())
-		{
-			Cart cart=cart2.get();
-			List<CustomerProduct> list=cart.getCustomerProduct();
-			int totalQuantites=0;
-			for (CustomerProduct customerProduct : list) {
-				totalQuantites+=customerProduct.getQuantity();
-			}
-			message.setText(cart.getCartName()+" no of quantities puschased is "+totalQuantites+" and its total cost is "+cart.getTotalcost());
-			mailSender.send(message);
-			System.out.println("Mail Sent Successfully");
-		}
-	}
-}
+//@Service
+//public class EmailSenderService {
+//
+//	@Autowired
+//	private JavaMailSender mailSender;
+//	
+//	@Autowired
+//	private CartDao dao;
+//	
+//	public void sendEmail(String toEmail,String subject,String cartId) {
+//		SimpleMailMessage message=new SimpleMailMessage();
+//		message.setFrom("fabricoapplication@gmail.com");
+//		message.setTo(toEmail);
+//		message.setSubject(subject);
+//		Optional<Cart> cart2=dao.getCartById(cartId);
+//		if(cart2.isPresent())
+//		{
+//			Cart cart=cart2.get();
+//			List<CustomerProduct> list=cart.getCustomerProduct();
+//			int totalQuantites=0;
+//			for (CustomerProduct customerProduct : list) {
+//				totalQuantites+=customerProduct.getQuantity();
+//			}
+//			message.setText(cart.getCartName()+" no of quantities puschased is "+totalQuantites+" and its total cost is "+cart.getTotalcost());
+//			mailSender.send(message);
+//			System.out.println("Mail Sent Successfully");
+//		}
+//	}
+//}

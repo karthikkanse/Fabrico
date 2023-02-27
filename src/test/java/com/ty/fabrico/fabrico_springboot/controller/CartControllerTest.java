@@ -23,7 +23,7 @@ public class CartControllerTest {
 	@Order(1)
 	void testSaveCart() {
 		Cart cart = new Cart();
-		cart.setCartId(1);
+		cart.setCartId("1");
 		cart.setCartName("isa cart");
 
 		cartRepository.save(cart);
@@ -33,8 +33,8 @@ public class CartControllerTest {
 	@Test
 	@Order(2)
 	void testUpdateCart() {
-		Cart cart = cartRepository.findById(1).get();
-		cart.setCartId(1);
+		Cart cart = cartRepository.findById("1").get();
+		cart.setCartId("1");
 		cart.setCartName("s cart");
 
 		cartRepository.save(cart);
@@ -45,7 +45,7 @@ public class CartControllerTest {
 	@Test
 	@Order(3)
 	void testGetCartById() {
-		cartRepository.findById(1).get();
+		cartRepository.findById("1").get();
 	}
 
 	@Test
@@ -54,7 +54,7 @@ public class CartControllerTest {
 		//Cart cart = cartRepository.findById(1).get();
 		//cartRepository.deleteById(cart.getCartId());
 
-		cartRepository.deleteById(1);
+		cartRepository.deleteById("1");
 	}
 
 }

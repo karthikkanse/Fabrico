@@ -22,7 +22,7 @@ public class ApplicationConfiguration {
 		Contact contact = new Contact("TY", "testyantra.com", "ty@gmail.com");
 		List<VendorExtension> extensions = new ArrayList<VendorExtension>();
 		ApiInfo apiInfo = new ApiInfo("Fabrico App", "Boot app for Fabrico App", "1.0", "testyantra.com", contact, "apache tomcat", "www.apache.com", extensions);
-		return  new  Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.basePackage("com.ty.fabrico.fabrico_springboot")).build();
+		return  new  Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.basePackage("com.ty.fabrico.fabrico_springboot")).build().apiInfo(apiInfo);
 	}
 
 }
