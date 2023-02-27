@@ -34,7 +34,7 @@ public class CustomerProductController {
 	@PostMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<ResponseStructure<CustomerProduct>> saveProductForCustomer(@RequestParam String productid,
 			@RequestParam int quantity, @RequestParam String customerid) {
-		return productService.saveProductForCustomer(productid, quantity,customerid);
+		return productService.saveProductForCustomer(productid, quantity, customerid);
 	}
 
 	@ApiOperation(value = "Fetch Product for Customer", notes = "It is used to Fetch the Product Details for Customer")
