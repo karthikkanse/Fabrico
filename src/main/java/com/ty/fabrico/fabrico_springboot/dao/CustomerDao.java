@@ -18,7 +18,7 @@ public class CustomerDao {
 		return customerRepository.save(customer);
 	}
 
-	public Optional<Customer> getCustomerById(int customerId) {
+	public Optional<Customer> getCustomerById(String customerId) {
 		return customerRepository.findById(customerId);
 	}
 
@@ -35,7 +35,7 @@ public class CustomerDao {
 		customerRepository.delete(customer);
 	}
 	
-	public Customer getCustomerByCartId(int cartid) {
+	public Customer getCustomerByCartId(String cartid) {
 		return customerRepository.getCustomerByCartId(cartid);
 	}
 }

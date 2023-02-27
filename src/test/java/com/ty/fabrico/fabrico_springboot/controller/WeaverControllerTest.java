@@ -9,8 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import com.ty.fabrico.fabrico_springboot.dto.Product;
 import com.ty.fabrico.fabrico_springboot.dto.Weaver;
 import com.ty.fabrico.fabrico_springboot.repository.WeaverRepository;
 
@@ -26,39 +24,39 @@ class WeaverControllerTest {
 	void testSaveWeaver() {
 
 		Weaver weaver=new Weaver();
-		weaver.setWeaverid(1);
+		weaver.setWeaverid("1");
 		weaver.setWeavername("Manoj");
 		weaver.setUsername("Man");
 		weaver.setPassword("123");
 		weaver.setPhone(313212);
 		weaver.setAddress("bagalkot");
 		repository.save(weaver);
-		assertNotNull(repository.findById(1));	
+		assertNotNull(repository.findById("1"));	
 	}
 
 	@Test
 	@Order(2)
 	void testGetWeaverById() {
-		assertNotNull(repository.findById(1));
+		assertNotNull(repository.findById("1"));
 	}
 
 	@Test
 	@Order(5)
 	void testDeleteWeaver() {
-		repository.deleteById(1);
+		repository.deleteById("1");
 	}
 
 	@Test
 	@Order(3)
 	void testUpdateWeaver() {
 		
-		Weaver weaver= repository.findById(1).get();
+		Weaver weaver= repository.findById("1").get();
 		
 		weaver.setWeavername("Sushas");
 		weaver.setUsername("SS");
 		weaver.setPassword("1234");
 		repository.save(weaver);
-		assertNotNull(repository.findById(1));	
+		assertNotNull(repository.findById("1"));	
 	}
 
 	@Test

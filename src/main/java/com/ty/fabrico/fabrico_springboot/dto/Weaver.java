@@ -5,13 +5,17 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.UniqueElements;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import org.hibernate.annotations.GenericGenerator;
 
 import lombok.Data;
 
@@ -20,24 +24,29 @@ import lombok.Data;
 public class Weaver {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int weaverid;	
-	@NotNull
+	@GenericGenerator(name="id_genertion",strategy = "com.ty.fabrico.fabrico_springboot.customgeneration.WeaverCustomId")
+	@GeneratedValue(generator = "id_genertion")
+	private String weaverid;	
+    @NotBlank(message = "WeaverName should not be empty")
 	private String weavername;
-	@NotNull
+	@NotEmpty(message = "Username should not be empty")
+	@Email
 	@Column(unique = true)
+	@Convert(converter=AesEncryption.class)
 	private String username;
-	@NotNull
+	@NotEmpty(message = "Password should not be empty")
 	@Convert(converter=AesEncryption.class)
 	private String password;
-	@NotNull
+	@Digits(integer=10,fraction=0,message = "Phone Number should be of 10 digits")
+	@Min(value=999999999,message = "Phone Number should be of 10 digits")
+	@Max(value=9999999999l,message = "Phone Number should be of 10 digits")
 	@Convert(converter=AesEncryption.class)
 	private long phone;
-	@NotNull
+	@NotBlank(message = "Address should not be empty")
 	@Convert(converter=AesEncryption.class)
 	private String address;
 	
-	@OneToMany(cascade = CascadeType.ALL/*,mappedBy = "weaver"*/)
-	List<Product> product;
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	List<WeaverProduct> weaverProduct;
 	
 }

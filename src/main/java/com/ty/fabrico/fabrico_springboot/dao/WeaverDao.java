@@ -18,8 +18,8 @@ public class WeaverDao {
 		return weaverRepository.save(weaver);
 	}
 
-	public Optional<Weaver> getWeaverById(int weaverId) {
-		return weaverRepository.findById(weaverId);
+	public Optional<Weaver> getWeaverById(String weaverid) {
+		return weaverRepository.findById(weaverid);
 
 	}
 
@@ -34,5 +34,9 @@ public class WeaverDao {
 	public Weaver getWeaverByName(String username) {
 		return weaverRepository.getWeaverByUsername(username);
 	}
+	
+//	public void deleteWeaverProduct(int weaverid) {
+//		weaverRepository.d
+//	}
 
 }
