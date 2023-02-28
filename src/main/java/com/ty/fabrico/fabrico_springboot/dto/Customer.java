@@ -1,11 +1,14 @@
 package com.ty.fabrico.fabrico_springboot.dto;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Email;
@@ -32,11 +35,8 @@ public class Customer {
 	@Max(value=9999999999l,message = "Phone Number should be of 10 digits")
 	@Convert(converter=AesEncryption.class)
 	private long phone;
-	@NotEmpty(message = "E-mail should not be empty")
-	@Email
-	@Column(unique = true)
-	@Convert(converter=AesEncryption.class)
-	private String email;
+	@OneToMany(cascade = CascadeType.ALL,mappedBy = "customer")
+	private List<CustomerEmail> cemails;
 	@NotEmpty(message = "Password should not be empty")
 	@Convert(converter=AesEncryption.class)
 	private String password;

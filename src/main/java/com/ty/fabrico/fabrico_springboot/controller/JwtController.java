@@ -8,6 +8,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,6 +20,7 @@ import com.ty.fabrico.fabrico_springboot.jwt.CustomUserDetailsService;
 import com.ty.fabrico.fabrico_springboot.model.JwtResponse;
 
 @RestController
+@RequestMapping("tokenweaver")
 public class JwtController {
 
 	@Autowired
@@ -30,11 +32,11 @@ public class JwtController {
 	@Autowired
 	private AuthenticationManager authenticationManager;
 	
-	@RequestMapping(value = "/tokenweaver", method =RequestMethod.POST)
+	@PostMapping
 	public ResponseEntity<?> generateToken(@RequestBody Weaver weaver) throws Exception{
 		System.out.println(weaver);
 		try {
-			this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(weaver.getUsername(), weaver.getPassword()));
+			this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(weaver.getWemails().get(0).getWemail(), weaver.getPassword()));
 		}
 		catch(UsernameNotFoundException e) {
 			e.printStackTrace();
@@ -44,7 +46,7 @@ public class JwtController {
 			throw new Exception("Bad Credentials");
 		}
 		
-		UserDetails userDetails=this.customUserDetailsService.loadUserByUsername(weaver.getUsername());
+		UserDetails userDetails=this.customUserDetailsService.loadUserByUsername(weaver.getWemails().get(0).getWemail());
 		String token=this.jwtUtil.generateToken(userDetails);
 		System.out.println("JWT" +token);
 		

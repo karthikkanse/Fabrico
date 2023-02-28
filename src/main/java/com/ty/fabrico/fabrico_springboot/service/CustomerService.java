@@ -1,5 +1,6 @@
 package com.ty.fabrico.fabrico_springboot.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.apache.log4j.Logger;
@@ -9,7 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.ty.fabrico.fabrico_springboot.dao.CustomerDao;
+import com.ty.fabrico.fabrico_springboot.dao.CustomerEmailDao;
 import com.ty.fabrico.fabrico_springboot.dto.Customer;
+import com.ty.fabrico.fabrico_springboot.dto.CustomerEmail;
 import com.ty.fabrico.fabrico_springboot.exception.NoSuchIdFoundException;
 import com.ty.fabrico.fabrico_springboot.exception.NoSuchUsernameFoundException;
 import com.ty.fabrico.fabrico_springboot.exception.PasswordIncorrectException;
@@ -23,13 +26,23 @@ public class CustomerService {
 	@Autowired
 	private CustomerDao customerDao;
 	
+	@Autowired
+	private CustomerEmailDao emailDao;
+	
 	private static final Logger LOGGER=Logger.getLogger(CustomerService.class);
 	
 	public ResponseEntity<ResponseStructure<Customer>> saveCustomer(Customer customer) {
 		ResponseStructure<Customer> responseStructure = new ResponseStructure<Customer>();
-		Customer customer2=customerDao.getCustomerByEmail(customer.getEmail());
+		List<CustomerEmail> list=customer.getCemails();
+		CustomerEmail customer2=null;
+		for(CustomerEmail ce:list) {
+			customer2=emailDao.getCustomerByEmail(ce.getCemail());
+		}
 		ResponseEntity<ResponseStructure<Customer>> responseEntity;
 		if(customer2==null) {
+			for(CustomerEmail ce:list) {
+				ce.setCustomer(customer);
+			}
 		responseStructure.setStatus(HttpStatus.CREATED.value());
 		responseStructure.setMessage("Saved");
 		responseStructure.setData(customerDao.saveCustomer(customer));
@@ -74,13 +87,13 @@ public class CustomerService {
 		}
 	
 
-	public ResponseEntity<ResponseStructure<Customer>> customerLogin(Customer customer) {
+	public ResponseEntity<ResponseStructure<Customer>> customerLogin(String cemail,String password) {
 
 		ResponseStructure<Customer> responseStructure = new ResponseStructure<Customer>();
 		ResponseEntity<ResponseStructure<Customer>> responseEntity;
-		Customer customer1 = customerDao.getCustomerByEmail(customer.getEmail());
+		Customer customer1 = emailDao.getCustomerByEmail(cemail).getCustomer();
 		if (customer1 != null) {
-			if (customer1.getPassword().equals(customer.getPassword())) {
+			if (customer1.getPassword().equals(password)) {
 				responseStructure.setStatus(HttpStatus.OK.value());
 				responseStructure.setMessage("Login Successful as Customer");
 				responseStructure.setData(customer1);

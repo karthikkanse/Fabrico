@@ -22,10 +22,10 @@ public class CustomerDao {
 		return customerRepository.findById(customerId);
 	}
 
-	public Customer getCustomerByEmail(String email) {
-
-		return customerRepository.getCustomerByEmail(email);
-	}
+//	public Customer getCustomerByEmail(String email) {
+//
+//		return customerRepository.getCustomerByEmail(email);
+//	}
 
 	public Customer updateCustomer(Customer customer) {
 		return customerRepository.save(customer);

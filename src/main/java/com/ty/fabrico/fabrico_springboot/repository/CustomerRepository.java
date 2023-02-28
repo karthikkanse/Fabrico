@@ -8,7 +8,7 @@ import com.ty.fabrico.fabrico_springboot.dto.Customer;
 
 public interface CustomerRepository extends JpaRepository<Customer, String>{
 
-	public Customer getCustomerByEmail(String email);
+//	public Customer getCustomerByEmail(String email);
 	
 	@Query(value =  "SELECT c from Customer c WHERE c.cart.cartId=?1")
 	public Customer getCustomerByCartId(String cartid);

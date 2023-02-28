@@ -63,8 +63,8 @@ public class CustomerController {
 			@ApiResponse(code=500, message="Internal Server Error"),
 			@ApiResponse(code=404, message="Not Found")})
 	@PatchMapping(produces= {MediaType.APPLICATION_JSON_VALUE})
-	public ResponseEntity<ResponseStructure<Customer>> customerLogin(@Valid @RequestBody Customer customer) {
-		return customerService.customerLogin(customer);
+	public ResponseEntity<ResponseStructure<Customer>> customerLogin(@Valid @RequestParam String cemail,@RequestParam String password) {
+		return customerService.customerLogin(cemail,password);
 
 	}
 	
