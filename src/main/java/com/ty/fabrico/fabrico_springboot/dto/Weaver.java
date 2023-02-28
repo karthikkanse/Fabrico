@@ -29,11 +29,8 @@ public class Weaver {
 	private String weaverid;	
     @NotBlank(message = "WeaverName should not be empty")
 	private String weavername;
-	@NotEmpty(message = "Username should not be empty")
-	@Email
-	@Column(unique = true)
-	@Convert(converter=AesEncryption.class)
-	private String username;
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "weaver")
+	private List<WeaverEmail> wemails;
 	@NotEmpty(message = "Password should not be empty")
 	@Convert(converter=AesEncryption.class)
 	private String password;

@@ -74,10 +74,9 @@ public class WeaverController {
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Created"),
 			@ApiResponse(code = 500, message = "Internal Server Error"),
 			@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 200, message = "ok") })
-	@PatchMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, produces = {
-			MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<ResponseStructure<Weaver>> weaverLogin(@Valid @RequestBody Weaver weaver) {
-		return weaverService.weaverLogin(weaver);
+	@PatchMapping(produces = {MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<ResponseStructure<Weaver>> weaverLogin(@Valid @RequestParam String wemail,@RequestParam String password) {
+		return weaverService.weaverLogin(wemail,password);
 	}
 
 }

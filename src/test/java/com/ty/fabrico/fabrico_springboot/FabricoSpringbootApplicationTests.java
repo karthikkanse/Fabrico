@@ -21,7 +21,7 @@ class FabricoSpringbootApplicationTests {
 		Customer customer=new Customer();
 		customer.setCustomerName("Umesh");
 		customer.setPhone(8296);
-		customer.setEmail("umesh@gmail.com");
+//		customer.setEmail("umesh@gmail.com");
 		customer.setPassword("123");
 		customer.setAddress("Bangalore");
 		customerRepository.save(customer);
@@ -38,7 +38,7 @@ class FabricoSpringbootApplicationTests {
 		Customer customer=customerRepository.findById("1").get();
 		customer.setCustomerName("Mahesh");
 		customer.setPhone(7896);
-		customer.setEmail("mahesh@gmail.com");
+//		customer.setEmail("mahesh@gmail.com");
 		customer.setPassword("456");
 		customer.setAddress("Mangalore");
 		customerRepository.save(customer);

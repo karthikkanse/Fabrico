@@ -31,9 +31,9 @@ public class WeaverDao {
 		weaverRepository.delete(weaver);
 	}
 
-	public Weaver getWeaverByName(String username) {
-		return weaverRepository.getWeaverByUsername(username);
-	}
+//	public Weaver getWeaverByName(String username) {
+//		return weaverRepository.getWeaverByUsername(username);
+//	}
 	
 //	public void deleteWeaverProduct(int weaverid) {
 //		weaverRepository.d

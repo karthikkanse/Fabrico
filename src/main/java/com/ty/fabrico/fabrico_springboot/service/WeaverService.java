@@ -16,8 +16,10 @@ import org.springframework.stereotype.Service;
 
 import com.ty.fabrico.fabrico_springboot.controller.WeaverProductController;
 import com.ty.fabrico.fabrico_springboot.dao.WeaverDao;
+import com.ty.fabrico.fabrico_springboot.dao.WeaverEmailDao;
 import com.ty.fabrico.fabrico_springboot.dao.WeaverProductDao;
 import com.ty.fabrico.fabrico_springboot.dto.Weaver;
+import com.ty.fabrico.fabrico_springboot.dto.WeaverEmail;
 import com.ty.fabrico.fabrico_springboot.dto.WeaverProduct;
 import com.ty.fabrico.fabrico_springboot.exception.NoSuchIdFoundException;
 import com.ty.fabrico.fabrico_springboot.exception.NoSuchUsernameFoundException;
@@ -36,11 +38,21 @@ public class WeaverService {
 
 	@Autowired
 	private WeaverProductService productService;
+	
+	@Autowired
+	private WeaverEmailDao emailDao;
 
 	public ResponseEntity<ResponseStructure<Weaver>> saveWeaver(Weaver weaver) {
 		ResponseStructure<Weaver> responseStructure = new ResponseStructure<Weaver>();
-		Weaver weaver2 = weaverDao.getWeaverByName(weaver.getUsername());
+		List<WeaverEmail> list=weaver.getWemails();
+		WeaverEmail weaver2 = null;
+		for (WeaverEmail we : list) {
+			weaver2=emailDao.getWeaverByEmail(we.getWemail());
+		}
 		if (weaver2 == null) {
+			for (WeaverEmail we : list) {
+				we.setWeaver(weaver);
+			}
 			responseStructure.setStatus(HttpStatus.CREATED.value());
 			responseStructure.setMessage("Saved");
 			responseStructure.setData(weaverDao.saveWeaver(weaver));
@@ -112,13 +124,14 @@ public class WeaverService {
 		}
 	}
 
-	public ResponseEntity<ResponseStructure<Weaver>> weaverLogin(Weaver weaver) {
+	public ResponseEntity<ResponseStructure<Weaver>> weaverLogin(String wemail,String password) {
 		ResponseStructure<Weaver> responseStructure = new ResponseStructure<Weaver>();
 		ResponseEntity<ResponseStructure<Weaver>> responseEntity = new ResponseEntity<ResponseStructure<Weaver>>(
 				responseStructure, HttpStatus.OK);
-		Weaver weaver2 = weaverDao.getWeaverByName(weaver.getUsername());
+		
+		Weaver weaver2 = emailDao.getWeaverByEmail(wemail).getWeaver();
 		if (weaver2 != null) {
-			if (weaver.getPassword().equals(weaver2.getPassword())) {
+			if (password.equals(weaver2.getPassword())) {
 				responseStructure.setStatus(HttpStatus.OK.value());
 				responseStructure.setMessage("Login Successfull");
 				responseStructure.setData(weaver2);
@@ -132,6 +145,6 @@ public class WeaverService {
 			LOGGER.error("Invalid Mail-Id");
 			throw new NoSuchUsernameFoundException();
 		}
-	}
+	} 
 
 }
